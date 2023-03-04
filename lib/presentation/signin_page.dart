@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/home_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
+import 'package:project_vehicle_log/support/app_info.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class SignInPage extends StatefulWidget {
@@ -65,7 +66,8 @@ class _SignInPageState extends State<SignInPage> {
             ),
             const Spacer(),
             Text(
-              "Vehicle Log Apps Version 1.0.0+1",
+              // "Vehicle Log Apps Version 1.0.0+1",
+              "Vehicle Log Apps Version ${AppInfo.appVersion}",
               style: AppTheme.theme.textTheme.caption?.copyWith(
                 fontSize: 10.sp,
                 color: Colors.grey,
