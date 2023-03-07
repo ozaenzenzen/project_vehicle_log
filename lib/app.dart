@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
         return GetMaterialApp(
           title: 'Vehicle Logs',
           theme: AppTheme.theme,
-          // home: const HomePage()
-          home: const SignInPage(),
+          home: const HomePage()
+          // home: const SignInPage(),
         );
       },
     );
