@@ -26,6 +26,7 @@ class AppCustomAppBar extends StatefulWidget {
     this.selectedColor,
     this.notchedShape,
     this.onTabSelected,
+    this.currentIndex = 0,
   }) {
     assert(
       items!.length == 2 || items!.length == 4,
@@ -40,7 +41,9 @@ class AppCustomAppBar extends StatefulWidget {
   final Color? color;
   final Color? selectedColor;
   final NotchedShape? notchedShape;
-  final ValueChanged<int>? onTabSelected;
+  // final ValueChanged<int>? onTabSelected;
+  final Function(int)? onTabSelected;
+  final int currentIndex;
 
   @override
   State<StatefulWidget> createState() => AppCustomAppBarState();
@@ -50,6 +53,7 @@ class AppCustomAppBarState extends State<AppCustomAppBar> {
   int _selectedIndex = 0;
 
   _updateIndex(int index) {
+    // widget.onTabSelected!(index);
     widget.onTabSelected!(index);
     setState(() {
       _selectedIndex = index;
@@ -58,11 +62,18 @@ class AppCustomAppBarState extends State<AppCustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    _selectedIndex = widget.currentIndex;
     List<Widget> items = List.generate(widget.items!.length, (int index) {
       return _buildTabItem(
         item: widget.items![index],
         index: index,
-        onPressed: _updateIndex,
+        onPressed: (index) {
+          debugPrint("klik index $index");
+          widget.onTabSelected!(index);
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         // fontSize: widget.fontSize!,
       );
     });
@@ -118,6 +129,7 @@ class AppCustomAppBarState extends State<AppCustomAppBar> {
           type: MaterialType.transparency,
           child: InkWell(
             onTap: () => onPressed(index),
+            borderRadius: BorderRadius.circular(40),
             child: Container(
               decoration: BoxDecoration(
                 color: _selectedIndex == index ? Colors.white24 : Colors.transparent,
