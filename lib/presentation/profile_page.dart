@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_info.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -185,6 +186,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       decoration: TextDecoration.underline,
                     ),
                   ),
+                ),
+              ),
+              SizedBox(height: 35.h),
+              Center(
+                child: FutureBuilder(
+                  future: AppInfo.showAppVersion(),
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data.toString(),
+                      style: AppTheme.theme.textTheme.headline6?.copyWith(
+                        color: AppColor.primary.withOpacity(0.5),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
