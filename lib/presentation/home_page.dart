@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data.dart';
+import 'package:project_vehicle_log/data/vehicle_data_model.dart';
 import 'package:project_vehicle_log/presentation/add_vehicle_page.dart';
+import 'package:project_vehicle_log/presentation/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_custom_appbar.dart';
 import 'package:project_vehicle_log/presentation/profile_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
@@ -192,16 +194,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             SizedBox(height: 20.h),
-            ListControlWidget(
-              data: DummyData.dummyData[indexClicked].listControl!,
+            ListMeasurementWidget(
+              // data: DummyData.dummyData[indexClicked].listControl!,
+              data: DummyData.dummyData[indexClicked],
               index: indexClicked,
             ),
-            // TabBarView(
-            //   controller: tabController,
-            //   children: [
-            //     ListControlWidget(),
-            //   ],
-            // ),
             // Container(
             //   height: MediaQuery.of(context).size.height,
             //   child: PageView.builder(
@@ -223,11 +220,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 }
 
-class ListControlWidget extends StatelessWidget {
-  final List<String> data;
+class ListMeasurementWidget extends StatelessWidget {
+  // final List<String> data;
+  final VehicleDataModel data;
   final int index;
 
-  const ListControlWidget({
+  const ListMeasurementWidget({
     Key? key,
     required this.data,
     required this.index,
@@ -245,11 +243,17 @@ class ListControlWidget extends StatelessWidget {
       ),
       // itemCount: 6,
       // itemCount: DummyData.dummyData[0].listControl!.length,
-      itemCount: data.length,
+      itemCount: data.listControl?.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            //
+            Get.to(
+              () => DetailMeasurementPage(
+                // title: data.listControl![index],
+                data: data,
+                index: index,
+              ),
+            );
           },
           child: Container(
             // height: 150.h,
@@ -276,7 +280,7 @@ class ListControlWidget extends StatelessWidget {
                 SizedBox(height: 10.h),
                 Text(
                   // "Oil",
-                  data[index],
+                  data.listControl![index],
                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

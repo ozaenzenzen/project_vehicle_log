@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data.dart';
+import 'package:project_vehicle_log/presentation/detail_vehicle_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
@@ -38,7 +40,9 @@ class _VehiclePageState extends State<VehiclePage> {
               itemCount: DummyData.dummyData.length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => const DetailVehiclePage());
+                  },
                   child: Container(
                     // height: 120.h,
                     padding: EdgeInsets.all(16.h),
