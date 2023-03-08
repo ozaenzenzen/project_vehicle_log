@@ -79,7 +79,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    "Update your vehicle logs",
+                    // "Update and measure your vehicle logs",
+                    "Update and measure your vehicle mileage",
                     style: AppTheme.theme.textTheme.headline4?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black38,
