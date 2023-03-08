@@ -111,7 +111,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("menus $index"),
+                            Text(
+                              "menus $index",
+                              style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                             Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 20.h,
@@ -160,7 +165,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("menus $index"),
+                            Text(
+                              "menus $index",
+                              style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                             Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 20.h,
