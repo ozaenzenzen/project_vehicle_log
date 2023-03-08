@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
@@ -33,7 +34,8 @@ class _VehiclePageState extends State<VehiclePage> {
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 8,
+              // itemCount: 8,
+              itemCount: DummyData.dummyData.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {},
@@ -43,7 +45,7 @@ class _VehiclePageState extends State<VehiclePage> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(4),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           blurRadius: 10,
                           spreadRadius: 1,
@@ -63,7 +65,8 @@ class _VehiclePageState extends State<VehiclePage> {
                         Column(
                           children: [
                             Text(
-                              "Vehicle $index",
+                              "${DummyData.dummyData[index].vehicleName}",
+                              // "Vehicle $index",
                               style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -77,7 +80,7 @@ class _VehiclePageState extends State<VehiclePage> {
               },
               separatorBuilder: (context, index) {
                 return SizedBox(
-                  height: 10.h,
+                  height: 20.h,
                 );
               },
             ),

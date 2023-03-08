@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/presentation/add_vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_custom_appbar.dart';
 import 'package:project_vehicle_log/presentation/profile_page.dart';
@@ -15,11 +16,26 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int indexClicked = 0;
   Color vehicleListColor = Colors.black38;
 
   DateFormat formattedDate = DateFormat("dd MMM yyyy");
+
+  PageController homeSectionPageController = PageController(
+    initialPage: 0,
+  );
+
+  // late TabController tabController;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   tabController = TabController(
+  //     vsync: this,
+  //     length: 3
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +45,10 @@ class _HomePageState extends State<HomePage> {
         color: AppColor.shape,
         padding: EdgeInsets.all(16.h),
         alignment: Alignment.center,
+        // height: MediaQuery.of(context).size.height,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20.h),
             Align(
@@ -113,12 +132,14 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.black54,
                       ),
                     ),
+                    SizedBox(height: 5.h),
                     Text(
                       "Critical: Oil, Water",
                       style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                         color: Colors.black54,
                       ),
                     ),
+                    SizedBox(height: 5.h),
                     Text(
                       "Last Update: 16 Nov 2022",
                       style: AppTheme.theme.textTheme.bodySmall?.copyWith(
@@ -135,7 +156,8 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: 8,
+                // itemCount: 8,
+                itemCount: DummyData.dummyData.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
@@ -155,7 +177,8 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        "Menu $index",
+                        "${DummyData.dummyData[index].vehicleName}",
+                        // "Menu $index",
                         style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                           // color: AppColor.text_4,
                           // color: Colors.black38,
@@ -169,53 +192,100 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 20.h),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 20.h,
-                mainAxisSpacing: 20.h,
-                crossAxisCount: 2,
-              ),
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    //
-                  },
-                  child: Container(
-                    // height: 150.h,
-                    // width: 100.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: const [
-                        BoxShadow(
-                          spreadRadius: 1,
-                          blurRadius: 9,
-                          color: Colors.black12,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.water_drop,
-                          size: 90.h,
-                          color: AppColor.primary,
-                        ),
-                        SizedBox(height: 10.h),
-                        Text("Oil")
-                      ],
-                    ),
-                  ),
-                );
-              },
+            ListControlWidget(
+              data: DummyData.dummyData[indexClicked].listControl!,
+              index: indexClicked,
             ),
+            // TabBarView(
+            //   controller: tabController,
+            //   children: [
+            //     ListControlWidget(),
+            //   ],
+            // ),
+            // Container(
+            //   height: MediaQuery.of(context).size.height,
+            //   child: PageView.builder(
+            //     controller: homeSectionPageController,
+            //     itemCount: DummyData.dummyData.length,
+            //     itemBuilder: (context, index) {
+            //       return Container(
+            //         height: 40,
+            //         width: MediaQuery.of(context).size.width,
+            //         color: Colors.red,
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ListControlWidget extends StatelessWidget {
+  final List<String> data;
+  final int index;
+
+  const ListControlWidget({
+    Key? key,
+    required this.data,
+    required this.index,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisSpacing: 20.h,
+        mainAxisSpacing: 20.h,
+        crossAxisCount: 2,
+      ),
+      // itemCount: 6,
+      // itemCount: DummyData.dummyData[0].listControl!.length,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () {
+            //
+          },
+          child: Container(
+            // height: 150.h,
+            // width: 100.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: const [
+                BoxShadow(
+                  spreadRadius: 1,
+                  blurRadius: 9,
+                  color: Colors.black12,
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.water_drop,
+                  size: 90.h,
+                  color: AppColor.primary,
+                ),
+                SizedBox(height: 10.h),
+                Text(
+                  // "Oil",
+                  data[index],
+                  style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
