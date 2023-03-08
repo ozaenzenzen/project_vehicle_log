@@ -55,17 +55,29 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 35.h),
               Row(
                 children: [
-                  Icon(Icons.email),
+                  Icon(
+                    Icons.email,
+                    size: 25.h,
+                  ),
                   SizedBox(width: 20.w),
-                  Text("Useremail@email.com"),
+                  Text(
+                    "Useremail@email.com",
+                    style: AppTheme.theme.textTheme.headlineMedium?.copyWith(),
+                  ),
                 ],
               ),
               SizedBox(height: 20.h),
               Row(
                 children: [
-                  Icon(Icons.phone),
+                  Icon(
+                    Icons.phone,
+                    size: 25.h,
+                  ),
                   SizedBox(width: 20.w),
-                  Text("+6280811118080"),
+                  Text(
+                    "+6280811118080",
+                    style: AppTheme.theme.textTheme.headlineMedium?.copyWith(),
+                  ),
                 ],
               ),
               SizedBox(height: 35.h),

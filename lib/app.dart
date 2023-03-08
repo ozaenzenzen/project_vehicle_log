@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/presentation/home_page.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
-import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class MyApp extends StatefulWidget {
