@@ -99,6 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: ListView.separated(
                   shrinkWrap: true,
+                  padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 5,
                   itemBuilder: (context, index) {
@@ -153,6 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: ListView.separated(
                   shrinkWrap: true,
+                  padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 3,
                   itemBuilder: (context, index) {
