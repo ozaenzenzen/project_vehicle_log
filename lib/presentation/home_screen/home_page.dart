@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20.h),
+            SizedBox(height: 40.h),
             Align(
               alignment: Alignment.centerLeft,
               child: Column(
@@ -193,6 +193,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             SizedBox(height: 20.h),
+            // Container(
+            //   color: Colors.amber,
+            //   height: 10,
+            // ),
             ListMeasurementWidget(
               // data: DummyData.dummyData[indexClicked].listControl!,
               data: DummyData.dummyData[indexClicked],
@@ -233,6 +237,7 @@ class ListMeasurementWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
