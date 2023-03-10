@@ -18,7 +18,7 @@ class _StatsPageState extends State<StatsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20.h),
+            SizedBox(height: 40.h),
             Text(
               "Stats",
               style: AppTheme.theme.textTheme.headline1?.copyWith(

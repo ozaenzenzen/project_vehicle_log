@@ -23,7 +23,7 @@ class _VehiclePageState extends State<VehiclePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20.h),
+            SizedBox(height: 40.h),
             Text(
               "Your Vehicle",
               style: AppTheme.theme.textTheme.headline1?.copyWith(
@@ -35,6 +35,7 @@ class _VehiclePageState extends State<VehiclePage> {
             SizedBox(height: 35.h),
             ListView.separated(
               shrinkWrap: true,
+              padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               // itemCount: 8,
               itemCount: DummyData.dummyData.length,
