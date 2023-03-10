@@ -5,6 +5,7 @@ import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/data/vehicle_data_model.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
+import 'package:project_vehicle_log/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:intl/intl.dart';
@@ -93,7 +94,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   SizedBox(height: 10.h),
                   Text(
                     // "Update and measure your vehicle logs",
-                    "Update and measure your vehicle mileage",
+                    // "Update and measure your vehicle mileage",
+                    "Manage your vehicle mileage",
                     style: AppTheme.theme.textTheme.headline4?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black38,
@@ -113,20 +115,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             SizedBox(height: 20.h),
-            Container(
-              // height: 150.h,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: const [
-                  BoxShadow(
-                    spreadRadius: 1,
-                    blurRadius: 9,
-                    color: Colors.black12,
-                  ),
-                ],
-              ),
+            AppContainerBoxWidget(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -333,20 +322,7 @@ class ListMeasurementWidget extends StatelessWidget {
               ),
             );
           },
-          child: Container(
-            // height: 150.h,
-            // width: 100.h,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: const [
-                BoxShadow(
-                  spreadRadius: 1,
-                  blurRadius: 9,
-                  color: Colors.black12,
-                ),
-              ],
-            ),
+          child: AppContainerBoxWidget(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
