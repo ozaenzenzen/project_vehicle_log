@@ -32,7 +32,16 @@ class _VehiclePageState extends State<VehiclePage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 35.h),
+            SizedBox(height: 10.h),
+            Text(
+              "Choose your vehicle",
+              style: AppTheme.theme.textTheme.headline5?.copyWith(
+                // color: AppColor.text_4,
+                color: Colors.black38,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(height: 20.h),
             ListView.separated(
               shrinkWrap: true,
               padding: EdgeInsets.zero,
