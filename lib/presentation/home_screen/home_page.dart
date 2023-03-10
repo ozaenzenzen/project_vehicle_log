@@ -8,6 +8,8 @@ import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dar
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,19 +28,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     initialPage: 0,
   );
 
-  // late TabController tabController;
+  late List<_ChartData> data;
+  late TooltipBehavior _tooltip;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   tabController = TabController(
-  //     vsync: this,
-  //     length: 3
-  //   );
-  // }
+  @override
+  void initState() {
+    data = [
+      _ChartData('David', 25),
+      _ChartData('Steve', 38),
+      // _ChartData('Jack', 34),
+      // _ChartData('Others', 52),
+    ];
+    _tooltip = TooltipBehavior(enable: true);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // final List<ChartData> chartData = [
+    //   ChartData('David', 25),
+    //   ChartData('Steve', 38),
+    //   ChartData('Jack', 34),
+    //   ChartData('Others', 52),
+    // ];
+
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
       child: Container(
@@ -101,7 +114,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
             SizedBox(height: 20.h),
             Container(
-              height: 150.h,
+              // height: 150.h,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -147,6 +160,67 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         color: Colors.black54,
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 100.h,
+                          width: 100.h,
+                          child: SfCircularChart(
+                            tooltipBehavior: _tooltip,
+                            series: <CircularSeries<_ChartData, String>>[
+                              DoughnutSeries<_ChartData, String>(
+                                dataSource: data,
+                                xValueMapper: (_ChartData data, ints) => data.x,
+                                yValueMapper: (_ChartData data, ints) => data.y,
+                                name: 'Gold',
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 100.h,
+                          width: 100.h,
+                          child: SfCircularChart(
+                            tooltipBehavior: _tooltip,
+                            series: <CircularSeries<_ChartData, String>>[
+                              DoughnutSeries<_ChartData, String>(
+                                dataSource: data,
+                                xValueMapper: (_ChartData data, ints) => data.x,
+                                yValueMapper: (_ChartData data, ints) => data.y,
+                                name: 'Gold',
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 100.h,
+                          width: 100.h,
+                          child: SfCircularChart(
+                            tooltipBehavior: _tooltip,
+                            series: <CircularSeries<_ChartData, String>>[
+                              DoughnutSeries<_ChartData, String>(
+                                dataSource: data,
+                                xValueMapper: (_ChartData data, ints) => data.x,
+                                yValueMapper: (_ChartData data, ints) => data.y,
+                                name: 'Gold',
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    // SfCircularChart(
+                    //   series: <CircularSeries>[
+                    //     // Render pie chart
+                    //     PieSeries<ChartData, String>(
+                    //       dataSource: chartData,
+                    //       pointColorMapper: (ChartData data, _) => data.color,
+                    //       xValueMapper: (ChartData data, _) => data.x,
+                    //       yValueMapper: (ChartData data, _) => data.y,
+                    //     )
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
@@ -296,4 +370,22 @@ class ListMeasurementWidget extends StatelessWidget {
       },
     );
   }
+}
+
+class ChartData {
+  ChartData(
+    this.x,
+    this.y, [
+    this.color,
+  ]);
+  final String x;
+  final double y;
+  final Color? color;
+}
+
+class _ChartData {
+  _ChartData(this.x, this.y);
+
+  final String x;
+  final double y;
 }
