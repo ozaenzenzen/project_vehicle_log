@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         AppTheme.appThemeInit();
         return GetMaterialApp(
-          title: 'Vehicle Logs',
+          title: 'Vehicle Management Log',
           theme: AppTheme.theme,
           home: const MainPage()
           // home: const SignInPage(),
