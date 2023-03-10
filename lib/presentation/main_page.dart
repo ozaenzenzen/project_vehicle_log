@@ -54,71 +54,69 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        // backgroundColor: AppColor.shape,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.to(() => const AddVehiclePage());
-          },
-          child: Icon(
-            Icons.add_circle_outline_outlined,
-            color: AppColor.white,
-            size: 35.h,
-          ),
-          backgroundColor: AppColor.primary,
-          elevation: 0,
-        ),
-        bottomNavigationBar: AppCustomAppBar(
-          centerItemText: 'Add Vehicle',
+    return Scaffold(
+      // backgroundColor: AppColor.shape,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => const AddVehiclePage());
+        },
+        child: Icon(
+          Icons.add_circle_outline_outlined,
           color: AppColor.white,
-          selectedColor: AppColor.white,
-          notchedShape: const CircularNotchedRectangle(),
-          onTabSelected: (index) {
-            _selectedTab(index);
-          },
-          backgroundColor: AppColor.primary,
-          iconSize: 25.h,
-          fontSize: 14.sp,
-          height: 80.h,
-          currentIndex: indexClicked,
-          items: [
-            AppCustomAppBarItem(
-              iconData: Icons.home,
-              text: "Home",
-            ),
-            AppCustomAppBarItem(
-              iconData: Icons.motorcycle,
-              text: "Vehicle",
-            ),
-            AppCustomAppBarItem(
-              iconData: Icons.bar_chart,
-              text: "Stats",
-            ),
-            AppCustomAppBarItem(
-              iconData: Icons.person,
-              text: "Profile",
-            ),
-          ],
+          size: 35.h,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: PageView(
-          controller: pageController,
-          onPageChanged: (currentPage) {
-            debugPrint("page now: $currentPage");
-            setState(() {
-              indexClicked = currentPage;
-            });
-            // setState(() {
-            //   _selectedTab(currentPage);
-            // });
-          },
-          children: const [
-            HomePage(),
-            VehiclePage(),
-            StatsPage(),
-          ],
-        ),
+        backgroundColor: AppColor.primary,
+        elevation: 0,
+      ),
+      bottomNavigationBar: AppCustomAppBar(
+        centerItemText: 'Add Vehicle',
+        color: AppColor.white,
+        selectedColor: AppColor.white,
+        notchedShape: const CircularNotchedRectangle(),
+        onTabSelected: (index) {
+          _selectedTab(index);
+        },
+        backgroundColor: AppColor.primary,
+        iconSize: 25.h,
+        fontSize: 14.sp,
+        height: 80.h,
+        currentIndex: indexClicked,
+        items: [
+          AppCustomAppBarItem(
+            iconData: Icons.home,
+            text: "Home",
+          ),
+          AppCustomAppBarItem(
+            iconData: Icons.motorcycle,
+            text: "Vehicle",
+          ),
+          AppCustomAppBarItem(
+            iconData: Icons.bar_chart,
+            text: "Stats",
+          ),
+          AppCustomAppBarItem(
+            iconData: Icons.person,
+            text: "Profile",
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (currentPage) {
+          debugPrint("page now: $currentPage");
+          setState(() {
+            indexClicked = currentPage;
+          });
+          // setState(() {
+          //   _selectedTab(currentPage);
+          // });
+        },
+        children: const [
+          HomePage(),
+          VehiclePage(),
+          StatsPage(),
+        ],
       ),
     );
   }
