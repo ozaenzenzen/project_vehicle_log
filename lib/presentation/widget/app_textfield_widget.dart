@@ -10,6 +10,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final bool readOnly;
   final TextInputType? keyboardType;
   final Function()? onTap;
+  final void Function(String)? onChanged;
 
   const AppTextFieldWidget({
     Key? key,
@@ -20,6 +21,7 @@ class AppTextFieldWidget extends StatefulWidget {
     this.readOnly = false,
     this.onTap,
     this.keyboardType,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -78,6 +80,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                 ),
               ),
             ),
+            onChanged: widget.onChanged,
             readOnly: widget.readOnly,
             onTap: widget.onTap,
           ),
