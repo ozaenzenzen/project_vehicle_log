@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
+import 'presentation/signin_page.dart';
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -26,8 +28,8 @@ class _MyAppState extends State<MyApp> {
         return GetMaterialApp(
           title: 'Vehicle Management Log',
           theme: AppTheme.theme,
-          home: const MainPage()
-          // home: const SignInPage(),
+          // home: const MainPage()
+          home: const SignInPage(),
         );
       },
     );
