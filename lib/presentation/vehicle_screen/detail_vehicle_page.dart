@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/add_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -88,6 +90,47 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
+                    "Logs",
+                    style: AppTheme.theme.textTheme.headline4?.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Icon(
+                    Icons.edit_square,
+                    size: 25.h,
+                    color: AppColor.primary,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.h),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 14,
+                itemBuilder: (context, index) {
+                  return const ItemListWidget(
+                    title: "Oil",
+                    value: "12000",
+                  );
+                },
+              ),
+              SizedBox(height: 5.h),
+              Center(
+                child: Text(
+                  "See more",
+                  style: AppTheme.theme.textTheme.headline6?.copyWith(
+                    decoration: TextDecoration.underline,
+                    color: AppColor.blue,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
                     "Stats",
                     style: AppTheme.theme.textTheme.headline4?.copyWith(
                       color: Colors.black,
@@ -118,7 +161,9 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> {
                     ),
                     SizedBox(height: 10.h),
                     AppMainButtonWidget(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(() => const AddMeasurementPage());
+                      },
                       text: "Add Now",
                     ),
                   ],
