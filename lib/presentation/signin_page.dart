@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/home_screen/home_page.dart';
+import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
@@ -59,21 +60,26 @@ class _SignInPageState extends State<SignInPage> {
             AppMainButtonWidget(
               onPressed: () {
                 Get.off(
-                  () => const HomePage(),
+                  () => const MainPage(),
                 );
               },
               text: "Masuk",
             ),
             const Spacer(),
-            Text(
-              // "Vehicle Log Apps Version 1.0.0+1",
-              "Vehicle Log Apps Version ${AppInfo.appVersion}",
-              style: AppTheme.theme.textTheme.caption?.copyWith(
-                fontSize: 10.sp,
-                color: Colors.grey,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            FutureBuilder(
+                future: AppInfo.showAppVersion(),
+                builder: (context, snapshot) {
+                  return Text(
+                    // "Vehicle Log Apps Version 1.0.0+1",
+                    // "Vehicle Log Apps Version ${AppInfo.appVersion}",
+                    "Vehicle Log Apps Version ${snapshot.data}",
+                    style: AppTheme.theme.textTheme.caption?.copyWith(
+                      fontSize: 10.sp,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  );
+                }),
           ],
         ),
       ),
