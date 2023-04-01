@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/add_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/list_item_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
+
+enum StatusLogs { add, update, delete }
 
 class DetailVehiclePage extends StatefulWidget {
   const DetailVehiclePage({Key? key}) : super(key: key);
@@ -109,8 +112,9 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> {
                 shrinkWrap: true,
                 itemCount: 14,
                 itemBuilder: (context, index) {
-                  return const ItemListWidget(
+                  return const ItemListWidget.logs(
                     title: "Oil",
+                    statusLogs: StatusLogs.add,
                     value: "12000",
                   );
                 },
@@ -172,53 +176,6 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ItemListWidget extends StatelessWidget {
-  final String? title;
-  final String? value;
-
-  const ItemListWidget({
-    Key? key,
-    required this.title,
-    required this.value,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40.h,
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 16.h),
-      decoration: BoxDecoration(
-        color: AppColor.border,
-        border: Border.all(
-          color: Colors.white,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title!,
-            style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
-              // color: AppColor.text_4,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Text(
-            value!,
-            style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
-              // color: AppColor.text_4,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }
