@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/dummy_data_service.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
@@ -51,11 +52,12 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
               ),
               SizedBox(height: 10.h),
               SizedBox(
-                height: 80.h,
+                height: 100.h,
                 child: ListView.separated(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 8,
+                  // itemCount: 8,
+                  itemCount: MeasurementServiceDummyData.dummyDataService.length,
                   // itemCount: DummyData.dummyData.length,
                   separatorBuilder: (context, index) {
                     return SizedBox(width: 10.h);
@@ -70,24 +72,29 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                         // });
                       },
                       child: Container(
+                        width: 100.w,
                         alignment: Alignment.center,
                         padding: EdgeInsets.symmetric(
                           horizontal: 15.h,
                         ),
                         decoration: BoxDecoration(
                           // color: index == indexClicked ? AppColor.primary : Colors.transparent,
-                          color: AppColor.disabled,
+                          color: AppColor.border,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.time_to_leave_rounded,
+                              // Icons.time_to_leave_rounded,
+                              MeasurementServiceDummyData.dummyDataService[index].icons,
                             ),
                             Text(
                               // "${DummyData.dummyData[index].vehicleName}",
-                              "Menu $index",
+                              // "Menu $index",
+                              "${MeasurementServiceDummyData.dummyDataService[index].title}",
+                              textAlign: TextAlign.center,
+                              // overflow: TextOverflow.ellipsis,
                               style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                 // color: AppColor.text_4,
                                 color: Colors.black38,
