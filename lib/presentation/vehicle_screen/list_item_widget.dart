@@ -28,18 +28,25 @@ class ItemListWidget extends StatefulWidget {
 }
 
 class _ItemListWidgetState extends State<ItemListWidget> {
-  Color handleStatusColor(statusLogs) {
+  Color statusColor = Colors.black;
+  String statusTitle = "Add";
+
+  void handleStatus(statusLogs) {
     if (statusLogs == StatusLogs.add) {
-      return AppColor.green;
+      statusColor = AppColor.green;
+      statusTitle = "Add";
     } else if (statusLogs == StatusLogs.update) {
-      return AppColor.yellow;
+      statusColor = AppColor.yellow;
+      statusTitle = "Update";
     } else {
-      return AppColor.red;
+      statusColor = AppColor.red;
+      statusTitle = "Delete";
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    handleStatus(widget.statusLogs);
     return Container(
       height: 40.h,
       width: MediaQuery.of(context).size.width,
@@ -75,11 +82,13 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                     ),
                     SizedBox(width: 10.w),
                     Text(
-                      "(${widget.statusLogs.toString()})",
+                      // "(${widget.statusLogs.toString()})",
+                      "(${statusTitle.toString()})",
                       style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                         // color: AppColor.text_4,
                         // color: Colors.black,
-                        color: handleStatusColor(widget.statusLogs),
+                        // color: handleStatusColor(widget.statusLogs),
+                        color: statusColor,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
