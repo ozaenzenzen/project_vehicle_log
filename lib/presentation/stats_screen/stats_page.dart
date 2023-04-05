@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/data/vehicle_data_model.dart';
+import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -90,39 +92,42 @@ class _StatsPageState extends State<StatsPage> {
                     .listControl!
                     .length,
                 itemBuilder: (context, index) {
-                  return AppContainerBoxWidget(
-                    height: 200.h,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.water_drop,
-                            size: 90.h,
-                            color: AppColor.primary,
-                          ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            // "Oil",
-                            DummyData
-                                .dummyData[DummyData.dummyData.indexWhere((element) {
-                              return element.vehicleName == dropDownValue;
-                            })]
-                                .listControl![index],
-                            style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
+                  return InkWell(
+                    onTap: () {},
+                    child: AppContainerBoxWidget(
+                      height: 200.h,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.water_drop,
+                              size: 90.h,
+                              color: AppColor.primary,
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 10.h),
+                            Text(
+                              // "Oil",
+                              DummyData
+                                  .dummyData[DummyData.dummyData.indexWhere((element) {
+                                return element.vehicleName == dropDownValue;
+                              })]
+                                  .listControl![index],
+                              style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // child: Text(
+                        //   DummyData.dummyData[0].listControl![index],
+                        //   style: AppTheme.theme.textTheme.headline5?.copyWith(
+                        //     // color: AppColor.text_4,
+                        //     color: Colors.black38,
+                        //     fontWeight: FontWeight.w500,
+                        //   ),
+                        // ),
                       ),
-                      // child: Text(
-                      //   DummyData.dummyData[0].listControl![index],
-                      //   style: AppTheme.theme.textTheme.headline5?.copyWith(
-                      //     // color: AppColor.text_4,
-                      //     color: Colors.black38,
-                      //     fontWeight: FontWeight.w500,
-                      //   ),
-                      // ),
                     ),
                   );
                 },
