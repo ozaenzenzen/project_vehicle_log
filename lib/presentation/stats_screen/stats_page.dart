@@ -93,7 +93,16 @@ class _StatsPageState extends State<StatsPage> {
                     .length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(
+                        () => DetailMeasurementPage(
+                          data: DummyData.dummyData[DummyData.dummyData.indexWhere((element) {
+                  return element.vehicleName == dropDownValue;
+                })],
+                          index: index,
+                        ),
+                      );
+                    },
                     child: AppContainerBoxWidget(
                       height: 200.h,
                       child: Center(
