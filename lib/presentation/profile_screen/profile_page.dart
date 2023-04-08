@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/dummy_data_profile.dart';
 import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
@@ -101,7 +102,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 5,
+                  // itemCount: 5,
+                  itemCount: ProfileDummyDataAccount.dummyDataProfileAccount.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
@@ -113,7 +115,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "menus $index",
+                              // "menus $index",
+                              "${ProfileDummyDataAccount.dummyDataProfileAccount[index].menuTitle}",
                               style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                 fontWeight: FontWeight.w700,
                               ),
@@ -156,7 +159,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 3,
+                  // itemCount: 3,
+                  itemCount: ProfileDummyDataAbout.dummyDataProfileAbout.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
@@ -168,7 +172,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "menus $index",
+                              // "menus $index",
+                              "${ProfileDummyDataAbout.dummyDataProfileAbout[index].menuTitle}",
                               style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                 fontWeight: FontWeight.w700,
                               ),
