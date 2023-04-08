@@ -133,6 +133,11 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 ),
                 SizedBox(height: 15.h),
                 const AppTextFieldWidget(
+                  textFieldTitle: "Tank Capacity (Litre)",
+                  textFieldHintText: "ex: 250",
+                ),
+                SizedBox(height: 15.h),
+                const AppTextFieldWidget(
                   textFieldTitle: "Color",
                   textFieldHintText: "Color",
                 ),

@@ -102,6 +102,11 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
             ),
             SizedBox(height: 10.h),
             const ItemListWidget(
+              title: "Tank Capacity (Litre)",
+              value: "17",
+            ),
+            SizedBox(height: 10.h),
+            const ItemListWidget(
               title: "Color",
               value: "Red",
             ),
