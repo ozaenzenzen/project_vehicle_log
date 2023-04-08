@@ -142,11 +142,11 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Icon(
-                  Icons.edit_square,
-                  size: 25.h,
-                  color: AppColor.primary,
-                ),
+                // Icon(
+                //   Icons.edit_square,
+                //   size: 25.h,
+                //   color: AppColor.primary,
+                // ),
               ],
             ),
             SizedBox(height: 10.h),
@@ -162,17 +162,17 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                 );
               },
             ),
-            SizedBox(height: 5.h),
-            Center(
-              child: Text(
-                "See more",
-                style: AppTheme.theme.textTheme.headline6?.copyWith(
-                  decoration: TextDecoration.underline,
-                  color: AppColor.blue,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            // SizedBox(height: 5.h),
+            // Center(
+            //   child: Text(
+            //     "See more",
+            //     style: AppTheme.theme.textTheme.headline6?.copyWith(
+            //       decoration: TextDecoration.underline,
+            //       color: AppColor.blue,
+            //       fontWeight: FontWeight.w600,
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 20.h),
           ],
         ),
@@ -196,11 +196,11 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Icon(
-                  Icons.edit_square,
-                  size: 25.h,
-                  color: AppColor.primary,
-                ),
+                // Icon(
+                //   Icons.edit_square,
+                //   size: 25.h,
+                //   color: AppColor.primary,
+                // ),
               ],
             ),
             SizedBox(height: 10.h),
@@ -211,7 +211,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "You haven't yet set measurement stats",
+                    "You haven't yet set measurement",
                     style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black,
