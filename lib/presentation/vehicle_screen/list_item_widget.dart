@@ -47,60 +47,214 @@ class _ItemListWidgetState extends State<ItemListWidget> {
   @override
   Widget build(BuildContext context) {
     handleStatus(widget.statusLogs);
+    if (widget.statusLogs == null) {
+      return Container(
+        height: 40.h,
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(horizontal: 16.h),
+        decoration: BoxDecoration(
+          color: AppColor.border,
+          border: Border.all(
+            color: Colors.white,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.title!,
+              style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
+                // color: AppColor.text_4,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              widget.value!,
+              style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
+                // color: AppColor.text_4,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     return Container(
-      height: 40.h,
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 16.h),
+      padding: EdgeInsets.all(12.h),
       decoration: BoxDecoration(
-        color: AppColor.border,
+        color: Colors.grey.shade300,
         border: Border.all(
           color: Colors.white,
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          (widget.statusLogs == null)
-              ? Text(
-                  widget.title!,
-                  style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title!,
+                    style: AppTheme.theme.textTheme.headline3?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Text(
+                    // "(${widget.statusLogs.toString()})",
+                    "(${statusTitle.toString()})",
+                    style: AppTheme.theme.textTheme.headline6?.copyWith(
+                      // color: AppColor.text_4,
+                      // color: Colors.black,
+                      // color: handleStatusColor(widget.statusLogs),
+                      color: statusColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                "2 days ago",
+                style: AppTheme.theme.textTheme.headline6?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 5.w),
+          Row(
+            children: [
+              Text(
+                "New Odo",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                ":",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                widget.value!,
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 5.w),
+          Row(
+            children: [
+              Text(
+                "Date Updated",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                ":",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                "${DateTime.now()}",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 5.w),
+          Row(
+            children: [
+              Text(
+                "Amount",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                ":",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                widget.value!,
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 5.w),
+          Row(
+            children: [
+              Text(
+                "Notes",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Text(
+                ":",
+                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                  // color: AppColor.text_4,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                     // color: AppColor.text_4,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                   ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.title!,
-                      style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
-                        // color: AppColor.text_4,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(width: 10.w),
-                    Text(
-                      // "(${widget.statusLogs.toString()})",
-                      "(${statusTitle.toString()})",
-                      style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                        // color: AppColor.text_4,
-                        // color: Colors.black,
-                        // color: handleStatusColor(widget.statusLogs),
-                        color: statusColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
                 ),
-          Text(
-            widget.value!,
-            style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
-              // color: AppColor.text_4,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-            ),
+              ),
+            ],
           ),
         ],
       ),
