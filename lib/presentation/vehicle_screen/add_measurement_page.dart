@@ -200,7 +200,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
               ),
               SizedBox(height: 15.h),
               const AppTextFieldWidget(
-                textFieldTitle: "Amount (Rp)",
+                textFieldTitle: "Amount Expenses (Rp)",
                 textFieldHintText: "ex: 40000",
               ),
               SizedBox(height: 15.h),
