@@ -64,6 +64,10 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
               ),
             ),
             SizedBox(height: 20.h),
+            Container(
+              child: Image.network("https://media.istockphoto.com/id/1096052566/vector/stamprsimp2red.jpg?s=612x612&w=0&k=20&c=KVu0nVz7ZLbZsRsx81VBZcuXZ1MlEmLk9IQabO2GkYo="),
+            ),
+            SizedBox(height: 10.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
