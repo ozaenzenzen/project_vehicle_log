@@ -133,128 +133,188 @@ class _ItemListWidgetState extends State<ItemListWidget> {
           SizedBox(height: 5.w),
           Row(
             children: [
-              Text(
-                "New Odo",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                ":",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                widget.value!,
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 5.w),
-          Row(
-            children: [
-              Text(
-                "Date Updated",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                ":",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                "${DateTime.now()}",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 5.w),
-          Row(
-            children: [
-              Text(
-                "Amount",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                ":",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                widget.value!,
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 5.w),
-          Row(
-            children: [
-              Text(
-                "Notes",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                ":",
-                style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(width: 10.w),
               Expanded(
-                child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                  style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
-                    // color: AppColor.text_4,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
+                flex: 1,
+                child: Container(
+                  height: 60.h,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Text(
+                    "New Odo",
+                    style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  height: 60.h,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Text(
+                    widget.value!,
+                    style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
             ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  height: 60.h,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Text(
+                    "Date Updated",
+                    style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  height: 60.h,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Text(
+                    "${DateTime.now()}",
+                    style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  height: 60.h,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Text(
+                    "Amount",
+                    style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  height: 60.h,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Text(
+                    widget.value!,
+                    style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: Text(
+                      "Notes",
+                      style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                        // color: AppColor.text_4,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: Text(
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                      style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
+                        // color: AppColor.text_4,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
