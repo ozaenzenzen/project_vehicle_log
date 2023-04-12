@@ -150,7 +150,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
               ],
             ),
             SizedBox(height: 10.h),
-            ListView.builder(
+            ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: 14,
@@ -160,6 +160,9 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   statusLogs: StatusLogs.add,
                   value: "12000",
                 );
+              },
+              separatorBuilder: (context, index){
+                return SizedBox(height: 10.h);
               },
             ),
             // SizedBox(height: 5.h),
