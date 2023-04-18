@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/presentation/home_page.dart';
-import 'package:project_vehicle_log/presentation/signin_page.dart';
+import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
+
+import 'presentation/signin_page.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -25,9 +26,9 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         AppTheme.appThemeInit();
         return GetMaterialApp(
-          title: 'Vehicle Logs',
+          title: 'Vehicle Management Log',
           theme: AppTheme.theme,
-          // home: const HomePage()
+          // home: const MainPage()
           home: const SignInPage(),
         );
       },

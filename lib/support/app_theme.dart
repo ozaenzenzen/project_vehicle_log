@@ -62,7 +62,8 @@ class AppTheme {
       ),
       colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: AppColor.primary,
-        secondary: AppColor.secondary,
+        // secondary: AppColor.secondary,
+        secondary: AppColor.primary,
         // secondaryVariant: ColorUI.secondaryVariant,
       ),
     );

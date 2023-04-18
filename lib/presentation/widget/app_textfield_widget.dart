@@ -10,6 +10,9 @@ class AppTextFieldWidget extends StatefulWidget {
   final bool readOnly;
   final TextInputType? keyboardType;
   final Function()? onTap;
+  final void Function(String)? onChanged;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
 
   const AppTextFieldWidget({
     Key? key,
@@ -20,6 +23,9 @@ class AppTextFieldWidget extends StatefulWidget {
     this.readOnly = false,
     this.onTap,
     this.keyboardType,
+    this.onChanged,
+    this.suffixIcon,
+    this.prefixIcon,
   }) : super(key: key);
 
   @override
@@ -64,7 +70,14 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
             // maxLines: 5,
             maxLines: widget.textFieldMaxLines,
             // minLines: 1,
+            style: GoogleFonts.inter(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+            ),
             decoration: InputDecoration(
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
               contentPadding: EdgeInsets.all(10.h),
               // hintText: "jane29@gmail.com",
               hintText: widget.textFieldHintText,
@@ -77,7 +90,9 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                   color: Color(0xff7F848F),
                 ),
               ),
+
             ),
+            onChanged: widget.onChanged,
             readOnly: widget.readOnly,
             onTap: widget.onTap,
           ),
