@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data_profile.dart';
 import 'package:project_vehicle_log/presentation/signin_page.dart';
+import 'package:project_vehicle_log/presentation/widget/app_webview_screen.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -164,7 +165,24 @@ class _ProfilePageState extends State<ProfilePage> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        //
+                        if (index == 2) {
+                          Get.to(
+                            () => const AppWebViewScreen(
+                              title: "Terms & Conditions",
+                              linkUrl: "https://www.google.com/",
+                            ),
+                          );
+                        } else if (index == 3) {
+                          Get.to(
+                            () => const AppWebViewScreen(
+                              title: "Privacy & Policy",
+                              linkUrl: "https://fauzanlab.netlify.app/",
+                            ),
+                          );
+                          //
+                        } else {
+                          //
+                        }
                       },
                       child: Container(
                         padding: EdgeInsets.all(16.h),
