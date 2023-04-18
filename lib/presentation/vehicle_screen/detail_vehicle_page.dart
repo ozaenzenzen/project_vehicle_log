@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/add_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/dvp_stats_item_widget.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/edit_main_info_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/list_item_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 enum StatusLogs { add, update, delete }
 
@@ -20,9 +22,12 @@ class DetailVehiclePage extends StatefulWidget {
 class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProviderStateMixin {
   late TabController tabController;
 
+  TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
     super.initState();
+    _tooltipBehavior = TooltipBehavior(enable: true);
     tabController = TabController(
       vsync: this,
       length: 3,
@@ -161,7 +166,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   value: "12000",
                 );
               },
-              separatorBuilder: (context, index){
+              separatorBuilder: (context, index) {
                 return SizedBox(height: 10.h);
               },
             ),
@@ -207,32 +212,49 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
               ],
             ),
             SizedBox(height: 10.h),
-            SizedBox(
-              height: 250.h,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "You haven't yet set measurement",
-                    style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
-                      // color: AppColor.text_4,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  AppMainButtonWidget(
-                    onPressed: () {
-                      Get.to(() => const AddMeasurementPage());
-                    },
-                    text: "Add Now",
-                  ),
-                ],
-              ),
+            emptyState(),
+            SizedBox(height: 10.h),
+            const DVPStatsItemWidget(
+              title: "Oil",
             ),
+            SizedBox(height: 10.h),
+            const DVPStatsItemWidget(
+              title: "Radiator",
+            ),
+            SizedBox(height: 10.h),
+            const DVPStatsItemWidget(
+              title: "Side Oil",
+            ),
+            
           ],
         ),
+      ),
+    );
+  }
+
+  Widget emptyState() {
+    return SizedBox(
+      height: 250.h,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "You haven't yet set measurement",
+            style: AppTheme.theme.textTheme.bodyLarge?.copyWith(
+              // color: AppColor.text_4,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 10.h),
+          AppMainButtonWidget(
+            onPressed: () {
+              Get.to(() => const AddMeasurementPage());
+            },
+            text: "Add Now",
+          ),
+        ],
       ),
     );
   }
