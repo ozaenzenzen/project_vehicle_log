@@ -120,13 +120,27 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   ),
                 ],
               ),
-              Text(
-                "2 days ago",
-                style: AppTheme.theme.textTheme.headline6?.copyWith(
-                  // color: AppColor.text_4,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    "${DateTime.now()}",
+                    style: AppTheme.theme.textTheme.headline6?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    "2 days ago",
+                    style: AppTheme.theme.textTheme.headline6?.copyWith(
+                      // color: AppColor.text_4,
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
