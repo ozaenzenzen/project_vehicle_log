@@ -61,12 +61,23 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                 onTap: () {
                   Get.to(() => const EditMeasurementPage());
                 },
-                child: Text(
-                  "Update",
-                  style: AppTheme.theme.textTheme.headline5?.copyWith(
-                    color: AppColor.green,
-                    fontWeight: FontWeight.w600,
-                    decoration: TextDecoration.underline,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      // color: AppColor.green,
+                      color: AppColor.primary,
+                    ),
+                    borderRadius: BorderRadius.circular(4)
+                  ),
+                  padding: EdgeInsets.all(8.h),
+                  child: Text(
+                    "Update",
+                    style: AppTheme.theme.textTheme.headline6?.copyWith(
+                      color: AppColor.primary,
+                      // color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                      // decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ),
