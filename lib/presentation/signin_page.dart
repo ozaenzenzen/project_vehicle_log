@@ -59,7 +59,7 @@ class _SignInPageState extends State<SignInPage> {
             SizedBox(height: 20.h),
             AppMainButtonWidget(
               onPressed: () {
-                Get.off(
+                Get.offAll(
                   () => const MainPage(),
                 );
               },
