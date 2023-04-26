@@ -216,7 +216,7 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 35.h),
               InkWell(
                 onTap: () {
-                  Get.off(() => const SignInPage());
+                  Get.offAll(() => const SignInPage());
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
