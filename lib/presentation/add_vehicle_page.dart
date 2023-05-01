@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,7 @@ import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class AddVehiclePage extends StatefulWidget {
@@ -18,10 +21,11 @@ class AddVehiclePage extends StatefulWidget {
 }
 
 class _AddVehiclePageState extends State<AddVehiclePage> {
+  String imagePickedInBase64 = "";
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
@@ -70,51 +74,114 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                   ),
                 ),
                 SizedBox(height: 10.h),
-                DottedBorder(
-                  radius: const Radius.circular(20),
-                  dashPattern: const [7, 3],
-                  strokeWidth: 2,
-                  color: AppColor.blue,
-                  child: Container(
-                    height: 200.h,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: AppColor.border,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.file_upload_outlined,
-                          size: 24.h,
+                InkWell(
+                  onTap: () async {
+                    imagePickedInBase64 = await AppImagePickerService.getImageAsBase64().then(
+                      (value) {
+                        setState(() {});
+                        return value;
+                      },
+                    );
+                  },
+                  child: (imagePickedInBase64 == "")
+                      ? DottedBorder(
+                          radius: const Radius.circular(20),
+                          dashPattern: const [7, 3],
+                          strokeWidth: 2,
                           color: AppColor.blue,
-                        ),
-                        SizedBox(width: 18.h),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Browse File",
-                              style: AppTheme.theme.textTheme.headline4?.copyWith(
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.w700,
-                                color: AppColor.blue,
-                              ),
+                          child: Container(
+                            height: 200.h,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: AppColor.border,
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                            SizedBox(height: 6.h),
-                            Text(
-                              "Format dokumen .jpg",
-                              style: AppTheme.theme.textTheme.headline5?.copyWith(
-                                color: AppColor.disabled,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.file_upload_outlined,
+                                  size: 24.h,
+                                  color: AppColor.blue,
+                                ),
+                                SizedBox(width: 18.h),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Browse File",
+                                      style: AppTheme.theme.textTheme.headline4?.copyWith(
+                                        decoration: TextDecoration.underline,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColor.blue,
+                                      ),
+                                    ),
+                                    SizedBox(height: 6.h),
+                                    Text(
+                                      "Format dokumen .jpg",
+                                      style: AppTheme.theme.textTheme.headline5?.copyWith(
+                                        color: AppColor.disabled,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
+                        )
+                      : Center(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8.h),
+                                      topRight: Radius.circular(8.h),
+                                    ),
+                                    child: Image.memory(
+                                      base64Decode(base64.normalize(imagePickedInBase64)),
+                                      height: 190.h,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 10.h,
+                                  right: 10.h,
+                                  child: InkWell(
+                                    onTap: () {
+                                      debugPrint("Test ontap");
+                                      setState(() {
+                                        imagePickedInBase64 = "";
+                                      });
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 30.h,
+                                          width: 30.h,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white.withOpacity(0.65),
+                                          ),
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 25.h,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
                 ),
                 SizedBox(height: 15.h),
                 const AppTextFieldWidget(
