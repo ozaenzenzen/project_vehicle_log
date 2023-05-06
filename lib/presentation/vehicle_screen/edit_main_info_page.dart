@@ -135,10 +135,11 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8.h),
-                                      topRight: Radius.circular(8.h),
-                                    ),
+                                    borderRadius: BorderRadius.circular(8.h),
+                                    // borderRadius: BorderRadius.only(
+                                    //   topLeft: Radius.circular(8.h),
+                                    //   topRight: Radius.circular(8.h),
+                                    // ),
                                     child: Image.memory(
                                       base64Decode(base64.normalize(imagePickedInBase64)),
                                       height: 190.h,
