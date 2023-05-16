@@ -41,9 +41,100 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 40.h,
-                    backgroundColor: AppColor.primary,
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            padding: EdgeInsets.all(16.h),
+                            color: Colors.white,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 120.h,
+                                    width: 120.h,
+                                    padding: EdgeInsets.all(10.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.black12,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.image,
+                                          size: 50.h,
+                                        ),
+                                        SizedBox(height: 10.h),
+                                        Text(
+                                          "Change Image",
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 20.w),
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 120.h,
+                                    width: 120.h,
+                                    padding: EdgeInsets.all(10.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.black12,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.image_search_outlined,
+                                          size: 50.h,
+                                        ),
+                                        SizedBox(height: 10.h),
+                                        Text(
+                                          "See Image",
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // child: Text("Bottom Sheet"),
+                          );
+                        },
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 40.h,
+                      backgroundColor: AppColor.primary,
+                    ),
                   ),
                   SizedBox(width: 20.w),
                   Text(
