@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/home_screen/home_page.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
+import 'package:project_vehicle_log/presentation/signup_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
@@ -65,6 +66,18 @@ class _SignInPageState extends State<SignInPage> {
               },
               text: "Masuk",
             ),
+            SizedBox(height: 20.h),
+            Text("Belum Ada Akun?"),
+            SizedBox(height: 20.h),
+            AppMainButtonWidget(
+              onPressed: () {
+                Get.to(
+                  () => const SignUpPage(),
+                );
+              },
+              text: "Daftar",
+            ),
+            SizedBox(height: 20.h),
             const Spacer(),
             FutureBuilder(
                 future: AppInfo.showAppVersion(),
