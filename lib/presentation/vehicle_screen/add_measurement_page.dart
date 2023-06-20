@@ -55,6 +55,17 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                     //   size: 25.h,
                     //   color: AppColor.primary,
                     // ),
+                    InkWell(
+                      onTap: () {},
+                      child: Text(
+                        "Add Other Service",
+                        style: AppTheme.theme.textTheme.headline6?.copyWith(
+                          color: AppColor.blue,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 10.h),
