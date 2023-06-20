@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_vehicle_log/support/app_color.dart';
 
 class AppSecondaryButtonWidget extends StatefulWidget {
   final Function() onPressed;
@@ -11,6 +12,7 @@ class AppSecondaryButtonWidget extends StatefulWidget {
   final Color? borderColor;
   final double radius;
   final double elevation;
+  final Color? textColor;
 
   const AppSecondaryButtonWidget({
     Key? key,
@@ -23,6 +25,21 @@ class AppSecondaryButtonWidget extends StatefulWidget {
     this.borderColor,
     this.radius = 8,
     this.elevation = 0,
+  })  : textColor = null,
+        super(key: key);
+
+  const AppSecondaryButtonWidget.error({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    this.fontSize = 16,
+    this.height = 40,
+    this.width,
+    this.color,
+    this.borderColor = AppColor.error,
+    this.radius = 8,
+    this.elevation = 0,
+    this.textColor = AppColor.error,
   }) : super(key: key);
 
   @override
@@ -42,7 +59,7 @@ class _AppSecondaryButtonWidgetState extends State<AppSecondaryButtonWidget> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             side: BorderSide(
-              color: widget.color ?? const Color.fromARGB(255, 17, 124, 163),
+              color: widget.borderColor ?? const Color.fromARGB(255, 17, 124, 163),
             ),
           ),
           shadowColor: Colors.transparent,
@@ -51,7 +68,7 @@ class _AppSecondaryButtonWidgetState extends State<AppSecondaryButtonWidget> {
         child: Text(
           widget.text,
           style: GoogleFonts.poppins(
-            color: const Color.fromARGB(255, 17, 124, 163),
+            color: widget.textColor ?? const Color.fromARGB(255, 17, 124, 163),
             fontSize: widget.fontSize,
             fontWeight: FontWeight.w600,
           ),
