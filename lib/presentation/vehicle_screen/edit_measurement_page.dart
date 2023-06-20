@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log/data/dummy_data_service.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
+import 'package:project_vehicle_log/presentation/widget/app_secondarybutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -117,6 +118,13 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
                     Get.back();
                   },
                   text: "Update",
+                ),
+                SizedBox(height: 10.h),
+                AppSecondaryButtonWidget.error(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  text: "Delete",
                 ),
               ],
             ),
