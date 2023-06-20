@@ -16,6 +16,7 @@ class AddMeasurementPage extends StatefulWidget {
 }
 
 class _AddMeasurementPageState extends State<AddMeasurementPage> {
+  TextEditingController measurementTitleController = TextEditingController();
   TextEditingController checkpointDateController = TextEditingController();
 
   @override
@@ -83,11 +84,12 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          // setState(() {
-                          //   debugPrint("test hit $index");
-                          //   indexClicked = index;
-                          //   vehicleListColor = AppColor.white;
-                          // });
+                          setState(() {
+                            measurementTitleController.text = MeasurementServiceDummyData.dummyDataService[index].title!;
+                            //   debugPrint("test hit $index");
+                            //   indexClicked = index;
+                            //   vehicleListColor = AppColor.white;
+                          });
                         },
                         child: Container(
                           width: 100.w,
@@ -97,8 +99,11 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                           ),
                           decoration: BoxDecoration(
                             // color: index == indexClicked ? AppColor.primary : Colors.transparent,
-                            color: AppColor.border,
+                            color: AppColor.white,
                             borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: AppColor.blue,
+                            ),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -106,6 +111,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                               Icon(
                                 // Icons.time_to_leave_rounded,
                                 MeasurementServiceDummyData.dummyDataService[index].icons,
+                                color: AppColor.blue,
                               ),
                               Text(
                                 // "${DummyData.dummyData[index].vehicleName}",
@@ -115,9 +121,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                                 // overflow: TextOverflow.ellipsis,
                                 style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                   // color: AppColor.text_4,
-                                  color: Colors.black38,
+                                  // color: Colors.black38,
+                                  color: AppColor.blue,
                                   // color: index == indexClicked ? AppColor.white : Colors.black38,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
@@ -202,9 +209,12 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                   ],
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Measurement Title",
                   textFieldHintText: "ex: Oil",
+                  controller: measurementTitleController,
+                  readOnly: true,
+                  ignorePointerActive: true,
                 ),
                 SizedBox(height: 15.h),
                 const AppTextFieldWidget(
