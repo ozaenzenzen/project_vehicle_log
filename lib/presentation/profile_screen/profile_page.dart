@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data_profile.dart';
+import 'package:project_vehicle_log/presentation/profile_screen/edit_profile_page.dart';
 import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_webview_screen.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
@@ -54,7 +55,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.back();
+                                    Get.to(() => const EditProfilePage());
+                                  },
                                   child: Container(
                                     height: 120.h,
                                     width: 120.h,
@@ -137,11 +141,30 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(width: 20.w),
-                  Text(
-                    "User name",
-                    style: AppTheme.theme.textTheme.headline2?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "User name",
+                        style: AppTheme.theme.textTheme.headline2?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: 5.h),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const EditProfilePage());
+                        },
+                        child: Text(
+                          "Edit Profile",
+                          style: AppTheme.theme.textTheme.headline6?.copyWith(
+                            color: AppColor.text_4,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
