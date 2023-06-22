@@ -16,6 +16,7 @@ import 'package:project_vehicle_log/support/local_service.dart';
 import 'presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
 import 'presentation/bloc/account_bloc/signout_bloc/signout_bloc.dart';
 import 'presentation/bloc/account_bloc/signup_bloc/signup_bloc.dart';
+import 'presentation/bloc/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'presentation/signin_page.dart';
 
 class MyApp extends StatefulWidget {
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => ProfileBloc(LocalRepository())),
         BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => GetLogVehicleBloc(AppVehicleReposistory())),
+        BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory())),
       ],
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),
