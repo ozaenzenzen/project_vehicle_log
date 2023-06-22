@@ -29,135 +29,140 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(),
-      body: Container(
-        padding: EdgeInsets.all(16.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Daftar Akun",
-                style: AppTheme.theme.textTheme.headline2?.copyWith(
-                  fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        // appBar: AppBar(),
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // const Spacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Daftar Akun",
+                  style: AppTheme.theme.textTheme.headline2?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20.h),
-            AppTextFieldWidget(
-              textFieldTitle: "Nama",
-              textFieldHintText: "example",
-              controller: nameTextFieldController,
-            ),
-            SizedBox(height: 10.h),
-            AppTextFieldWidget(
-              textFieldTitle: "Email",
-              textFieldHintText: "journalist@email.com",
-              controller: emailTextFieldController,
-            ),
-            SizedBox(height: 10.h),
-            AppTextFieldWidget(
-              textFieldTitle: "Phone",
-              textFieldHintText: "0888-8888-8888",
-              controller: phoneTextFieldController,
-            ),
-            SizedBox(height: 10.h),
-            AppTextFieldWidget(
-              textFieldTitle: "Password",
-              textFieldHintText: "*****",
-              controller: passwordTextFieldController,
-              obscureText: true,
-            ),
-            SizedBox(height: 10.h),
-            AppTextFieldWidget(
-              textFieldTitle: "Confirm Password",
-              textFieldHintText: "*****",
-              controller: confirmPasswordTextFieldController,
-              obscureText: true,
-            ),
-            SizedBox(height: 20.h),
-            BlocConsumer<SignupBloc, SignupState>(
-              listener: (context, state) {
-                if (state is SignupFailed) {
-                  AppDialogAction.showPopup(
-                    content: Column(
-                      children: [
-                        Icon(
-                          Icons.close,
-                          color: AppColor.error,
-                          size: 80.h,
-                        ),
-                        SizedBox(height: 20.h),
-                        Text(
-                          "Error",
-                          style: AppTheme.theme.textTheme.headline4?.copyWith(
-                            // color: AppColor.text_4,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
+              SizedBox(height: 20.h),
+              AppTextFieldWidget(
+                textFieldTitle: "Nama",
+                textFieldHintText: "example",
+                controller: nameTextFieldController,
+              ),
+              SizedBox(height: 10.h),
+              AppTextFieldWidget(
+                textFieldTitle: "Email",
+                textFieldHintText: "journalist@email.com",
+                controller: emailTextFieldController,
+              ),
+              SizedBox(height: 10.h),
+              AppTextFieldWidget(
+                textFieldTitle: "Phone",
+                textFieldHintText: "0888-8888-8888",
+                controller: phoneTextFieldController,
+              ),
+              SizedBox(height: 10.h),
+              AppTextFieldWidget(
+                textFieldTitle: "Password",
+                textFieldHintText: "*****",
+                controller: passwordTextFieldController,
+                obscureText: true,
+              ),
+              SizedBox(height: 10.h),
+              AppTextFieldWidget(
+                textFieldTitle: "Confirm Password",
+                textFieldHintText: "*****",
+                controller: confirmPasswordTextFieldController,
+                obscureText: true,
+              ),
+              SizedBox(height: 20.h),
+              BlocConsumer<SignupBloc, SignupState>(
+                listener: (context, state) {
+                  if (state is SignupFailed) {
+                    AppDialogAction.showPopup(
+                      content: Column(
+                        children: [
+                          Icon(
+                            Icons.close,
+                            color: AppColor.error,
+                            size: 80.h,
                           ),
-                        ),
-                        SizedBox(height: 10.h),
-                        Text(
-                          state.errorMessage,
-                          style: AppTheme.theme.textTheme.headline6?.copyWith(
-                            // color: AppColor.text_4,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
+                          SizedBox(height: 20.h),
+                          Text(
+                            "Error",
+                            style: AppTheme.theme.textTheme.headline4?.copyWith(
+                              // color: AppColor.text_4,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    context: context,
-                  );
-                } else if (state is SignupSuccess) {
-                  Get.offAll(
-                    () => const MainPage(),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is SignupLoading) {
-                  return const AppLoadingIndicator();
-                }
-                return Column(
-                  children: [
-                    AppMainButtonWidget(
-                      onPressed: () {
-                        context.read<SignupBloc>().add(
-                              SignupAction(
-                                signUpRequestModel: SignUpRequestModel(
-                                  name: nameTextFieldController.text,
-                                  email: emailTextFieldController.text,
-                                  phone: phoneTextFieldController.text,
-                                  password: passwordTextFieldController.text,
-                                  confirmPassword: confirmPasswordTextFieldController.text,
+                          SizedBox(height: 10.h),
+                          Text(
+                            state.errorMessage,
+                            style: AppTheme.theme.textTheme.headline6?.copyWith(
+                              // color: AppColor.text_4,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      context: context,
+                    );
+                  } else if (state is SignupSuccess) {
+                    Get.offAll(
+                      () => const MainPage(),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is SignupLoading) {
+                    return const AppLoadingIndicator();
+                  }
+                  return Column(
+                    children: [
+                      AppMainButtonWidget(
+                        onPressed: () {
+                          context.read<SignupBloc>().add(
+                                SignupAction(
+                                  signUpRequestModel: SignUpRequestModel(
+                                    name: nameTextFieldController.text,
+                                    email: emailTextFieldController.text,
+                                    phone: phoneTextFieldController.text,
+                                    password: passwordTextFieldController.text,
+                                    confirmPassword: confirmPasswordTextFieldController.text,
+                                  ),
                                 ),
-                              ),
-                            );
-                      },
-                      text: "Daftar",
-                    ),
-                    SizedBox(height: 20.h),
-                    Text("Sudah Ada Akun?"),
-                    SizedBox(height: 20.h),
-                    AppMainButtonWidget(
-                      onPressed: () {
-                        Get.to(
-                          () => const MainPage(),
-                        );
-                      },
-                      text: "Masuk",
-                    ),
-                    SizedBox(height: 20.h),
-                  ],
-                );
-              },
-            ),
-            const Spacer(),
-            FutureBuilder(
+                              );
+                        },
+                        text: "Daftar",
+                      ),
+                      SizedBox(height: 20.h),
+                      Text("Sudah Ada Akun?"),
+                      SizedBox(height: 20.h),
+                      AppMainButtonWidget(
+                        onPressed: () {
+                          Get.to(
+                            () => const MainPage(),
+                          );
+                        },
+                        text: "Masuk",
+                      ),
+                      SizedBox(height: 20.h),
+                    ],
+                  );
+                },
+              ),
+              // const Spacer(),
+              FutureBuilder(
                 future: AppInfo.showAppVersion(),
                 builder: (context, snapshot) {
                   return Text(
@@ -170,8 +175,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       fontWeight: FontWeight.w400,
                     ),
                   );
-                }),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
