@@ -1,7 +1,7 @@
 class GetAllVehicleDataResponseModel {
   int status;
   String message;
-  List<Datum>? data;
+  List<DatumVehicle>? data;
 
   GetAllVehicleDataResponseModel({
     required this.status,
@@ -12,7 +12,7 @@ class GetAllVehicleDataResponseModel {
   factory GetAllVehicleDataResponseModel.fromJson(Map<String, dynamic> json) => GetAllVehicleDataResponseModel(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
+        data: List<DatumVehicle>.from(json["Data"].map((x) => DatumVehicle.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -22,7 +22,7 @@ class GetAllVehicleDataResponseModel {
       };
 }
 
-class Datum {
+class DatumVehicle {
   int userId;
   String vehicleName;
   String vehicleImage;
@@ -34,7 +34,7 @@ class Datum {
   String chassisNumber;
   List<VehicleMeasurementLogModel> vehicleMeasurementLogModels;
 
-  Datum({
+  DatumVehicle({
     required this.userId,
     required this.vehicleName,
     required this.vehicleImage,
@@ -47,7 +47,7 @@ class Datum {
     required this.vehicleMeasurementLogModels,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory DatumVehicle.fromJson(Map<String, dynamic> json) => DatumVehicle(
         userId: json["user_id"],
         vehicleName: json["vehicle_name"],
         vehicleImage: json["vehicle_image"],
