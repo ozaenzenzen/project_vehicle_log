@@ -2,12 +2,17 @@ import 'dart:convert';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/model/vehicle/create_vehicle_request_model.dart';
+import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
+import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
@@ -20,6 +25,14 @@ class AddVehiclePage extends StatefulWidget {
 
 class _AddVehiclePageState extends State<AddVehiclePage> {
   String imagePickedInBase64 = "";
+  TextEditingController vehicleNameController = TextEditingController();
+  TextEditingController yearController = TextEditingController();
+  TextEditingController engineCapacityController = TextEditingController();
+  TextEditingController tankCapacityController = TextEditingController();
+  TextEditingController colorController = TextEditingController();
+  TextEditingController machineNumberController = TextEditingController();
+  TextEditingController chassisNumberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -183,46 +196,90 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         ),
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Vehicle Name",
                   textFieldHintText: "Vehicle Name",
+                  controller: vehicleNameController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Year",
                   textFieldHintText: "Year",
+                  controller: yearController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Engine Capacity (cc)",
                   textFieldHintText: "ex: 250",
+                  controller: engineCapacityController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Tank Capacity (Litre)",
                   textFieldHintText: "ex: 250",
+                  controller: tankCapacityController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Color",
                   textFieldHintText: "Color",
+                  controller: colorController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Machine Number",
                   textFieldHintText: "Machine Number",
+                  controller: machineNumberController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Chassis Number",
                   textFieldHintText: "Chassis Number",
+                  controller: chassisNumberController,
                 ),
                 SizedBox(height: 20.h),
-                AppMainButtonWidget(
-                  onPressed: () {
-                    Get.off(() => const MainPage());
+                BlocConsumer<CreateVehicleBloc, CreateVehicleState>(
+                  listener: (context, state) {
+                    if (state is CreateVehicleFailed) {
+                      AppDialogAction.showMainPopup(
+                        context: context,
+                        title: "Error",
+                        content: Text(state.errorMessage),
+                        mainButtonAction: () {
+                          Get.back();
+                        },
+                      );
+                    } else if (state is CreateVehicleSuccess) {
+                      Get.off(() => const MainPage());
+                    }
                   },
-                  text: "Add Vehicle",
+                  builder: (context, state) {
+                    if (state is CreateVehicleLoading) {
+                      return const Center(
+                        child: AppLoadingIndicator(),
+                      );
+                    }
+                    return AppMainButtonWidget(
+                      onPressed: () {
+                        context.read<CreateVehicleBloc>().add(
+                              CreateVehicleAction(
+                                createVehicleRequestModel: CreateVehicleRequestModel(
+                                  userId: 3,
+                                  vehicleName: vehicleNameController.text,
+                                  vehicleImage: imagePickedInBase64,
+                                  year: yearController.text,
+                                  engineCapacity: engineCapacityController.text,
+                                  tankCapacity: tankCapacityController.text,
+                                  color: colorController.text,
+                                  machineNumber: machineNumberController.text,
+                                  chassisNumber: chassisNumberController.text,
+                                ),
+                              ),
+                            );
+                      },
+                      text: "Add Vehicle",
+                    );
+                  },
                 ),
               ],
             ),
