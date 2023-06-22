@@ -7,6 +7,7 @@ import 'package:project_vehicle_log/data/model/account/signin_request_models.dar
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/signup_page.dart';
+import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
@@ -108,13 +109,7 @@ class _SignInPageState extends State<SignInPage> {
               },
               builder: (context, state) {
                 if (state is SigninLoading) {
-                  return SizedBox(
-                    height: 40.h,
-                    width: 40.h,
-                    child: const CircularProgressIndicator(
-                      color: AppColor.primary,
-                    ),
-                  );
+                  return const AppLoadingIndicator();
                 } else {
                   return Column(
                     children: [
