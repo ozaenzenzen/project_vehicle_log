@@ -8,7 +8,7 @@ import 'package:project_vehicle_log/support/app_api_path.dart';
 import 'package:project_vehicle_log/support/app_api_service.dart';
 
 class AppAccountReposistory {
-  static Future<SignInResponseModel> signin(SignInRequestModel data) async {
+  Future<SignInResponseModel> signin(SignInRequestModel data) async {
     final response = await AppApiService(
       EnvironmentConfig.baseUrl(),
     ).call(
@@ -18,7 +18,7 @@ class AppAccountReposistory {
     return SignInResponseModel.fromJson(response.data);
   }
 
-  static Future<SignUpResponseModel> signup(SignUpRequestModel data) async {
+  Future<SignUpResponseModel> signup(SignUpRequestModel data) async {
     final response = await AppApiService(
       EnvironmentConfig.baseUrl(),
     ).call(
@@ -28,7 +28,7 @@ class AppAccountReposistory {
     return SignUpResponseModel.fromJson(response.data);
   }
 
-  static Future<GetUserDataResponseModel> getUserdata(String userId) async {
+  Future<GetUserDataResponseModel> getUserdata(String userId) async {
     final response = await AppApiService(
       EnvironmentConfig.baseUrl(),
     ).call(
