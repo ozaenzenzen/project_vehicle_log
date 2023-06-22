@@ -66,6 +66,7 @@ class _SignInPageState extends State<SignInPage> {
               textFieldTitle: "Passoword",
               textFieldHintText: "*****",
               controller: passwordTextFieldController,
+              obscureText: true,
             ),
             SizedBox(height: 20.h),
             BlocConsumer<SigninBloc, SigninState>(
