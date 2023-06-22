@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/local_repository.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
@@ -32,7 +33,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SigninBloc(AppAccountReposistory())),
         BlocProvider(create: (context) => SignoutBloc()),
         BlocProvider(create: (context) => SignupBloc(AppAccountReposistory())),
-        BlocProvider(create: (context) => ProfileBloc()),
+        BlocProvider(create: (context) => ProfileBloc(LocalRepository())),
       ],
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),
