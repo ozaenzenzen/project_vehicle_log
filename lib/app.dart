@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signin_bloc/signin_bloc.dart';
-import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 import 'presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
