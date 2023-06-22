@@ -26,7 +26,7 @@ class LocalRepository {
     debugPrint("[saveLocalAccountData] userData saved");
   }
 
-  static Future<AccountDataUserModel> getLocalAccountData() async {
+  Future<AccountDataUserModel> getLocalAccountData() async {
     try {
       AccountDataUserModel? userData = AccountDataUserModel.fromJson(LocalService.instance.box.read("userData"));
       if (userData == null || userData == [] || userData == "") {
