@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log/data/model/account/signin_request_models.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
@@ -70,7 +71,33 @@ class _SignInPageState extends State<SignInPage> {
               listener: (context, state) {
                 if (state is SigninFailed) {
                   AppDialogAction.showPopup(
-                    content: Text(state.errorMessage),
+                    content: Column(
+                      children: [
+                        Icon(
+                          Icons.close,
+                          color: AppColor.error,
+                          size: 80.h,
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          "Error",
+                          style: AppTheme.theme.textTheme.headline4?.copyWith(
+                            // color: AppColor.text_4,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        Text(
+                          state.errorMessage,
+                          style: AppTheme.theme.textTheme.headline6?.copyWith(
+                            // color: AppColor.text_4,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                     context: context,
                   );
                 } else if (state is SigninSuccess) {
