@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data_profile.dart';
+import 'package:project_vehicle_log/presentation/bloc/account_bloc/signout_bloc/signout_bloc.dart';
 import 'package:project_vehicle_log/presentation/screen/profile_screen/edit_profile_page.dart';
 import 'package:project_vehicle_log/presentation/signin_page.dart';
+import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_webview_screen.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
@@ -328,26 +332,49 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               SizedBox(height: 35.h),
-              InkWell(
-                onTap: () {
-                  Get.offAll(() => const SignInPage());
+              BlocConsumer<SignoutBloc, SignoutState>(
+                listener: (context, state) {
+                  if (state is SignoutFailed) {
+                    AppDialogAction.showMainPopup(
+                      context: context,
+                      title: "Error",
+                      content: Text(state.errorMessage),
+                      mainButtonAction: () {
+                        Get.back();
+                      },
+                    );
+                  } else if (state is SignoutSuccess) {
+                    Get.offAll(() => const SignInPage());
+                  }
                 },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.center,
-                  height: 50.h,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Text(
-                    "Keluar",
-                    style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                      color: Colors.red,
-                      fontWeight: FontWeight.w700,
-                      decoration: TextDecoration.underline,
+                builder: (context, state) {
+                  if (state is SignoutLoading) {
+                    return const Center(
+                      child: AppLoadingIndicator(),
+                    );
+                  }
+                  return InkWell(
+                    onTap: () {
+                      context.read<SignoutBloc>().add(SignoutAction());
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      height: 50.h,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Text(
+                        "Keluar",
+                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w700,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
               SizedBox(height: 35.h),
               Center(
