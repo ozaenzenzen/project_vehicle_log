@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppColor.shape,
+      backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(() => const AddVehiclePage());
