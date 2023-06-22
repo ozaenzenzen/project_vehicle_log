@@ -15,11 +15,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   SignupBloc(AppAccountReposistory appAccountReposistory) : super(SignupInitial()) {
     on<SignupEvent>((event, emit) {
       if (event is SignupAction) {
-        _signInAction(appAccountReposistory, event);
+        _signUpAction(appAccountReposistory, event);
       }
     });
   }
-  Future<void> _signInAction(
+  Future<void> _signUpAction(
     AppAccountReposistory appAccountReposistory,
     SignupAction event,
   ) async {
