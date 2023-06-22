@@ -1,6 +1,7 @@
 import 'package:project_vehicle_log/data/model/vehicle/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/create_log_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/create_vehicle_request_model.dart';
+import 'package:project_vehicle_log/data/model/vehicle/create_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/edit_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/edit_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/get_all_vehicle_data_response_model.dart';
@@ -32,7 +33,7 @@ class AppVehicleReposistory {
     return GetLogVehicleDataResponseModel.fromJson(response.data);
   }
 
-  Future<CreateLogVehicleResponseModel> createVehicleData(CreateVehicleRequestModel createVehicleRequestModel) async {
+  Future<CreateVehicleResponseModel> createVehicleData(CreateVehicleRequestModel createVehicleRequestModel) async {
     final response = await AppApiService(
       EnvironmentConfig.baseUrl(),
     ).call(
@@ -40,7 +41,7 @@ class AppVehicleReposistory {
       method: MethodRequest.post,
       request: createVehicleRequestModel.toJson(),
     );
-    return CreateLogVehicleResponseModel.fromJson(response.data);
+    return CreateVehicleResponseModel.fromJson(response.data);
   }
 
   Future<EditVehicleResponseModel> editVehicleData(EditVehicleRequestModel editVehicleRequestModel) async {
