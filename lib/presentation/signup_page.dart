@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/model/account/signup_request_models.dart';
+import 'package:project_vehicle_log/presentation/bloc/account_bloc/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
+import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
+import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
@@ -15,6 +21,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController nameTextFieldController = TextEditingController(text: "");
+  TextEditingController emailTextFieldController = TextEditingController(text: "");
+  TextEditingController passwordTextFieldController = TextEditingController(text: "");
+  TextEditingController confirmPasswordTextFieldController = TextEditingController(text: "");
+  TextEditingController phoneTextFieldController = TextEditingController(text: "");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,51 +47,115 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
             SizedBox(height: 20.h),
-            const AppTextFieldWidget(
+            AppTextFieldWidget(
               textFieldTitle: "Nama",
               textFieldHintText: "example",
+              controller: nameTextFieldController,
             ),
             SizedBox(height: 10.h),
-            const AppTextFieldWidget(
+            AppTextFieldWidget(
               textFieldTitle: "Email",
               textFieldHintText: "journalist@email.com",
+              controller: emailTextFieldController,
             ),
             SizedBox(height: 10.h),
-            const AppTextFieldWidget(
+            AppTextFieldWidget(
               textFieldTitle: "Phone",
               textFieldHintText: "0888-8888-8888",
+              controller: phoneTextFieldController,
             ),
             SizedBox(height: 10.h),
-            const AppTextFieldWidget(
+            AppTextFieldWidget(
               textFieldTitle: "Password",
               textFieldHintText: "*****",
+              controller: passwordTextFieldController,
+              obscureText: true,
             ),
             SizedBox(height: 10.h),
-            const AppTextFieldWidget(
+            AppTextFieldWidget(
               textFieldTitle: "Confirm Password",
               textFieldHintText: "*****",
+              controller: confirmPasswordTextFieldController,
+              obscureText: true,
             ),
             SizedBox(height: 20.h),
-            AppMainButtonWidget(
-              onPressed: () {
-                // Get.offAll(
-                //   () => const MainPage(),
-                // );
+            BlocConsumer<SignupBloc, SignupState>(
+              listener: (context, state) {
+                if (state is SignupFailed) {
+                  AppDialogAction.showPopup(
+                    content: Column(
+                      children: [
+                        Icon(
+                          Icons.close,
+                          color: AppColor.error,
+                          size: 80.h,
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          "Error",
+                          style: AppTheme.theme.textTheme.headline4?.copyWith(
+                            // color: AppColor.text_4,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        Text(
+                          state.errorMessage,
+                          style: AppTheme.theme.textTheme.headline6?.copyWith(
+                            // color: AppColor.text_4,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    context: context,
+                  );
+                } else if (state is SignupSuccess) {
+                  Get.offAll(
+                    () => const MainPage(),
+                  );
+                }
               },
-              text: "Daftar",
-            ),
-            SizedBox(height: 20.h),
-            Text("Sudah Ada Akun?"),
-            SizedBox(height: 20.h),
-            AppMainButtonWidget(
-              onPressed: () {
-                Get.to(
-                  () => const MainPage(),
+              builder: (context, state) {
+                if (state is SignupLoading) {
+                  return const AppLoadingIndicator();
+                }
+                return Column(
+                  children: [
+                    AppMainButtonWidget(
+                      onPressed: () {
+                        context.read<SignupBloc>().add(
+                              SignupAction(
+                                signUpRequestModel: SignUpRequestModel(
+                                  name: nameTextFieldController.text,
+                                  email: emailTextFieldController.text,
+                                  phone: phoneTextFieldController.text,
+                                  password: passwordTextFieldController.text,
+                                  confirmPassword: confirmPasswordTextFieldController.text,
+                                ),
+                              ),
+                            );
+                      },
+                      text: "Daftar",
+                    ),
+                    SizedBox(height: 20.h),
+                    Text("Sudah Ada Akun?"),
+                    SizedBox(height: 20.h),
+                    AppMainButtonWidget(
+                      onPressed: () {
+                        Get.to(
+                          () => const MainPage(),
+                        );
+                      },
+                      text: "Masuk",
+                    ),
+                    SizedBox(height: 20.h),
+                  ],
                 );
               },
-              text: "Masuk",
             ),
-            SizedBox(height: 20.h),
             const Spacer(),
             FutureBuilder(
                 future: AppInfo.showAppVersion(),
