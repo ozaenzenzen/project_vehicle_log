@@ -14,6 +14,7 @@ import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
+import 'package:skeletons/skeletons.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -155,7 +156,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         BlocBuilder<ProfileBloc, ProfileState>(
                           builder: (context, state) {
                             if (state is ProfileLoading) {
-                              return const AppLoadingIndicator();
+                              return SizedBox(
+                                height: 20.h,
+                                width: 150.w,
+                                child: const SkeletonLine(),
+                              );
                             } else if (state is ProfileSuccess) {
                               return Text(
                                 "${state.accountDataUserModel.name}",
@@ -195,7 +200,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 BlocBuilder<ProfileBloc, ProfileState>(
                   builder: (context, state) {
                     if (state is ProfileLoading) {
-                      return const AppLoadingIndicator();
+                      return SizedBox(
+                        height: 15.h,
+                        child: const SkeletonLine(),
+                      );
                     } else if (state is ProfileSuccess) {
                       return Row(
                         children: [
@@ -231,7 +239,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 BlocBuilder<ProfileBloc, ProfileState>(
                   builder: (context, state) {
                     if (state is ProfileLoading) {
-                      return const AppLoadingIndicator();
+                      return SizedBox(
+                        height: 15.h,
+                        child: const SkeletonLine(),
+                      );
                     } else if (state is ProfileSuccess) {
                       return Row(
                         children: [
