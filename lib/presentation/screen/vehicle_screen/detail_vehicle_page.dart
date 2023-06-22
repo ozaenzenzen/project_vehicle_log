@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/add_measurement_page.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/dvp_stats_item_widget.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/edit_main_info_page.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/list_item_widget.dart';
+import 'package:project_vehicle_log/presentation/screen/vehicle_screen/add_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/screen/vehicle_screen/dvp_stats_item_widget.dart';
+import 'package:project_vehicle_log/presentation/screen/vehicle_screen/edit_main_info_page.dart';
+import 'package:project_vehicle_log/presentation/screen/vehicle_screen/list_item_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';

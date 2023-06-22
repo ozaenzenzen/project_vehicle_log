@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:project_vehicle_log/presentation/screen/vehicle_screen/detail_vehicle_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 

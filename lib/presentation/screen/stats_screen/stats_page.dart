@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/data/vehicle_data_model.dart';
-import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/screen/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';

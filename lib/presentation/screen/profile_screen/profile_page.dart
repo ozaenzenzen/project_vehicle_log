@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data_profile.dart';
-import 'package:project_vehicle_log/presentation/profile_screen/edit_profile_page.dart';
+import 'package:project_vehicle_log/presentation/screen/profile_screen/edit_profile_page.dart';
 import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_webview_screen.dart';
 import 'package:project_vehicle_log/support/app_color.dart';

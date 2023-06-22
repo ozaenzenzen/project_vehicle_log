@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/add_vehicle_page.dart';
-import 'package:project_vehicle_log/presentation/home_screen/home_page.dart';
-import 'package:project_vehicle_log/presentation/stats_screen/stats_page.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_page.dart';
+import 'package:project_vehicle_log/presentation/screen/home_screen/home_page.dart';
+import 'package:project_vehicle_log/presentation/screen/profile_screen/profile_page.dart';
+import 'package:project_vehicle_log/presentation/screen/stats_screen/stats_page.dart';
+import 'package:project_vehicle_log/presentation/screen/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_custom_appbar.dart';
-import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 
 class MainPage extends StatefulWidget {
