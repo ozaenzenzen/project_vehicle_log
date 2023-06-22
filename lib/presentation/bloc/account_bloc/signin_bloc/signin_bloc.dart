@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository.dart';
@@ -10,18 +12,22 @@ part 'signin_event.dart';
 part 'signin_state.dart';
 
 class SigninBloc extends Bloc<SigninEvent, SigninState> {
-  SigninBloc() : super(SigninInitial()) {
-    on<SigninAction>(_signInAction);
+  SigninBloc(AppAccountReposistory accountReposistory) : super(SigninInitial()) {
+    on<SigninEvent>((event, emit) {
+      if (event is SigninAction) {
+        _signInAction(accountReposistory, event);
+      }
+    });
   }
 
-  _signInAction(
+  Future<void> _signInAction(
+    AppAccountReposistory accountReposistory,
     SigninAction event,
-    Emitter<SigninState> emit,
   ) async {
     emit(SigninLoading());
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 1000));
     try {
-      SignInResponseModel signInResponseModel = await AppAccountReposistory.signin(
+      SignInResponseModel signInResponseModel = await accountReposistory.signin(
         event.signInRequestModel,
       );
       if (signInResponseModel.status == 200) {
