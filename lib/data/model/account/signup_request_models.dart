@@ -3,8 +3,6 @@ class SignUpRequestModel {
     required this.name,
     required this.email,
     required this.phone,
-    required this.link,
-    required this.typeuser,
     required this.password,
     required this.confirmPassword,
   });
@@ -12,8 +10,6 @@ class SignUpRequestModel {
   String name;
   String email;
   String phone;
-  String link;
-  int typeuser;
   String password;
   String confirmPassword;
 
@@ -21,8 +17,6 @@ class SignUpRequestModel {
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
-        link: json["link"],
-        typeuser: json["typeuser"],
         password: json["password"],
         confirmPassword: json["confirmPassword"],
       );
@@ -31,8 +25,6 @@ class SignUpRequestModel {
         "name": name,
         "email": email,
         "phone": phone,
-        "link": link,
-        "typeuser": typeuser,
         "password": password,
         "confirmPassword": confirmPassword,
       };
