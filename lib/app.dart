@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (context) => SigninBloc(AppAccountReposistory())),
         BlocProvider(create: (context) => SignoutBloc()),
-        BlocProvider(create: (context) => SignupBloc()),
+        BlocProvider(create: (context) => SignupBloc(AppAccountReposistory())),
         BlocProvider(create: (context) => ProfileBloc()),
       ],
       child: ScreenUtilInit(
