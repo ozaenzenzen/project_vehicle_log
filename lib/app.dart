@@ -4,7 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/local_repository.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
+import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signin_bloc/signin_bloc.dart';
+import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_log_vehicle_bloc/get_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/screen/home_screen/home_page.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -34,6 +37,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SignoutBloc()),
         BlocProvider(create: (context) => SignupBloc(AppAccountReposistory())),
         BlocProvider(create: (context) => ProfileBloc(LocalRepository())),
+        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
+        BlocProvider(create: (context) => GetLogVehicleBloc(AppVehicleReposistory())),
       ],
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),
