@@ -63,7 +63,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
             SizedBox(height: 10.h),
             AppTextFieldWidget(
-              textFieldTitle: "Passoword",
+              textFieldTitle: "Password",
               textFieldHintText: "*****",
               controller: passwordTextFieldController,
               obscureText: true,
