@@ -14,6 +14,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final void Function(String)? onChanged;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
+  final bool obscureText;
 
   const AppTextFieldWidget({
     Key? key,
@@ -28,6 +29,7 @@ class AppTextFieldWidget extends StatefulWidget {
     this.onChanged,
     this.suffixIcon,
     this.prefixIcon,
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -69,10 +71,11 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
           child: widget.ignorePointerActive
               ? IgnorePointer(
                   child: TextField(
+                    obscureText: widget.obscureText,
                     controller: widget.controller,
                     keyboardType: widget.keyboardType,
                     // maxLines: 5,
-                    maxLines: widget.textFieldMaxLines,
+                    maxLines: (widget.obscureText) ? 1 : widget.textFieldMaxLines,
                     // minLines: 1,
                     style: GoogleFonts.inter(
                       fontSize: 14.sp,
@@ -101,10 +104,11 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                   ),
                 )
               : TextField(
+                  obscureText: widget.obscureText,
                   controller: widget.controller,
                   keyboardType: widget.keyboardType,
                   // maxLines: 5,
-                  maxLines: widget.textFieldMaxLines,
+                  maxLines: (widget.obscureText) ? 1 : widget.textFieldMaxLines,
                   // minLines: 1,
                   style: GoogleFonts.inter(
                     fontSize: 14.sp,
