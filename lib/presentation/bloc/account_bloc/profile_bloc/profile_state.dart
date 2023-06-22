@@ -5,7 +5,13 @@ abstract class ProfileState {}
 
 class ProfileInitial extends ProfileState {}
 
-class ProfileSuccess extends ProfileState {}
+class ProfileSuccess extends ProfileState {
+  final AccountDataUserModel accountDataUserModel;
+
+  ProfileSuccess({
+    required this.accountDataUserModel,
+  });
+}
 
 class ProfileFailed extends ProfileState {
   final String errorMessage;
