@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return BlocProvider(
       create: (context) => GetAllVehicleBloc(AppVehicleReposistory())
         ..add(
-          GetAllVehicleDataAction(id: "1"),
+          GetAllVehicleDataAction(id: "3"),
         ),
       child: SingleChildScrollView(
         physics: const ScrollPhysics(),
@@ -130,7 +130,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     return SizedBox(
                       child: Text(state.errorMessage),
                     );
+                  } else if (state is GetAllVehicleLoading) {
+                    return const Center(
+                      child: AppLoadingIndicator(),
+                    );
                   } else if (state is GetAllVehicleSuccess) {
+                    if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
+                      return Container(
+                        child: Text("data is empty"),
+                      );
+                    }
                     return Column(
                       children: [
                         AppContainerBoxWidget(
@@ -302,10 +311,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         // ),
                       ],
                     );
+                  } else {
+                    return Container(
+                      child: Text("data is empty"),
+                    );
                   }
-                  return const Center(
-                    child: AppLoadingIndicator(),
-                  );
                 },
               ),
             ],
