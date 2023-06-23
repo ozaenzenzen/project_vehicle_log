@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/local_repository.dart';
+import 'package:project_vehicle_log/data/model/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/create_vehicle_request_model.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
+import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
@@ -15,6 +18,7 @@ import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
+import 'package:project_vehicle_log/support/local_service.dart';
 
 class AddVehiclePage extends StatefulWidget {
   const AddVehiclePage({Key? key}) : super(key: key);
@@ -33,8 +37,15 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   TextEditingController machineNumberController = TextEditingController();
   TextEditingController chassisNumberController = TextEditingController();
 
+  AccountDataUserModel? accountDataUserModel;
+
   @override
   Widget build(BuildContext context) {
+    context.read<GetAllVehicleBloc>().add(
+          GetProfileDataVehicleAction(
+            localRepository: LocalRepository(),
+          ),
+        );
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -259,25 +270,40 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         child: AppLoadingIndicator(),
                       );
                     }
-                    return AppMainButtonWidget(
-                      onPressed: () {
-                        context.read<CreateVehicleBloc>().add(
-                              CreateVehicleAction(
-                                createVehicleRequestModel: CreateVehicleRequestModel(
-                                  userId: 3,
-                                  vehicleName: vehicleNameController.text,
-                                  vehicleImage: imagePickedInBase64,
-                                  year: yearController.text,
-                                  engineCapacity: engineCapacityController.text,
-                                  tankCapacity: tankCapacityController.text,
-                                  color: colorController.text,
-                                  machineNumber: machineNumberController.text,
-                                  chassisNumber: chassisNumberController.text,
-                                ),
-                              ),
-                            );
+                    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+                      builder: (context, state) {
+                        if (state is GetProfileDataVehicleSuccess) {
+                          return AppMainButtonWidget(
+                            onPressed: () {
+                              context.read<CreateVehicleBloc>().add(
+                                    CreateVehicleAction(
+                                      createVehicleRequestModel: CreateVehicleRequestModel(
+                                        userId: state.accountDataUserModel.userId!,
+                                        vehicleName: vehicleNameController.text,
+                                        vehicleImage: imagePickedInBase64,
+                                        year: yearController.text,
+                                        engineCapacity: engineCapacityController.text,
+                                        tankCapacity: tankCapacityController.text,
+                                        color: colorController.text,
+                                        machineNumber: machineNumberController.text,
+                                        chassisNumber: chassisNumberController.text,
+                                      ),
+                                    ),
+                                  );
+                            },
+                            text: "Add Vehicle",
+                          );
+                        } else if (state is GetAllVehicleFailed) {
+                          return Text("Failed to get profile data");
+                        } else {
+                          return AppMainButtonWidget(
+                            onPressed: () {
+                              //
+                            },
+                            text: "Add Vehicle",
+                          );
+                        }
                       },
-                      text: "Add Vehicle",
                     );
                   },
                 ),
