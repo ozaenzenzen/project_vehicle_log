@@ -13,6 +13,14 @@ class GetAllVehicleSuccess extends GetAllVehicleState {
   });
 }
 
+class GetProfileDataVehicleSuccess extends GetAllVehicleState {
+  final AccountDataUserModel accountDataUserModel;
+
+  GetProfileDataVehicleSuccess({
+    required this.accountDataUserModel,
+  });
+}
+
 class GetAllVehicleFailed extends GetAllVehicleState {
   final String errorMessage;
 

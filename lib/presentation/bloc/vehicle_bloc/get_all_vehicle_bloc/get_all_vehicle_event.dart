@@ -10,3 +10,11 @@ class GetAllVehicleDataAction extends GetAllVehicleEvent {
     required this.id,
   });
 }
+
+class GetProfileDataVehicleAction extends GetAllVehicleEvent {
+  final LocalRepository localRepository;
+
+  GetProfileDataVehicleAction({
+    required this.localRepository,
+  });
+}

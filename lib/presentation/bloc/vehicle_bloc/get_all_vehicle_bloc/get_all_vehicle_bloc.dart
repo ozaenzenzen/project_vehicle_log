@@ -2,6 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:project_vehicle_log/data/local_repository.dart';
+import 'package:project_vehicle_log/data/model/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 
@@ -13,6 +15,8 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     on<GetAllVehicleEvent>((event, emit) {
       if (event is GetAllVehicleDataAction) {
         _getAllVehicleAction(appVehicleReposistory, event);
+      } else if (event is GetProfileDataVehicleAction) {
+        _getProfileDataAction(event.localRepository);
       }
     });
   }
@@ -38,6 +42,31 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
           GetAllVehicleFailed(
             errorMessage: getAllVehicleDataResponseModel.message.toString(),
           ),
+        );
+      }
+    } catch (errorMessage) {
+      emit(
+        GetAllVehicleFailed(
+          errorMessage: errorMessage.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _getProfileDataAction(
+    LocalRepository localRepository,
+  ) async {
+    emit(GetAllVehicleLoading());
+    await Future.delayed(const Duration(milliseconds: 500));
+    try {
+      AccountDataUserModel accountDataUserModel = await localRepository.getLocalAccountData();
+      if (accountDataUserModel != null) {
+        emit(GetProfileDataVehicleSuccess(
+          accountDataUserModel: accountDataUserModel,
+        ));
+      } else {
+        emit(
+          GetAllVehicleFailed(errorMessage: "Failed To Get Profile Data"),
         );
       }
     } catch (errorMessage) {
