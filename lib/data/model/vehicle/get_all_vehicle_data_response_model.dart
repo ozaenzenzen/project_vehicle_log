@@ -23,6 +23,7 @@ class GetAllVehicleDataResponseModel {
 }
 
 class DatumVehicle {
+  int id;
   int userId;
   String vehicleName;
   String vehicleImage;
@@ -35,6 +36,7 @@ class DatumVehicle {
   List<VehicleMeasurementLogModel> vehicleMeasurementLogModels;
 
   DatumVehicle({
+    required this.id,
     required this.userId,
     required this.vehicleName,
     required this.vehicleImage,
@@ -48,6 +50,7 @@ class DatumVehicle {
   });
 
   factory DatumVehicle.fromJson(Map<String, dynamic> json) => DatumVehicle(
+        id: json["id"],
         userId: json["user_id"],
         vehicleName: json["vehicle_name"],
         vehicleImage: json["vehicle_image"],
@@ -61,6 +64,7 @@ class DatumVehicle {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "user_id": userId,
         "vehicle_name": vehicleName,
         "vehicle_image": vehicleImage,
@@ -84,8 +88,6 @@ class VehicleMeasurementLogModel {
   String amountExpenses;
   String checkpointDate;
   String notes;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   VehicleMeasurementLogModel({
     required this.id,
@@ -97,8 +99,6 @@ class VehicleMeasurementLogModel {
     required this.amountExpenses,
     required this.checkpointDate,
     required this.notes,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory VehicleMeasurementLogModel.fromJson(Map<String, dynamic> json) => VehicleMeasurementLogModel(
@@ -111,8 +111,6 @@ class VehicleMeasurementLogModel {
         amountExpenses: json["amount_expenses"],
         checkpointDate: json["checkpoint_date"],
         notes: json["notes"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -125,7 +123,5 @@ class VehicleMeasurementLogModel {
         "amount_expenses": amountExpenses,
         "checkpoint_date": checkpointDate,
         "notes": notes,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
       };
 }
