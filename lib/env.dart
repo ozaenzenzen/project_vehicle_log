@@ -9,14 +9,14 @@ class EnvironmentConfig {
     if (_baseUrl.isEmpty || _baseUrl == "") {
       switch (flavor) {
         case Flavor.development:
-          // return 'http://localhost:8080';
-          return "http://10.0.2.2:8080";
+          return 'http://localhost:8080';
+          // return "http://10.0.2.2:8080";
         case Flavor.staging:
-          // return 'http://localhost:8080';
-          return "http://10.0.2.2:8080";
+          return 'http://localhost:8080';
+          // return "http://10.0.2.2:8080";
         default:
-          // return 'http://localhost:8080';
-          return "http://10.0.2.2:8080";
+          return 'http://localhost:8080';
+          // return "http://10.0.2.2:8080";
       }
     }
     return _baseUrl;
