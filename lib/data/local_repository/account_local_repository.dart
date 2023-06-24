@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log/data/model/account_user_data_model.dart';
+import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/support/local_service.dart';
 
 class AccountLocalRepository {

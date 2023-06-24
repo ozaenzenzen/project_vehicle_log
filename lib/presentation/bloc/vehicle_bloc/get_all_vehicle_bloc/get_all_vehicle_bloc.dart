@@ -3,7 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/account_user_data_model.dart';
+import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 
