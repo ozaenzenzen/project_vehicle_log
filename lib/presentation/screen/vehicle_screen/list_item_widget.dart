@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/detail_vehicle_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -28,6 +29,7 @@ class ItemListWidget extends StatefulWidget {
 }
 
 class _ItemListWidgetState extends State<ItemListWidget> {
+  final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
   Color statusColor = Colors.black;
   String statusTitle = "Add";
 
@@ -120,27 +122,29 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   ),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "${DateTime.now()}",
-                    style: AppTheme.theme.textTheme.headline6?.copyWith(
-                      // color: AppColor.text_4,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      formatter.format(DateTime.now()),
+                      style: AppTheme.theme.textTheme.headline6?.copyWith(
+                        // color: AppColor.text_4,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "2 days ago",
-                    style: AppTheme.theme.textTheme.headline6?.copyWith(
-                      // color: AppColor.text_4,
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
+                    Text(
+                      "2 days ago",
+                      style: AppTheme.theme.textTheme.headline6?.copyWith(
+                        // color: AppColor.text_4,
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -227,7 +231,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      "${DateTime.now()}",
+                      formatter.format(DateTime.now()),
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
