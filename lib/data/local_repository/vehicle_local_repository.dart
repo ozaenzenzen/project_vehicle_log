@@ -28,7 +28,9 @@ class VehicleLocalRepository {
 
   Future<VehicleLocalDataModel> getLocalVehicleData() async {
     try {
-      VehicleLocalDataModel? vehicleData = VehicleLocalDataModel.fromJson(LocalService.instance.box.read("vehicleData"));
+      VehicleLocalDataModel? vehicleData = VehicleLocalDataModel.fromJson(
+        LocalService.instance.box.read("vehicleData"),
+      );
       // ignore: unnecessary_null_comparison, unrelated_type_equality_checks
       if (vehicleData == null || vehicleData == [] || vehicleData == "") {
         return VehicleLocalDataModel();
