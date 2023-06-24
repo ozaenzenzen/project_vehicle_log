@@ -10,7 +10,7 @@ import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_log_vehic
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:project_vehicle_log/support/local_service.dart';
-import 'package:project_vehicle_log/data/account_local_repository.dart';
+import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 
 import 'presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
 import 'presentation/bloc/account_bloc/signout_bloc/signout_bloc.dart';
