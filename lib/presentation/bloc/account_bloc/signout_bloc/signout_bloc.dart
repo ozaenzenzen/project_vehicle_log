@@ -2,7 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:project_vehicle_log/data/local_repository.dart';
+import 'package:project_vehicle_log/data/account_local_repository.dart';
 
 part 'signout_event.dart';
 part 'signout_state.dart';

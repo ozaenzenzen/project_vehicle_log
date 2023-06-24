@@ -2,7 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:project_vehicle_log/data/local_repository.dart';
+import 'package:project_vehicle_log/data/account_local_repository.dart';
 import 'package:project_vehicle_log/data/model/account/signup_request_models.dart';
 import 'package:project_vehicle_log/data/model/account/signup_response_models.dart';
 import 'package:project_vehicle_log/data/model/account_user_data_model.dart';

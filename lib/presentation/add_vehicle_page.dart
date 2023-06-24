@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/data/local_repository.dart';
+import 'package:project_vehicle_log/data/account_local_repository.dart';
 import 'package:project_vehicle_log/data/model/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/vehicle/create_vehicle_request_model.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
@@ -18,7 +18,6 @@ import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
-import 'package:project_vehicle_log/support/local_service.dart';
 
 class AddVehiclePage extends StatefulWidget {
   const AddVehiclePage({Key? key}) : super(key: key);
