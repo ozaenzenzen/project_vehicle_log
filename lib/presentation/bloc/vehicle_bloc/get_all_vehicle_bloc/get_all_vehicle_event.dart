@@ -12,7 +12,7 @@ class GetAllVehicleDataAction extends GetAllVehicleEvent {
 }
 
 class GetProfileDataVehicleAction extends GetAllVehicleEvent {
-  final LocalRepository localRepository;
+  final AccountLocalRepository localRepository;
 
   GetProfileDataVehicleAction({
     required this.localRepository,

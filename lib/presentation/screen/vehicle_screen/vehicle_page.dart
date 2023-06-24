@@ -24,7 +24,7 @@ class _VehiclePageState extends State<VehiclePage> {
     return BlocProvider(
       create: (context) => GetAllVehicleBloc(AppVehicleReposistory())
         ..add(
-          GetProfileDataVehicleAction(localRepository: LocalRepository()),
+          GetProfileDataVehicleAction(localRepository: AccountLocalRepository()),
         ),
       child: BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
         listener: (context, state) {

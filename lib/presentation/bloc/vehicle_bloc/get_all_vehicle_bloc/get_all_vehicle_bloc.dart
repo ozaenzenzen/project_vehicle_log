@@ -54,7 +54,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   }
 
   Future<void> _getProfileDataAction(
-    LocalRepository localRepository,
+    AccountLocalRepository localRepository,
   ) async {
     emit(GetAllVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 500));

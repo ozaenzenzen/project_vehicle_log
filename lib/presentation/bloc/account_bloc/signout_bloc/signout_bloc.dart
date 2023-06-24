@@ -19,8 +19,8 @@ class SignoutBloc extends Bloc<SignoutEvent, SignoutState> {
     emit(SignoutLoading());
     await Future.delayed(const Duration(milliseconds: 1000));
     try {
-      await LocalRepository.removeLocalAccountData();
-      await LocalRepository.signOutSaved();
+      await AccountLocalRepository.removeLocalAccountData();
+      await AccountLocalRepository.signOutSaved();
       emit(SignoutSuccess());
     } catch (errorMessage) {
       emit(

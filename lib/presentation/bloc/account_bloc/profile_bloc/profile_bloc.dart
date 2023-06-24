@@ -9,7 +9,7 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc(LocalRepository localRepository) : super(ProfileInitial()) {
+  ProfileBloc(AccountLocalRepository localRepository) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {
       if (event is GetProfileDataAction) {
         _getProfileDataAction(localRepository);
@@ -17,7 +17,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
   }
   Future<void> _getProfileDataAction(
-    LocalRepository localRepository,
+    AccountLocalRepository localRepository,
   ) async {
     emit(ProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));

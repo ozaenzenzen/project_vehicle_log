@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_vehicle_log/data/model/account_user_data_model.dart';
 import 'package:project_vehicle_log/support/local_service.dart';
 
-class LocalRepository {
+class AccountLocalRepository {
   static Future<bool> removeLocalAccountData() async {
     try {
       var data = await LocalService.instance.box.read("userData");

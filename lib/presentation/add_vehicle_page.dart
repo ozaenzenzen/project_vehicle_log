@@ -43,7 +43,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   Widget build(BuildContext context) {
     context.read<GetAllVehicleBloc>().add(
           GetProfileDataVehicleAction(
-            localRepository: LocalRepository(),
+            localRepository: AccountLocalRepository(),
           ),
         );
     return GestureDetector(

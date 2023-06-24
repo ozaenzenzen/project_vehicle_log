@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc(LocalRepository())..add(GetProfileDataAction()),
+      create: (context) => ProfileBloc(AccountLocalRepository())..add(GetProfileDataAction()),
       child: Scaffold(
         backgroundColor: AppColor.shape,
         appBar: AppBar(
