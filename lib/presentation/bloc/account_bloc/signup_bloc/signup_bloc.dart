@@ -3,8 +3,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/account/signup_request_models.dart';
-import 'package:project_vehicle_log/data/model/account/signup_response_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/signup_request_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/signup_response_models.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
 

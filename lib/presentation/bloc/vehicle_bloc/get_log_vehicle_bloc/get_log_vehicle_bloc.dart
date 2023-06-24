@@ -2,7 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:project_vehicle_log/data/model/vehicle/get_log_vehicle_data_response_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/get_log_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 
 part 'get_log_vehicle_event.dart';

@@ -1,8 +1,8 @@
-import 'package:project_vehicle_log/data/model/account/get_userdata_response_models.dart';
-import 'package:project_vehicle_log/data/model/account/signin_request_models.dart';
-import 'package:project_vehicle_log/data/model/account/signin_response_models.dart';
-import 'package:project_vehicle_log/data/model/account/signup_request_models.dart';
-import 'package:project_vehicle_log/data/model/account/signup_response_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/get_userdata_response_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/signin_request_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/signin_response_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/signup_request_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/signup_response_models.dart';
 import 'package:project_vehicle_log/env.dart';
 import 'package:project_vehicle_log/support/app_api_path.dart';
 import 'package:project_vehicle_log/support/app_api_service.dart';

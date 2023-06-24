@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/data/model/account/signup_request_models.dart';
+import 'package:project_vehicle_log/data/model/remote/account/signup_request_models.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
