@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/data/vehicle_data_model.dart';
@@ -67,8 +68,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         listener: (context, state) {
           if (state is GetProfileDataVehicleSuccess) {
             context.read<GetAllVehicleBloc>().add(
-                  GetAllVehicleDataAction(
-                    id: state.accountDataUserModel.userId.toString(),
+                  // GetAllVehicleDataAction(
+                  //   id: state.accountDataUserModel.userId.toString(),
+                  // ),
+                  GetAllVehicleDataFromLocalAction(
+                    vehicleLocalRepository: VehicleLocalRepository(),
                   ),
                 );
           }
