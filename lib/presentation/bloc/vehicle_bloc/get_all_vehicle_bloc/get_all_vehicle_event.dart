@@ -11,6 +11,14 @@ class GetAllVehicleDataAction extends GetAllVehicleEvent {
   });
 }
 
+class GetAllVehicleDataFromLocalAction extends GetAllVehicleEvent {
+  final VehicleLocalRepository vehicleLocalRepository;
+
+  GetAllVehicleDataFromLocalAction({
+    required this.vehicleLocalRepository,
+  });
+}
+
 class GetProfileDataVehicleAction extends GetAllVehicleEvent {
   final AccountLocalRepository localRepository;
 
