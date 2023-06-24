@@ -1,4 +1,28 @@
 class VehicleLocalDataModel {
+  List<VehicleDatam>? listVehicleData;
+
+  VehicleLocalDataModel({
+    this.listVehicleData,
+  });
+
+  factory VehicleLocalDataModel.fromJson(Map<String, dynamic> json) => VehicleLocalDataModel(
+        listVehicleData: List<VehicleDatam>.from(
+          json["listVehicleData"].map(
+            (x) => VehicleDatam.fromJson(x),
+          ),
+        ),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "listVehicleData": List<dynamic>.from(
+          listVehicleData!.map(
+            (x) => x.toJson(),
+          ),
+        ),
+      };
+}
+
+class VehicleDatam {
   int? id;
   int? userId;
   String? vehicleName;
@@ -9,9 +33,9 @@ class VehicleLocalDataModel {
   String? color;
   String? machineNumber;
   String? chassisNumber;
-  List<VehicleMeasurementLogModel>? vehicleMeasurementLogModels;
+  List<LocalVehicleMeasurementLogModel>? vehicleMeasurementLogModels;
 
-  VehicleLocalDataModel({
+  VehicleDatam({
     this.id,
     this.userId,
     this.vehicleName,
@@ -25,7 +49,7 @@ class VehicleLocalDataModel {
     this.vehicleMeasurementLogModels,
   });
 
-  factory VehicleLocalDataModel.fromJson(Map<String, dynamic> json) => VehicleLocalDataModel(
+  factory VehicleDatam.fromJson(Map<String, dynamic> json) => VehicleDatam(
         id: json["id"],
         userId: json["user_id"],
         vehicleName: json["vehicle_name"],
@@ -36,7 +60,11 @@ class VehicleLocalDataModel {
         color: json["color"],
         machineNumber: json["machine_number"],
         chassisNumber: json["chassis_number"],
-        vehicleMeasurementLogModels: List<VehicleMeasurementLogModel>.from(json["vehicle_measurement_log_models"].map((x) => VehicleMeasurementLogModel.fromJson(x))),
+        vehicleMeasurementLogModels: List<LocalVehicleMeasurementLogModel>.from(
+          json["vehicle_measurement_log_models"].map(
+            (x) => LocalVehicleMeasurementLogModel.fromJson(x),
+          ),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -50,11 +78,15 @@ class VehicleLocalDataModel {
         "color": color,
         "machine_number": machineNumber,
         "chassis_number": chassisNumber,
-        "vehicle_measurement_log_models": List<dynamic>.from(vehicleMeasurementLogModels!.map((x) => x.toJson())),
+        "vehicle_measurement_log_models": List<dynamic>.from(
+          vehicleMeasurementLogModels!.map(
+            (x) => x.toJson(),
+          ),
+        ),
       };
 }
 
-class VehicleMeasurementLogModel {
+class LocalVehicleMeasurementLogModel {
   int? id;
   int? userId;
   int? vehicleId;
@@ -65,7 +97,7 @@ class VehicleMeasurementLogModel {
   String? checkpointDate;
   String? notes;
 
-  VehicleMeasurementLogModel({
+  LocalVehicleMeasurementLogModel({
     this.id,
     this.userId,
     this.vehicleId,
@@ -77,7 +109,7 @@ class VehicleMeasurementLogModel {
     this.notes,
   });
 
-  factory VehicleMeasurementLogModel.fromJson(Map<String, dynamic> json) => VehicleMeasurementLogModel(
+  factory LocalVehicleMeasurementLogModel.fromJson(Map<String, dynamic> json) => LocalVehicleMeasurementLogModel(
         id: json["id"],
         userId: json["user_id"],
         vehicleId: json["vehicle_id"],
