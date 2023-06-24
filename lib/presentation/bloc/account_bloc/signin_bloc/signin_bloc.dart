@@ -3,10 +3,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log/data/model/local/vehicle_local_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/account/signin_request_models.dart';
 import 'package:project_vehicle_log/data/model/remote/account/signin_response_models.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
+import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 
 part 'signin_event.dart';
 part 'signin_state.dart';
@@ -41,11 +45,46 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         );
         await AccountLocalRepository.saveLocalAccountData(data: data);
         await AccountLocalRepository.signInSaved();
-        emit(
-          SigninSuccess(
-            userdata: signInResponseModel.userdata!,
-          ),
+        GetAllVehicleDataResponseModel getAllVehicleDataResponseModel = await event.appVehicleReposistory!.getAllVehicleData(
+          signInResponseModel.userdata!.id.toString(),
         );
+        if (getAllVehicleDataResponseModel.status == 200) {
+          VehicleLocalDataModel data = VehicleLocalDataModel(
+            listVehicleData: getAllVehicleDataResponseModel.data!
+                .map((e) => VehicleDatam(
+                      id: e.id,
+                      userId: e.userId,
+                      vehicleName: e.vehicleName,
+                      vehicleImage: e.vehicleImage,
+                      year: e.year,
+                      engineCapacity: e.engineCapacity,
+                      tankCapacity: e.tankCapacity,
+                      color: e.color,
+                      machineNumber: e.machineNumber,
+                      chassisNumber: e.chassisNumber,
+                      vehicleMeasurementLogModels: e.vehicleMeasurementLogModels
+                          .map((e) => LocalVehicleMeasurementLogModel(
+                                id: e.id,
+                                userId: e.userId,
+                                vehicleId: e.vehicleId,
+                                measurementTitle: e.measurementTitle,
+                                currentOdo: e.currentOdo,
+                                estimateOdoChanging: e.estimateOdoChanging,
+                                amountExpenses: e.amountExpenses,
+                                checkpointDate: e.checkpointDate,
+                                notes: e.notes,
+                              ))
+                          .toList(),
+                    ))
+                .toList(),
+          );
+          await VehicleLocalRepository.saveLocalVehicleData(data: data);
+          emit(
+            SigninSuccess(
+              userdata: signInResponseModel.userdata!,
+            ),
+          );
+        }
       } else {
         emit(
           SigninFailed(
