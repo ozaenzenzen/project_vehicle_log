@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/add_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/dvp_stats_item_widget.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/edit_main_info_page.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/list_item_widget.dart';
+import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -13,7 +17,12 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 enum StatusLogs { add, update, delete }
 
 class DetailVehiclePage extends StatefulWidget {
-  const DetailVehiclePage({Key? key}) : super(key: key);
+  final int index;
+
+  const DetailVehiclePage({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
 
   @override
   State<DetailVehiclePage> createState() => _DetailVehiclePageState();
@@ -24,14 +33,33 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
 
   TooltipBehavior? _tooltipBehavior;
 
+  late GetAllVehicleBloc getAllVehicleBloc;
+
   @override
   void initState() {
     super.initState();
+    getAllVehicleBloc = BlocProvider.of(context)
+      ..add(
+        GetAllVehicleDataFromLocalAction(
+          vehicleLocalRepository: VehicleLocalRepository(),
+        ),
+      );
     _tooltipBehavior = TooltipBehavior(enable: true);
     tabController = TabController(
       vsync: this,
       length: 3,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    getAllVehicleBloc = BlocProvider.of(context)
+      ..add(
+        GetAllVehicleDataFromLocalAction(
+          vehicleLocalRepository: VehicleLocalRepository(),
+        ),
+      );
+    super.didChangeDependencies();
   }
 
   TabBar get _tabBar => TabBar(
@@ -54,138 +82,165 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
       );
 
   infoView() {
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(16.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Name Vehicle",
-              style: AppTheme.theme.textTheme.headline1?.copyWith(
-                // color: AppColor.text_4,
-                color: Colors.black38,
-                fontWeight: FontWeight.w500,
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      bloc: getAllVehicleBloc,
+      builder: (context, state) {
+        if (state is GetAllVehicleLoading) {
+          return const AppLoadingIndicator();
+        } else if (state is GetAllVehicleFailed) {
+          return Text(state.errorMessage);
+        } else if (state is GetAllVehicleSuccess) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(16.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    // "Name Vehicle",
+                    state.getAllVehicleDataResponseModel.data![widget.index].vehicleName,
+                    style: AppTheme.theme.textTheme.headline1?.copyWith(
+                      // color: AppColor.text_4,
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Container(
+                    // child: Image.network("https://media.istockphoto.com/id/1096052566/vector/stamprsimp2red.jpg?s=612x612&w=0&k=20&c=KVu0nVz7ZLbZsRsx81VBZcuXZ1MlEmLk9IQabO2GkYo="),
+                    child: Image.network("https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw"),
+                  ),
+                  SizedBox(height: 10.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Main Info",
+                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const EditMainInfoPage());
+                        },
+                        child: Icon(
+                          Icons.edit_square,
+                          size: 25.h,
+                          color: AppColor.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+                  ItemListWidget(
+                    title: "Year",
+                    value: state.getAllVehicleDataResponseModel.data![widget.index].year,
+                  ),
+                  SizedBox(height: 10.h),
+                  ItemListWidget(
+                    title: "Engine Capacity (cc)",
+                    value: state.getAllVehicleDataResponseModel.data![widget.index].engineCapacity,
+                  ),
+                  SizedBox(height: 10.h),
+                  ItemListWidget(
+                    title: "Tank Capacity (Litre)",
+                    value: state.getAllVehicleDataResponseModel.data![widget.index].tankCapacity,
+                  ),
+                  SizedBox(height: 10.h),
+                  ItemListWidget(
+                    title: "Color",
+                    value: state.getAllVehicleDataResponseModel.data![widget.index].color,
+                  ),
+                  SizedBox(height: 10.h),
+                  ItemListWidget(
+                    title: "Machine Number",
+                    value: state.getAllVehicleDataResponseModel.data![widget.index].machineNumber,
+                  ),
+                  SizedBox(height: 10.h),
+                  ItemListWidget(
+                    title: "Chassis Number",
+                    value: state.getAllVehicleDataResponseModel.data![widget.index].chassisNumber,
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 20.h),
-            Container(
-              // child: Image.network("https://media.istockphoto.com/id/1096052566/vector/stamprsimp2red.jpg?s=612x612&w=0&k=20&c=KVu0nVz7ZLbZsRsx81VBZcuXZ1MlEmLk9IQabO2GkYo="),
-              child: Image.network("https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw"),
-            ),
-            SizedBox(height: 10.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Main Info",
-                  style: AppTheme.theme.textTheme.headline4?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.to(() => const EditMainInfoPage());
-                  },
-                  child: Icon(
-                    Icons.edit_square,
-                    size: 25.h,
-                    color: AppColor.primary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10.h),
-            const ItemListWidget(
-              title: "Year",
-              value: "2015",
-            ),
-            SizedBox(height: 10.h),
-            const ItemListWidget(
-              title: "Engine Capacity (cc)",
-              value: "250",
-            ),
-            SizedBox(height: 10.h),
-            const ItemListWidget(
-              title: "Tank Capacity (Litre)",
-              value: "17",
-            ),
-            SizedBox(height: 10.h),
-            const ItemListWidget(
-              title: "Color",
-              value: "Red",
-            ),
-            SizedBox(height: 10.h),
-            const ItemListWidget(
-              title: "Machine Number",
-              value: "xxxxxxx",
-            ),
-            SizedBox(height: 10.h),
-            const ItemListWidget(
-              title: "Chassis Number",
-              value: "xxxxxxx",
-            ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return Text("data is null");
+        }
+      },
     );
   }
 
   logsView() {
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(16.h),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Logs",
-                  style: AppTheme.theme.textTheme.headline4?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      bloc: getAllVehicleBloc,
+      builder: (context, state) {
+        if (state is GetAllVehicleLoading) {
+          return const AppLoadingIndicator();
+        } else if (state is GetAllVehicleFailed) {
+          return Text(state.errorMessage);
+        } else if (state is GetAllVehicleSuccess) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(16.h),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Logs",
+                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Icon(
+                      //   Icons.edit_square,
+                      //   size: 25.h,
+                      //   color: AppColor.primary,
+                      // ),
+                    ],
                   ),
-                ),
-                // Icon(
-                //   Icons.edit_square,
-                //   size: 25.h,
-                //   color: AppColor.primary,
-                // ),
-              ],
+                  SizedBox(height: 10.h),
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels.length,
+                    itemBuilder: (context, index) {
+                      return ItemListWidget.logs(
+                        title: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].measurementTitle,
+                        statusLogs: StatusLogs.add,
+                        value: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].currentOdo,
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 10.h);
+                    },
+                  ),
+                  // SizedBox(height: 5.h),
+                  // Center(
+                  //   child: Text(
+                  //     "See more",
+                  //     style: AppTheme.theme.textTheme.headline6?.copyWith(
+                  //       decoration: TextDecoration.underline,
+                  //       color: AppColor.blue,
+                  //       fontWeight: FontWeight.w600,
+                  //     ),
+                  //   ),
+                  // ),
+                  SizedBox(height: 20.h),
+                ],
+              ),
             ),
-            SizedBox(height: 10.h),
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 14,
-              itemBuilder: (context, index) {
-                return const ItemListWidget.logs(
-                  title: "Oil",
-                  statusLogs: StatusLogs.add,
-                  value: "12000",
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 10.h);
-              },
-            ),
-            // SizedBox(height: 5.h),
-            // Center(
-            //   child: Text(
-            //     "See more",
-            //     style: AppTheme.theme.textTheme.headline6?.copyWith(
-            //       decoration: TextDecoration.underline,
-            //       color: AppColor.blue,
-            //       fontWeight: FontWeight.w600,
-            //     ),
-            //   ),
-            // ),
-            SizedBox(height: 20.h),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return Text("data is null");
+        }
+      },
     );
   }
 
@@ -226,7 +281,6 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
             const DVPStatsItemWidget(
               title: "Side Oil",
             ),
-            
           ],
         ),
       ),
