@@ -34,6 +34,7 @@ class DatumVehicle {
   String machineNumber;
   String chassisNumber;
   List<VehicleMeasurementLogModel> vehicleMeasurementLogModels;
+  List<CategorizedVehicleLogData>? categorizedData;
 
   DatumVehicle({
     required this.id,
@@ -47,6 +48,7 @@ class DatumVehicle {
     required this.machineNumber,
     required this.chassisNumber,
     required this.vehicleMeasurementLogModels,
+    this.categorizedData,
   });
 
   factory DatumVehicle.fromJson(Map<String, dynamic> json) => DatumVehicle(
@@ -61,6 +63,7 @@ class DatumVehicle {
         machineNumber: json["machine_number"],
         chassisNumber: json["chassis_number"],
         vehicleMeasurementLogModels: List<VehicleMeasurementLogModel>.from(json["vehicle_measurement_log_models"].map((x) => VehicleMeasurementLogModel.fromJson(x))),
+        categorizedData: json["categorized_data"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -75,6 +78,7 @@ class DatumVehicle {
         "machine_number": machineNumber,
         "chassis_number": chassisNumber,
         "vehicle_measurement_log_models": List<dynamic>.from(vehicleMeasurementLogModels.map((x) => x.toJson())),
+        "categorized_data": categorizedData,
       };
 }
 
@@ -123,5 +127,33 @@ class VehicleMeasurementLogModel {
         "amount_expenses": amountExpenses,
         "checkpoint_date": checkpointDate,
         "notes": notes,
+      };
+}
+
+class CategorizedVehicleLogData {
+  String? measurementTitle;
+  List<VehicleMeasurementLogModel>? vehicleMeasurementLogModels;
+
+  CategorizedVehicleLogData({
+    this.measurementTitle,
+    this.vehicleMeasurementLogModels,
+  });
+
+  factory CategorizedVehicleLogData.fromJson(Map<String, dynamic> json) => CategorizedVehicleLogData(
+        measurementTitle: json['measurement_title'],
+        vehicleMeasurementLogModels: List<VehicleMeasurementLogModel>.from(
+          json["vehicle_measurement_log_models"].map(
+            (x) => VehicleMeasurementLogModel.fromJson(x),
+          ),
+        ),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "measurement_title": measurementTitle,
+        "vehicle_measurement_log_models": List<dynamic>.from(
+          vehicleMeasurementLogModels!.map(
+            (x) => x.toJson(),
+          ),
+        ),
       };
 }
