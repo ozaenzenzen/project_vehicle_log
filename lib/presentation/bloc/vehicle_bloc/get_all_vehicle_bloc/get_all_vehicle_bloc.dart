@@ -116,7 +116,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
         event.id,
       );
       if (getAllVehicleDataResponseModel.status == 200) {
-        VehicleLocalDataModel data = VehicleLocalDataModel(
+        VehicleLocalDataModel localData = VehicleLocalDataModel(
           listVehicleData: getAllVehicleDataResponseModel.data!.map((e) {
             return VehicleDatam(
               id: e.id,
@@ -146,10 +146,42 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
             );
           }).toList(),
         );
-        await event.vehicleLocalRepository.saveLocalVehicleData(data: data);
+        await event.vehicleLocalRepository.saveLocalVehicleData(data: localData);
+        GetAllVehicleDataResponseModel output = GetAllVehicleDataResponseModel(
+          status: 200,
+          message: "Success",
+          data: localData.listVehicleData!.map((e) {
+            return DatumVehicle(
+              id: e.id!,
+              userId: e.userId!,
+              vehicleName: e.vehicleName!,
+              vehicleImage: e.vehicleImage!,
+              year: e.year!,
+              engineCapacity: e.engineCapacity!,
+              tankCapacity: e.tankCapacity!,
+              color: e.color!,
+              machineNumber: e.machineNumber!,
+              chassisNumber: e.chassisNumber!,
+              categorizedData: _helperCategorizeFromLocalToRemote(e.vehicleMeasurementLogModels!),
+              vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!.map((e) {
+                return VehicleMeasurementLogModel(
+                  id: e.id!,
+                  userId: e.userId!,
+                  vehicleId: e.vehicleId!,
+                  measurementTitle: e.measurementTitle!,
+                  currentOdo: e.currentOdo!,
+                  estimateOdoChanging: e.estimateOdoChanging!,
+                  amountExpenses: e.amountExpenses!,
+                  checkpointDate: e.checkpointDate!,
+                  notes: e.notes!,
+                );
+              }).toList(),
+            );
+          }).toList(),
+        );
         emit(
           GetAllVehicleSuccess(
-            getAllVehicleDataResponseModel: getAllVehicleDataResponseModel,
+            getAllVehicleDataResponseModel: output,
           ),
         );
       } else {
@@ -176,40 +208,41 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     try {
       VehicleLocalDataModel vehicleLocalDataModel = await vehicleLocalRepository.getLocalVehicleData();
       if (vehicleLocalDataModel != null) {
-        emit(
-          GetAllVehicleSuccess(
-            getAllVehicleDataResponseModel: GetAllVehicleDataResponseModel(
-              status: 200,
-              message: "Success",
-              data: vehicleLocalDataModel.listVehicleData!.map((e) {
-                return DatumVehicle(
+        GetAllVehicleDataResponseModel output = GetAllVehicleDataResponseModel(
+          status: 200,
+          message: "Success",
+          data: vehicleLocalDataModel.listVehicleData!.map((e) {
+            return DatumVehicle(
+              id: e.id!,
+              userId: e.userId!,
+              vehicleName: e.vehicleName!,
+              vehicleImage: e.vehicleImage!,
+              year: e.year!,
+              engineCapacity: e.engineCapacity!,
+              tankCapacity: e.tankCapacity!,
+              color: e.color!,
+              machineNumber: e.machineNumber!,
+              chassisNumber: e.chassisNumber!,
+              categorizedData: _helperCategorizeFromLocalToRemote(e.vehicleMeasurementLogModels!),
+              vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!.map((e) {
+                return VehicleMeasurementLogModel(
                   id: e.id!,
                   userId: e.userId!,
-                  vehicleName: e.vehicleName!,
-                  vehicleImage: e.vehicleImage!,
-                  year: e.year!,
-                  engineCapacity: e.engineCapacity!,
-                  tankCapacity: e.tankCapacity!,
-                  color: e.color!,
-                  machineNumber: e.machineNumber!,
-                  chassisNumber: e.chassisNumber!,
-                  categorizedData: _helperCategorizeFromLocalToRemote(e.vehicleMeasurementLogModels!),
-                  vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!.map((e) {
-                    return VehicleMeasurementLogModel(
-                      id: e.id!,
-                      userId: e.userId!,
-                      vehicleId: e.vehicleId!,
-                      measurementTitle: e.measurementTitle!,
-                      currentOdo: e.currentOdo!,
-                      estimateOdoChanging: e.estimateOdoChanging!,
-                      amountExpenses: e.amountExpenses!,
-                      checkpointDate: e.checkpointDate!,
-                      notes: e.notes!,
-                    );
-                  }).toList(),
+                  vehicleId: e.vehicleId!,
+                  measurementTitle: e.measurementTitle!,
+                  currentOdo: e.currentOdo!,
+                  estimateOdoChanging: e.estimateOdoChanging!,
+                  amountExpenses: e.amountExpenses!,
+                  checkpointDate: e.checkpointDate!,
+                  notes: e.notes!,
                 );
               }).toList(),
-            ),
+            );
+          }).toList(),
+        );
+        emit(
+          GetAllVehicleSuccess(
+            getAllVehicleDataResponseModel: output,
           ),
         );
       } else {
