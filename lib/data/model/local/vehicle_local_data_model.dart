@@ -93,7 +93,11 @@ class VehicleDatam {
             (x) => x.toJson(),
           ),
         ),
-        "categorized_log": categorizedLog,
+        "categorized_log": List<dynamic>.from(
+          categorizedLog!.map(
+            (x) => x.toJson(),
+          ),
+        ),
       };
 }
 
