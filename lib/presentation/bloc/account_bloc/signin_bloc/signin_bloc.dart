@@ -78,7 +78,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
                     ))
                 .toList(),
           );
-          await VehicleLocalRepository.saveLocalVehicleData(data: data);
+          await event.vehicleLocalRepository.saveLocalVehicleData(data: data);
           emit(
             SigninSuccess(
               userdata: signInResponseModel.userdata!,
