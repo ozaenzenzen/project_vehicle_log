@@ -34,6 +34,7 @@ class VehicleDatam {
   String? machineNumber;
   String? chassisNumber;
   List<LocalVehicleMeasurementLogModel>? vehicleMeasurementLogModels;
+  List<LocalCategorizedVehicleLogData>? categorizedLog;
 
   VehicleDatam({
     this.id,
@@ -47,6 +48,7 @@ class VehicleDatam {
     this.machineNumber,
     this.chassisNumber,
     this.vehicleMeasurementLogModels,
+    this.categorizedLog,
   });
 
   factory VehicleDatam.fromJson(Map<String, dynamic> json) => VehicleDatam(
@@ -65,6 +67,7 @@ class VehicleDatam {
             (x) => LocalVehicleMeasurementLogModel.fromJson(x),
           ),
         ),
+        categorizedLog: json["categorized_log"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,6 +81,35 @@ class VehicleDatam {
         "color": color,
         "machine_number": machineNumber,
         "chassis_number": chassisNumber,
+        "vehicle_measurement_log_models": List<dynamic>.from(
+          vehicleMeasurementLogModels!.map(
+            (x) => x.toJson(),
+          ),
+        ),
+        "categorized_log": categorizedLog,
+      };
+}
+
+class LocalCategorizedVehicleLogData {
+  String? measurementTitle;
+  List<LocalVehicleMeasurementLogModel>? vehicleMeasurementLogModels;
+
+  LocalCategorizedVehicleLogData({
+    this.measurementTitle,
+    this.vehicleMeasurementLogModels,
+  });
+
+  factory LocalCategorizedVehicleLogData.fromJson(Map<String, dynamic> json) => LocalCategorizedVehicleLogData(
+        measurementTitle: json['measurement_title'],
+        vehicleMeasurementLogModels: List<LocalVehicleMeasurementLogModel>.from(
+          json["vehicle_measurement_log_models"].map(
+            (x) => LocalVehicleMeasurementLogModel.fromJson(x),
+          ),
+        ),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "measurement_title": measurementTitle,
         "vehicle_measurement_log_models": List<dynamic>.from(
           vehicleMeasurementLogModels!.map(
             (x) => x.toJson(),
