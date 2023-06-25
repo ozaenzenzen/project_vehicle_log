@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/data/vehicle_data_model.dart';
+import 'package:project_vehicle_log/presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/screen/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/screen/profile_screen/profile_page.dart';
@@ -16,6 +18,7 @@ import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.da
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:intl/intl.dart';
+import 'package:skeletons/skeletons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,8 +41,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late List<_ChartData> data;
   late TooltipBehavior _tooltip;
 
+  late GetAllVehicleBloc getAllVehicleBloc;
+
   @override
   void initState() {
+    getAllVehicleBloc = BlocProvider.of<GetAllVehicleBloc>(context)
+      ..add(
+        GetProfileDataVehicleAction(
+          localRepository: AccountLocalRepository(),
+        ),
+      );
     data = [
       _ChartData('David', 25),
       _ChartData('Steve', 38),
@@ -51,31 +62,46 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    // final List<ChartData> chartData = [
-    //   ChartData('David', 25),
-    //   ChartData('Steve', 38),
-    //   ChartData('Jack', 34),
-    //   ChartData('Others', 52),
-    // ];
-
-    return BlocProvider(
-      create: (context) => GetAllVehicleBloc(AppVehicleReposistory())
-        ..add(
-          GetProfileDataVehicleAction(localRepository: AccountLocalRepository()),
+  void didChangeDependencies() {
+    getAllVehicleBloc = BlocProvider.of<GetAllVehicleBloc>(context)
+      ..add(
+        GetProfileDataVehicleAction(
+          localRepository: AccountLocalRepository(),
         ),
-      child: BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
-        listener: (context, state) {
-          if (state is GetProfileDataVehicleSuccess) {
-            context.read<GetAllVehicleBloc>().add(
-                  // GetAllVehicleDataAction(
-                  //   id: state.accountDataUserModel.userId.toString(),
-                  // ),
-                  GetAllVehicleDataFromLocalAction(
-                    vehicleLocalRepository: VehicleLocalRepository(),
-                  ),
-                );
-          }
+      );
+    super.didChangeDependencies();
+  }
+
+  AccountDataUserModel? accountDataUserModelHomePage;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
+      bloc: getAllVehicleBloc,
+      listener: (context, state) {
+        if (state is GetProfileDataVehicleSuccess) {
+          accountDataUserModelHomePage = state.accountDataUserModel;
+          context.read<GetAllVehicleBloc>().add(
+                // GetAllVehicleDataAction(
+                //   id: state.accountDataUserModel.userId.toString(),
+                // ),
+                GetAllVehicleDataFromLocalAction(
+                  vehicleLocalRepository: VehicleLocalRepository(),
+                ),
+              );
+        }
+      },
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<GetAllVehicleBloc>().add(
+                GetAllVehicleDataAction(
+                  id: accountDataUserModelHomePage!.userId.toString(),
+                  vehicleLocalRepository: VehicleLocalRepository(),
+                ),
+                // GetAllVehicleDataFromLocalAction(
+                //   vehicleLocalRepository: VehicleLocalRepository(),
+                // ),
+              );
         },
         child: SingleChildScrollView(
           physics: const ScrollPhysics(),
@@ -97,13 +123,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Hi, User",
-                            style: AppTheme.theme.textTheme.headline1?.copyWith(
-                              // color: AppColor.text_4,
-                              color: Colors.black38,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          BlocBuilder<ProfileBloc, ProfileState>(
+                            bloc: BlocProvider.of<ProfileBloc>(context)
+                              ..add(
+                                GetProfileDataAction(),
+                              ),
+                            builder: (context, state) {
+                              if (state is ProfileLoading) {
+                                return SizedBox(
+                                  height: 40.h,
+                                  width: 150.w,
+                                  child: const SkeletonLine(),
+                                );
+                              } else if (state is ProfileFailed) {
+                                return Text(state.errorMessage);
+                              } else if (state is ProfileSuccess) {
+                                return Text(
+                                  "Hi, ${state.accountDataUserModel.name}",
+                                  style: AppTheme.theme.textTheme.headline1?.copyWith(
+                                    // color: AppColor.text_4,
+                                    color: Colors.black38,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  "Hi, User",
+                                  style: AppTheme.theme.textTheme.headline1?.copyWith(
+                                    // color: AppColor.text_4,
+                                    color: Colors.black38,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                );
+                              }
+                            },
                           ),
                           InkWell(
                             onTap: () {
@@ -151,9 +204,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       );
                     } else if (state is GetAllVehicleSuccess) {
                       if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
-                        return Container(
-                          child: Text("data is empty"),
-                        );
+                        return const Text("data is empty");
                       }
                       return Column(
                         children: [
