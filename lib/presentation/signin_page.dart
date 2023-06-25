@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/account/signin_request_models.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signin_bloc/signin_bloc.dart';
@@ -126,7 +127,8 @@ class _SignInPageState extends State<SignInPage> {
                                       email: emailTextFieldController.text,
                                       password: passwordTextFieldController.text,
                                     ),
-                                    appVehicleReposistory: AppVehicleReposistory()
+                                    appVehicleReposistory: AppVehicleReposistory(),
+                                    vehicleLocalRepository: VehicleLocalRepository(),
                                   ),
                                 );
                             // Get.offAll(
