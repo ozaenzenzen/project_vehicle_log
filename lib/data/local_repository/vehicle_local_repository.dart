@@ -3,7 +3,7 @@ import 'package:project_vehicle_log/data/model/local/vehicle_local_data_model.da
 import 'package:project_vehicle_log/support/local_service.dart';
 
 class VehicleLocalRepository {
-  static Future<bool> removeLocalVehicleData() async {
+  Future<bool> removeLocalVehicleData() async {
     try {
       var data = await LocalService.instance.box.read("vehicleData");
       if (data != null) {
@@ -19,7 +19,7 @@ class VehicleLocalRepository {
     }
   }
 
-  static Future<void> saveLocalVehicleData({
+  Future<void> saveLocalVehicleData({
     required VehicleLocalDataModel data,
   }) async {
     await LocalService.instance.box.write("vehicleData", data.toJson());
