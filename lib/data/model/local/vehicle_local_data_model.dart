@@ -139,6 +139,8 @@ class LocalVehicleMeasurementLogModel {
   String? amountExpenses;
   String? checkpointDate;
   String? notes;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   LocalVehicleMeasurementLogModel({
     this.id,
@@ -150,6 +152,8 @@ class LocalVehicleMeasurementLogModel {
     this.amountExpenses,
     this.checkpointDate,
     this.notes,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory LocalVehicleMeasurementLogModel.fromJson(Map<String, dynamic> json) => LocalVehicleMeasurementLogModel(
@@ -162,6 +166,8 @@ class LocalVehicleMeasurementLogModel {
         amountExpenses: json["amount_expenses"],
         checkpointDate: json["checkpoint_date"],
         notes: json["notes"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -174,5 +180,7 @@ class LocalVehicleMeasurementLogModel {
         "amount_expenses": amountExpenses,
         "checkpoint_date": checkpointDate,
         "notes": notes,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
       };
 }
