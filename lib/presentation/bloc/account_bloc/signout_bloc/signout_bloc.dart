@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 
 part 'signout_event.dart';
 part 'signout_state.dart';
@@ -11,16 +12,23 @@ class SignoutBloc extends Bloc<SignoutEvent, SignoutState> {
   SignoutBloc() : super(SignoutInitial()) {
     on<SignoutEvent>((event, emit) {
       if (event is SignoutAction) {
-        _signOutAction();
+        _signOutAction(
+          accountLocalRepository: event.accountLocalRepository,
+          vehicleLocalRepository: event.vehicleLocalRepository,
+        );
       }
     });
   }
-  Future<void> _signOutAction() async {
+  Future<void> _signOutAction({
+    required AccountLocalRepository accountLocalRepository,
+    required VehicleLocalRepository vehicleLocalRepository,
+  }) async {
     emit(SignoutLoading());
     await Future.delayed(const Duration(milliseconds: 1000));
     try {
-      await AccountLocalRepository.removeLocalAccountData();
-      await AccountLocalRepository.signOutSaved();
+      await accountLocalRepository.removeLocalAccountData();
+      await accountLocalRepository.signOutSaved();
+      await vehicleLocalRepository.removeLocalVehicleData();
       emit(SignoutSuccess());
     } catch (errorMessage) {
       emit(
