@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/detail_vehicle_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -9,20 +10,23 @@ class ItemListWidget extends StatefulWidget {
   final String? title;
   final StatusLogs? statusLogs;
   final String? value;
+  final VehicleMeasurementLogModel? vehicleMeasurementLogModels;
 
   const ItemListWidget({
     Key? key,
     required this.title,
     required this.value,
   })  : statusLogs = null,
+        vehicleMeasurementLogModels = null,
         super(key: key);
 
   const ItemListWidget.logs({
     Key? key,
     required this.title,
     required this.statusLogs,
-    required this.value,
-  }) : super(key: key);
+    required this.vehicleMeasurementLogModels,
+  })  : value = null,
+        super(key: key);
 
   @override
   State<ItemListWidget> createState() => _ItemListWidgetState();
@@ -43,6 +47,22 @@ class _ItemListWidgetState extends State<ItemListWidget> {
     } else {
       statusColor = AppColor.red;
       statusTitle = "Delete";
+    }
+  }
+
+  String convertToAgo(DateTime input) {
+    Duration diff = DateTime.now().difference(input);
+
+    if (diff.inDays >= 1) {
+      return '${diff.inDays} day(s) ago';
+    } else if (diff.inHours >= 1) {
+      return '${diff.inHours} hour(s) ago';
+    } else if (diff.inMinutes >= 1) {
+      return '${diff.inMinutes} minute(s) ago';
+    } else if (diff.inSeconds >= 1) {
+      return '${diff.inSeconds} second(s) ago';
+    } else {
+      return 'just now';
     }
   }
 
@@ -127,7 +147,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatter.format(DateTime.now()),
+                      formatter.format(widget.vehicleMeasurementLogModels!.createdAt),
                       style: AppTheme.theme.textTheme.headline6?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -135,7 +155,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     Text(
-                      "2 days ago",
+                      convertToAgo(widget.vehicleMeasurementLogModels!.createdAt),
                       style: AppTheme.theme.textTheme.headline6?.copyWith(
                         // color: AppColor.text_4,
                         fontSize: 12,
@@ -184,7 +204,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      widget.value!,
+                      widget.vehicleMeasurementLogModels!.estimateOdoChanging,
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -231,7 +251,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      formatter.format(DateTime.now()),
+                      formatter.format(widget.vehicleMeasurementLogModels!.updatedAt),
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -278,7 +298,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      widget.value!,
+                      widget.vehicleMeasurementLogModels!.amountExpenses,
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -325,7 +345,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                      // "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                      widget.vehicleMeasurementLogModels!.notes,
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
