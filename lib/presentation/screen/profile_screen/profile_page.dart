@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/dummy_data_profile.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signout_bloc/signout_bloc.dart';
 import 'package:project_vehicle_log/presentation/screen/profile_screen/edit_profile_page.dart';
@@ -429,7 +430,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     }
                     return InkWell(
                       onTap: () {
-                        context.read<SignoutBloc>().add(SignoutAction());
+                        context.read<SignoutBloc>().add(SignoutAction(
+                          accountLocalRepository: AccountLocalRepository(),
+                          vehicleLocalRepository: VehicleLocalRepository(),
+                        ));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
