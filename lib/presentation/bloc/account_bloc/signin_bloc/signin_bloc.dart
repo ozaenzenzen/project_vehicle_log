@@ -24,6 +24,45 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
     });
   }
 
+  List<LocalCategorizedVehicleLogData> _helperCategorizeFromRemoteToLocal(List<VehicleMeasurementLogModel> vehicleMeasurementLogModels) {
+    Map<String, List<VehicleMeasurementLogModel>> categorizedData = {};
+    List<LocalCategorizedVehicleLogData> categorizedDataAsList = [];
+    for (VehicleMeasurementLogModel item in vehicleMeasurementLogModels) {
+      String category = item.measurementTitle;
+      if (!categorizedData.containsKey(category)) {
+        categorizedData[category] = [];
+      }
+      categorizedData[category]!.add(item);
+    }
+
+    // categorizedData.forEach((category, items) {
+    //   debugPrint('Category: $category');
+    //   debugPrint('Items: $items');
+    //   debugPrint('--------');
+    // });
+
+    // categorizedDataAsList = categorizedData.entries.map((e) => e.value).toList();
+    categorizedDataAsList = categorizedData.entries.map((e) {
+      return LocalCategorizedVehicleLogData(
+        measurementTitle: e.key,
+        vehicleMeasurementLogModels: e.value.map((e) {
+          return LocalVehicleMeasurementLogModel(
+            id: e.id,
+            userId: e.userId,
+            vehicleId: e.vehicleId,
+            measurementTitle: e.measurementTitle,
+            currentOdo: e.currentOdo,
+            estimateOdoChanging: e.estimateOdoChanging,
+            amountExpenses: e.amountExpenses,
+            checkpointDate: e.checkpointDate,
+            notes: e.notes,
+          );
+        }).toList(),
+      );
+    }).toList();
+    return categorizedDataAsList;
+  }
+
   Future<void> _signInAction(
     AppAccountReposistory accountReposistory,
     SigninAction event,
@@ -62,6 +101,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
                       color: e.color,
                       machineNumber: e.machineNumber,
                       chassisNumber: e.chassisNumber,
+                      categorizedLog: _helperCategorizeFromRemoteToLocal(e.vehicleMeasurementLogModels),
                       vehicleMeasurementLogModels: e.vehicleMeasurementLogModels
                           .map((e) => LocalVehicleMeasurementLogModel(
                                 id: e.id,
