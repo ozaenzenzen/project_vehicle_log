@@ -368,7 +368,8 @@ class ListMeasurementWidget extends StatelessWidget {
       // itemCount: 6,
       // itemCount: DummyData.dummyData[0].listControl!.length,
       // itemCount: data.listControl?.length,
-      itemCount: data.vehicleMeasurementLogModels.length,
+      // itemCount: data.vehicleMeasurementLogModels.length,
+      itemCount: data.categorizedData!.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
@@ -393,7 +394,8 @@ class ListMeasurementWidget extends StatelessWidget {
                 Text(
                   // "Oil",
                   // data.listControl![index],
-                  data.vehicleMeasurementLogModels[index].measurementTitle,
+                  // data.vehicleMeasurementLogModels[index].measurementTitle,
+                  data.categorizedData![index].measurementTitle!,
                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
