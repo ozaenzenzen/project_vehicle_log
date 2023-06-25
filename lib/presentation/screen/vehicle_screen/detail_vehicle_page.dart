@@ -214,7 +214,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                       return ItemListWidget.logs(
                         title: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].measurementTitle,
                         statusLogs: StatusLogs.add,
-                        value: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].currentOdo,
+                        vehicleMeasurementLogModels: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index],
                       );
                     },
                     separatorBuilder: (context, index) {
