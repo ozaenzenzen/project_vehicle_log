@@ -62,8 +62,17 @@ class DatumVehicle {
         color: json["color"],
         machineNumber: json["machine_number"],
         chassisNumber: json["chassis_number"],
-        vehicleMeasurementLogModels: List<VehicleMeasurementLogModel>.from(json["vehicle_measurement_log_models"].map((x) => VehicleMeasurementLogModel.fromJson(x))),
-        categorizedData: json["categorized_data"],
+        vehicleMeasurementLogModels: List<VehicleMeasurementLogModel>.from(
+          json["vehicle_measurement_log_models"].map(
+            (x) => VehicleMeasurementLogModel.fromJson(x),
+          ),
+        ),
+        // categorizedData: json["categorized_data"],
+        categorizedData: (json["categorized_data"] == null) ? null : List<CategorizedVehicleLogData>.from(
+          json["categorized_data"].map(
+            (x) => CategorizedVehicleLogData.fromJson(x),
+          ),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
