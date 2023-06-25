@@ -3,7 +3,7 @@ import 'package:project_vehicle_log/data/model/local/account_user_data_model.dar
 import 'package:project_vehicle_log/support/local_service.dart';
 
 class AccountLocalRepository {
-  static Future<bool> removeLocalAccountData() async {
+  Future<bool> removeLocalAccountData() async {
     try {
       var data = await LocalService.instance.box.read("userData");
       if (data != null) {
@@ -51,7 +51,7 @@ class AccountLocalRepository {
     debugPrint("[signInSaved] isSignIn ${LocalService.instance.box.read("isSignIn")}");
   }
 
-  static Future<void> signOutSaved() async {
+  Future<void> signOutSaved() async {
     await LocalService.instance.box.write("isSignIn", false);
     debugPrint("[signOutSaved] isSignIn ${LocalService.instance.box.read("isSignIn")}");
   }
