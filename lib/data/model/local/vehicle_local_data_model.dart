@@ -67,7 +67,14 @@ class VehicleDatam {
             (x) => LocalVehicleMeasurementLogModel.fromJson(x),
           ),
         ),
-        categorizedLog: json["categorized_log"],
+        // categorizedLog: json["categorized_log"],
+        categorizedLog: (json["categorized_log"] == null)
+            ? null
+            : List<LocalCategorizedVehicleLogData>.from(
+                json["categorized_log"].map(
+                  (x) => LocalCategorizedVehicleLogData.fromJson(x),
+                ),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
