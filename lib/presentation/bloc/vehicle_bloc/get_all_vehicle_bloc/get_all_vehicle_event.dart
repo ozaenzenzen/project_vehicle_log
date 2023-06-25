@@ -5,9 +5,11 @@ abstract class GetAllVehicleEvent {}
 
 class GetAllVehicleDataAction extends GetAllVehicleEvent {
   final String id;
+  final VehicleLocalRepository vehicleLocalRepository;
 
   GetAllVehicleDataAction({
     required this.id,
+    required this.vehicleLocalRepository,
   });
 }
 

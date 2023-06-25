@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
@@ -25,6 +25,86 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     });
   }
 
+  List<LocalCategorizedVehicleLogData> _helperCategorizeFromRemoteToLocal(List<VehicleMeasurementLogModel> vehicleMeasurementLogModels) {
+    Map<String, List<VehicleMeasurementLogModel>> categorizedData = {};
+    List<LocalCategorizedVehicleLogData> categorizedDataAsList = [];
+    for (VehicleMeasurementLogModel item in vehicleMeasurementLogModels) {
+      String category = item.measurementTitle;
+      if (!categorizedData.containsKey(category)) {
+        categorizedData[category] = [];
+      }
+      categorizedData[category]!.add(item);
+    }
+
+    // categorizedData.forEach((category, items) {
+    //   debugPrint('Category: $category');
+    //   debugPrint('Items: $items');
+    //   debugPrint('--------');
+    // });
+
+    // categorizedDataAsList = categorizedData.entries.map((e) => e.value).toList();
+    categorizedDataAsList = categorizedData.entries.map((e) {
+      return LocalCategorizedVehicleLogData(
+        measurementTitle: e.key,
+        vehicleMeasurementLogModels: e.value.map((e) {
+          return LocalVehicleMeasurementLogModel(
+            id: e.id,
+            userId: e.userId,
+            vehicleId: e.vehicleId,
+            measurementTitle: e.measurementTitle,
+            currentOdo: e.currentOdo,
+            estimateOdoChanging: e.estimateOdoChanging,
+            amountExpenses: e.amountExpenses,
+            checkpointDate: e.checkpointDate,
+            notes: e.notes,
+          );
+        }).toList(),
+      );
+    }).toList();
+    return categorizedDataAsList;
+  }
+
+  List<CategorizedVehicleLogData> _helperCategorizeFromLocalToRemote(List<LocalVehicleMeasurementLogModel> vehicleMeasurementLogModels) {
+    Map<String, List<LocalVehicleMeasurementLogModel>> categorizedDataLocal = {};
+    List<CategorizedVehicleLogData> categorizedDataLocalAsList = [];
+    for (LocalVehicleMeasurementLogModel item in vehicleMeasurementLogModels) {
+      String category = item.measurementTitle!;
+      if (!categorizedDataLocal.containsKey(category)) {
+        categorizedDataLocal[category] = [];
+      }
+      categorizedDataLocal[category]!.add(item);
+    }
+    debugPrint("categorizedDataLocal $categorizedDataLocal");
+
+    // categorizedDataLocal.forEach((category, items) {
+    //   debugPrint('Category: $category');
+    //   debugPrint('Items: $items');
+    //   debugPrint('--------');
+    // });
+
+    // categorizedDataLocalAsList = categorizedDataLocal.entries.map((e) => e.value).toList();
+    categorizedDataLocalAsList = categorizedDataLocal.entries.map((e) {
+      return CategorizedVehicleLogData(
+        measurementTitle: e.key,
+        vehicleMeasurementLogModels: e.value.map((en) {
+          return VehicleMeasurementLogModel(
+            id: en.id!,
+            userId: en.userId!,
+            vehicleId: en.vehicleId!,
+            measurementTitle: en.measurementTitle!,
+            currentOdo: en.currentOdo!,
+            estimateOdoChanging: en.estimateOdoChanging!,
+            amountExpenses: en.amountExpenses!,
+            checkpointDate: en.checkpointDate!,
+            notes: en.notes!,
+          );
+        }).toList(),
+      );
+    }).toList();
+
+    return categorizedDataLocalAsList;
+  }
+
   Future<void> _getAllVehicleAction(
     AppVehicleReposistory appVehicleReposistory,
     GetAllVehicleDataAction event,
@@ -37,35 +117,36 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
       );
       if (getAllVehicleDataResponseModel.status == 200) {
         VehicleLocalDataModel data = VehicleLocalDataModel(
-          listVehicleData: getAllVehicleDataResponseModel.data!
-              .map((e) => VehicleDatam(
-                    id: e.id,
-                    userId: e.userId,
-                    vehicleName: e.vehicleName,
-                    vehicleImage: e.vehicleImage,
-                    year: e.year,
-                    engineCapacity: e.engineCapacity,
-                    tankCapacity: e.tankCapacity,
-                    color: e.color,
-                    machineNumber: e.machineNumber,
-                    chassisNumber: e.chassisNumber,
-                    vehicleMeasurementLogModels: e.vehicleMeasurementLogModels
-                        .map((e) => LocalVehicleMeasurementLogModel(
-                              id: e.id,
-                              userId: e.userId,
-                              vehicleId: e.vehicleId,
-                              measurementTitle: e.measurementTitle,
-                              currentOdo: e.currentOdo,
-                              estimateOdoChanging: e.estimateOdoChanging,
-                              amountExpenses: e.amountExpenses,
-                              checkpointDate: e.checkpointDate,
-                              notes: e.notes,
-                            ))
-                        .toList(),
-                  ))
-              .toList(),
+          listVehicleData: getAllVehicleDataResponseModel.data!.map((e) {
+            return VehicleDatam(
+              id: e.id,
+              userId: e.userId,
+              vehicleName: e.vehicleName,
+              vehicleImage: e.vehicleImage,
+              year: e.year,
+              engineCapacity: e.engineCapacity,
+              tankCapacity: e.tankCapacity,
+              color: e.color,
+              machineNumber: e.machineNumber,
+              chassisNumber: e.chassisNumber,
+              categorizedLog: _helperCategorizeFromRemoteToLocal(e.vehicleMeasurementLogModels),
+              vehicleMeasurementLogModels: e.vehicleMeasurementLogModels.map((e) {
+                return LocalVehicleMeasurementLogModel(
+                  id: e.id,
+                  userId: e.userId,
+                  vehicleId: e.vehicleId,
+                  measurementTitle: e.measurementTitle,
+                  currentOdo: e.currentOdo,
+                  estimateOdoChanging: e.estimateOdoChanging,
+                  amountExpenses: e.amountExpenses,
+                  checkpointDate: e.checkpointDate,
+                  notes: e.notes,
+                );
+              }).toList(),
+            );
+          }).toList(),
         );
-        await VehicleLocalRepository.saveLocalVehicleData(data: data);
+        await event.vehicleLocalRepository.saveLocalVehicleData(data: data);
         emit(
           GetAllVehicleSuccess(
             getAllVehicleDataResponseModel: getAllVehicleDataResponseModel,
@@ -100,37 +181,34 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
             getAllVehicleDataResponseModel: GetAllVehicleDataResponseModel(
               status: 200,
               message: "Success",
-              data: vehicleLocalDataModel.listVehicleData!
-                  .map(
-                    (e) => DatumVehicle(
+              data: vehicleLocalDataModel.listVehicleData!.map((e) {
+                return DatumVehicle(
+                  id: e.id!,
+                  userId: e.userId!,
+                  vehicleName: e.vehicleName!,
+                  vehicleImage: e.vehicleImage!,
+                  year: e.year!,
+                  engineCapacity: e.engineCapacity!,
+                  tankCapacity: e.tankCapacity!,
+                  color: e.color!,
+                  machineNumber: e.machineNumber!,
+                  chassisNumber: e.chassisNumber!,
+                  categorizedData: _helperCategorizeFromLocalToRemote(e.vehicleMeasurementLogModels!),
+                  vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!.map((e) {
+                    return VehicleMeasurementLogModel(
                       id: e.id!,
                       userId: e.userId!,
-                      vehicleName: e.vehicleName!,
-                      vehicleImage: e.vehicleImage!,
-                      year: e.year!,
-                      engineCapacity: e.engineCapacity!,
-                      tankCapacity: e.tankCapacity!,
-                      color: e.color!,
-                      machineNumber: e.machineNumber!,
-                      chassisNumber: e.chassisNumber!,
-                      vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!
-                          .map(
-                            (e) => VehicleMeasurementLogModel(
-                              id: e.id!,
-                              userId: e.userId!,
-                              vehicleId: e.vehicleId!,
-                              measurementTitle: e.measurementTitle!,
-                              currentOdo: e.currentOdo!,
-                              estimateOdoChanging: e.estimateOdoChanging!,
-                              amountExpenses: e.amountExpenses!,
-                              checkpointDate: e.checkpointDate!,
-                              notes: e.notes!,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  )
-                  .toList(),
+                      vehicleId: e.vehicleId!,
+                      measurementTitle: e.measurementTitle!,
+                      currentOdo: e.currentOdo!,
+                      estimateOdoChanging: e.estimateOdoChanging!,
+                      amountExpenses: e.amountExpenses!,
+                      checkpointDate: e.checkpointDate!,
+                      notes: e.notes!,
+                    );
+                  }).toList(),
+                );
+              }).toList(),
             ),
           ),
         );
