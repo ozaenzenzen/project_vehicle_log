@@ -56,6 +56,8 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
             amountExpenses: e.amountExpenses,
             checkpointDate: e.checkpointDate,
             notes: e.notes,
+            createdAt: e.createdAt,
+            updatedAt: e.updatedAt,
           );
         }).toList(),
       );
@@ -103,17 +105,21 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
                       chassisNumber: e.chassisNumber,
                       categorizedLog: _helperCategorizeFromRemoteToLocal(e.vehicleMeasurementLogModels),
                       vehicleMeasurementLogModels: e.vehicleMeasurementLogModels
-                          .map((e) => LocalVehicleMeasurementLogModel(
-                                id: e.id,
-                                userId: e.userId,
-                                vehicleId: e.vehicleId,
-                                measurementTitle: e.measurementTitle,
-                                currentOdo: e.currentOdo,
-                                estimateOdoChanging: e.estimateOdoChanging,
-                                amountExpenses: e.amountExpenses,
-                                checkpointDate: e.checkpointDate,
-                                notes: e.notes,
-                              ))
+                          .map(
+                            (e) => LocalVehicleMeasurementLogModel(
+                              id: e.id,
+                              userId: e.userId,
+                              vehicleId: e.vehicleId,
+                              measurementTitle: e.measurementTitle,
+                              currentOdo: e.currentOdo,
+                              estimateOdoChanging: e.estimateOdoChanging,
+                              amountExpenses: e.amountExpenses,
+                              checkpointDate: e.checkpointDate,
+                              notes: e.notes,
+                              createdAt: e.createdAt,
+                              updatedAt: e.updatedAt,
+                            ),
+                          )
                           .toList(),
                     ))
                 .toList(),
