@@ -74,7 +74,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
       }
       categorizedDataLocal[category]!.add(item);
     }
-    debugPrint("categorizedDataLocal $categorizedDataLocal");
+    // debugPrint("categorizedDataLocal $categorizedDataLocal");
 
     // categorizedDataLocal.forEach((category, items) {
     //   debugPrint('Category: $category');
