@@ -68,11 +68,13 @@ class DatumVehicle {
           ),
         ),
         // categorizedData: json["categorized_data"],
-        categorizedData: (json["categorized_data"] == null) ? null : List<CategorizedVehicleLogData>.from(
-          json["categorized_data"].map(
-            (x) => CategorizedVehicleLogData.fromJson(x),
-          ),
-        ),
+        categorizedData: (json["categorized_data"] == null)
+            ? null
+            : List<CategorizedVehicleLogData>.from(
+                json["categorized_data"].map(
+                  (x) => CategorizedVehicleLogData.fromJson(x),
+                ),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -101,6 +103,8 @@ class VehicleMeasurementLogModel {
   String amountExpenses;
   String checkpointDate;
   String notes;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   VehicleMeasurementLogModel({
     required this.id,
@@ -112,6 +116,8 @@ class VehicleMeasurementLogModel {
     required this.amountExpenses,
     required this.checkpointDate,
     required this.notes,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory VehicleMeasurementLogModel.fromJson(Map<String, dynamic> json) => VehicleMeasurementLogModel(
@@ -124,6 +130,8 @@ class VehicleMeasurementLogModel {
         amountExpenses: json["amount_expenses"],
         checkpointDate: json["checkpoint_date"],
         notes: json["notes"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -136,6 +144,8 @@ class VehicleMeasurementLogModel {
         "amount_expenses": amountExpenses,
         "checkpoint_date": checkpointDate,
         "notes": notes,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
       };
 }
 
