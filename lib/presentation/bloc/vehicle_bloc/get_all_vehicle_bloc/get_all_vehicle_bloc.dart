@@ -57,6 +57,8 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
             amountExpenses: e.amountExpenses,
             checkpointDate: e.checkpointDate,
             notes: e.notes,
+            createdAt: e.createdAt,
+            updatedAt: e.updatedAt,
           );
         }).toList(),
       );
@@ -97,6 +99,8 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
             amountExpenses: en.amountExpenses!,
             checkpointDate: en.checkpointDate!,
             notes: en.notes!,
+            createdAt: en.createdAt!,
+            updatedAt: en.updatedAt!,
           );
         }).toList(),
       );
@@ -141,6 +145,8 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
                   amountExpenses: e.amountExpenses,
                   checkpointDate: e.checkpointDate,
                   notes: e.notes,
+                  createdAt: e.createdAt,
+                  updatedAt: e.updatedAt,
                 );
               }).toList(),
             );
@@ -148,8 +154,8 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
         );
         await event.vehicleLocalRepository.saveLocalVehicleData(data: localData);
         GetAllVehicleDataResponseModel output = GetAllVehicleDataResponseModel(
-          status: 200,
-          message: "Success",
+          status: getAllVehicleDataResponseModel.status,
+          message: getAllVehicleDataResponseModel.message,
           data: localData.listVehicleData!.map((e) {
             return DatumVehicle(
               id: e.id!,
@@ -174,6 +180,8 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
                   amountExpenses: e.amountExpenses!,
                   checkpointDate: e.checkpointDate!,
                   notes: e.notes!,
+                  createdAt: e.createdAt!,
+                  updatedAt: e.updatedAt!,
                 );
               }).toList(),
             );
@@ -235,6 +243,8 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
                   amountExpenses: e.amountExpenses!,
                   checkpointDate: e.checkpointDate!,
                   notes: e.notes!,
+                  createdAt: e.createdAt!,
+                  updatedAt: e.updatedAt!,
                 );
               }).toList(),
             );
