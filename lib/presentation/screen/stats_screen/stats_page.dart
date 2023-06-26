@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,8 +26,9 @@ class _StatsPageState extends State<StatsPage> {
   // String? dropDownValue = DummyData.dummyData.first.vehicleName;
   // VehicleDataModel dropDownValue = DummyData.dummyData.first;
   List<DatumVehicle>? dataStats;
-  String? dropDownValue = "";
-  // int indexChosen = 0;
+  // String? dropDownValue = "";
+  DatumVehicle? dropDownValue;
+  int indexChosen = 0;
 
   FocusNode dropDownFocusNode = FocusNode();
 
@@ -88,7 +91,7 @@ class _StatsPageState extends State<StatsPage> {
                 listener: (context, state) {
                   // debugPrint("listen something $state");
                   if (state is GetAllVehicleSuccess) {
-                    dropDownValue = state.getAllVehicleDataResponseModel.data!.first.vehicleName;
+                    dropDownValue = state.getAllVehicleDataResponseModel.data!.first;
                   }
                 },
                 child: BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
@@ -106,22 +109,11 @@ class _StatsPageState extends State<StatsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 20.h),
-                          DropdownButtonFormField<String>(
+                          DropdownButtonFormField<DatumVehicle>(
                             focusNode: dropDownFocusNode,
-                            // items: DummyData.dummyData.map((VehicleDataModel e) {
-                            //   return DropdownMenuItem(
-                            //     value: e.vehicleName,
-                            //     child: Text(
-                            //       "${e.vehicleName}",
-                            //       style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                            //         fontWeight: FontWeight.w500,
-                            //       ),
-                            //     ),
-                            //   );
-                            // }).toList(),
                             items: state.getAllVehicleDataResponseModel.data?.map((DatumVehicle e) {
-                              return DropdownMenuItem(
-                                value: e.vehicleName,
+                              return DropdownMenuItem<DatumVehicle>(
+                                value: e,
                                 child: Text(
                                   e.vehicleName,
                                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
@@ -133,12 +125,12 @@ class _StatsPageState extends State<StatsPage> {
                             onChanged: (value) {
                               debugPrint("on changed $value");
                               setState(() {
-                                dropDownValue = value!;
+                                dropDownValue = value;
                               });
                               dropDownFocusNode.unfocus();
                             },
                             // value: dropDownValue,
-                            value: state.getAllVehicleDataResponseModel.data!.first.vehicleName,
+                            value: state.getAllVehicleDataResponseModel.data!.first,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -160,12 +152,12 @@ class _StatsPageState extends State<StatsPage> {
                             itemCount: state
                                 .getAllVehicleDataResponseModel
                                 .data![(state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
-                                          return element.vehicleName == dropDownValue;
+                                          return element == dropDownValue;
                                         }) <
                                         0)
                                     ? 0
                                     : state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
-                                        return element.vehicleName == dropDownValue;
+                                        return element == dropDownValue;
                                       })]
                                 .categorizedData!
                                 .length,
@@ -183,13 +175,13 @@ class _StatsPageState extends State<StatsPage> {
                                   Get.to(
                                     () => DetailMeasurementPage(
                                       // data: state.getAllVehicleDataResponseModel.data![index],
-                                      data: state.getAllVehicleDataResponseModel.data![(state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
-                                                return element.vehicleName == dropDownValue;
+                                      data: state.getAllVehicleDataResponseModel.data![(state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                                return element == dropDownValue;
                                               }) <
                                               0)
                                           ? 0
-                                          : state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
-                                              return element.vehicleName == dropDownValue;
+                                          : state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                              return element == dropDownValue;
                                             })],
                                       index: index,
                                     ),
@@ -216,13 +208,13 @@ class _StatsPageState extends State<StatsPage> {
                                           //     .listControl![index],
                                           state
                                               .getAllVehicleDataResponseModel
-                                              .data![(state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
-                                                        return element.vehicleName == dropDownValue;
+                                              .data![(state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                                        return element == dropDownValue;
                                                       }) <
                                                       0)
                                                   ? 0
-                                                  : state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
-                                                      return element.vehicleName == dropDownValue;
+                                                  : state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                                      return element == dropDownValue;
                                                     })]
                                               .categorizedData![index]
                                               .measurementTitle!,
