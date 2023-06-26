@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             color: AppColor.shape,
             padding: EdgeInsets.all(16.h),
             alignment: Alignment.center,
-            // height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
