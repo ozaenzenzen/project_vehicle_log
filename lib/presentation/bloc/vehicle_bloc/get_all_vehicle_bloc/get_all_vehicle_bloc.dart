@@ -187,11 +187,19 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
             );
           }).toList(),
         );
-        emit(
-          GetAllVehicleSuccess(
-            getAllVehicleDataResponseModel: output,
-          ),
-        );
+        if (output.data!.isEmpty) {
+          emit(
+            GetAllVehicleFailed(
+              errorMessage: "Data is empty",
+            ),
+          );
+        } else {
+          emit(
+            GetAllVehicleSuccess(
+              getAllVehicleDataResponseModel: output,
+            ),
+          );
+        }
       } else {
         emit(
           GetAllVehicleFailed(
@@ -250,11 +258,19 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
             );
           }).toList(),
         );
-        emit(
-          GetAllVehicleSuccess(
-            getAllVehicleDataResponseModel: output,
-          ),
-        );
+        if (output.data!.isEmpty) {
+          emit(
+            GetAllVehicleFailed(
+              errorMessage: "Data is empty",
+            ),
+          );
+        } else {
+          emit(
+            GetAllVehicleSuccess(
+              getAllVehicleDataResponseModel: output,
+            ),
+          );
+        }
       } else {
         emit(
           GetAllVehicleFailed(
