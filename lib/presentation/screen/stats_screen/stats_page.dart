@@ -86,6 +86,7 @@ class _StatsPageState extends State<StatsPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              SizedBox(height: 20.h),
               BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
                 bloc: getAllVehicleBloc,
                 listener: (context, state) {
@@ -103,12 +104,9 @@ class _StatsPageState extends State<StatsPage> {
                     } else if (state is GetAllVehicleFailed) {
                       return Text(state.errorMessage);
                     } else if (state is GetAllVehicleSuccess) {
-                      // dataStats = state.getAllVehicleDataResponseModel.data;
-                      // dropDownValue = dataStats!.first.vehicleName;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 20.h),
                           DropdownButtonFormField<DatumVehicle>(
                             focusNode: dropDownFocusNode,
                             items: state.getAllVehicleDataResponseModel.data?.map((DatumVehicle e) {
