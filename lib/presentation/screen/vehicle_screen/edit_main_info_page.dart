@@ -76,7 +76,7 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                     imagePickedInBase64 = await AppImagePickerService.getImageAsBase64().then(
                       (value) {
                         setState(() {});
-                        return value;
+                        return value!;
                       },
                     );
                   },
