@@ -92,7 +92,11 @@ class _StatsPageState extends State<StatsPage> {
                 listener: (context, state) {
                   // debugPrint("listen something $state");
                   if (state is GetAllVehicleSuccess) {
-                    dropDownValue = state.getAllVehicleDataResponseModel.data!.first;
+                    if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
+                      dropDownValue = null;
+                    } else {
+                      dropDownValue = state.getAllVehicleDataResponseModel.data!.first;
+                    }
                   }
                 },
                 child: BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
@@ -104,6 +108,9 @@ class _StatsPageState extends State<StatsPage> {
                     } else if (state is GetAllVehicleFailed) {
                       return Text(state.errorMessage);
                     } else if (state is GetAllVehicleSuccess) {
+                      if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
+                        return const Text("data is empty");
+                      }
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
