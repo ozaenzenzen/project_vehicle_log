@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/add_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/dvp_stats_item_widget.dart';
@@ -18,10 +19,12 @@ enum StatusLogs { add, update, delete }
 
 class DetailVehiclePage extends StatefulWidget {
   final int index;
+  final DatumVehicle datumVehicle;
 
   const DetailVehiclePage({
     Key? key,
     required this.index,
+    required this.datumVehicle,
   }) : super(key: key);
 
   @override
@@ -305,7 +308,9 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
           SizedBox(height: 10.h),
           AppMainButtonWidget(
             onPressed: () {
-              Get.to(() => const AddMeasurementPage());
+              Get.to(() => AddMeasurementPage(
+                vehicleId: widget.datumVehicle.id,
+              ));
             },
             text: "Add Now",
           ),

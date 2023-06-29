@@ -97,7 +97,12 @@ class _VehiclePageState extends State<VehiclePage> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              Get.to(() => DetailVehiclePage(index: index));
+                              Get.to(
+                                () => DetailVehiclePage(
+                                  index: index,
+                                  datumVehicle: state.getAllVehicleDataResponseModel.data![index],
+                                ),
+                              );
                             },
                             child: Container(
                               // height: 120.h,
