@@ -292,7 +292,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                       }
                       return AppMainButtonWidget(
                         onPressed: () {
-                          debugPrint("stest");
                           if (accountDataUserModel!.userId == null ||
                               vehicleNameController.text.isEmpty ||
                               imagePickedInBase64 == "" ||
