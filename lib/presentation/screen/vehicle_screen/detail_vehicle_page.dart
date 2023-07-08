@@ -38,6 +38,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
 
   late GetAllVehicleBloc getAllVehicleBloc;
 
+  List<VehicleMeasurementLogModel> sortedListLogs = [];
+
   @override
   void initState() {
     super.initState();
@@ -186,6 +188,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
         } else if (state is GetAllVehicleFailed) {
           return Text(state.errorMessage);
         } else if (state is GetAllVehicleSuccess) {
+          sortedListLogs = state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels;
+          sortedListLogs.sort((a, b) => b.createdAt.compareTo(a.createdAt));
           return SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(16.h),
@@ -212,12 +216,15 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels.length,
+                    // itemCount: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels.length,
+                    itemCount: sortedListLogs.length,
                     itemBuilder: (context, index) {
                       return ItemListWidget.logs(
-                        title: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].measurementTitle,
+                        // title: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].measurementTitle,
+                        title: sortedListLogs[index].measurementTitle,
                         statusLogs: StatusLogs.add,
-                        vehicleMeasurementLogModels: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index],
+                        // vehicleMeasurementLogModels: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index],
+                        vehicleMeasurementLogModels: sortedListLogs[index],
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -309,8 +316,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
           AppMainButtonWidget(
             onPressed: () {
               Get.to(() => AddMeasurementPage(
-                vehicleId: widget.datumVehicle.id,
-              ));
+                    vehicleId: widget.datumVehicle.id,
+                  ));
             },
             text: "Add Now",
           ),
