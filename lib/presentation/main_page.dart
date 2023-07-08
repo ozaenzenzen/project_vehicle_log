@@ -28,24 +28,24 @@ class _MainPageState extends State<MainPage> {
     debugPrint("index masuk $index");
     if (index == 0) {
       indexClicked = 0;
-      pageController.animateToPage(
+      pageController.jumpToPage(
         0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+        // duration: const Duration(milliseconds: 300),
+        // curve: Curves.ease,
       );
     } else if (index == 1) {
       indexClicked = 1;
-      pageController.animateToPage(
+      pageController.jumpToPage(
         1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+        // duration: const Duration(milliseconds: 300),
+        // curve: Curves.ease,
       );
     } else if (index == 2) {
       indexClicked = 2;
-      pageController.animateToPage(
+      pageController.jumpToPage(
         2,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+        // duration: const Duration(milliseconds: 300),
+        // curve: Curves.ease,
       );
     } else {
       Get.to(() => const ProfilePage());
