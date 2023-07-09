@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/edit_measurement_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -14,7 +15,7 @@ class SalesData {
 
 class DVPStatsItemWidget extends StatefulWidget {
   final String? title;
-  final dynamic data;
+  final CategorizedVehicleLogData? data;
 
   const DVPStatsItemWidget({
     Key? key,
@@ -63,12 +64,11 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      // color: AppColor.green,
-                      color: AppColor.primary,
-                    ),
-                    borderRadius: BorderRadius.circular(4)
-                  ),
+                      border: Border.all(
+                        // color: AppColor.green,
+                        color: AppColor.primary,
+                      ),
+                      borderRadius: BorderRadius.circular(4)),
                   padding: EdgeInsets.all(8.h),
                   child: Text(
                     "Update",
@@ -92,23 +92,38 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
             legend: Legend(isVisible: true),
             // Enable tooltip
             tooltipBehavior: _tooltipBehavior,
-            series: <LineSeries<SalesData, String>>[
-              LineSeries<SalesData, String>(
-                dataSource: <SalesData>[
-                  SalesData('Jan', 20000),
-                  SalesData('Feb', 28000),
-                  SalesData('Mar', 32000),
-                  SalesData('Apr', 35000),
-                  SalesData('May', 30000),
-                ],
-                xValueMapper: (SalesData sales, _) => sales.year,
-                yValueMapper: (SalesData sales, _) => sales.sales,
+            series: <LineSeries<VehicleMeasurementLogModel, String>>[
+              LineSeries<VehicleMeasurementLogModel, String>(
+                dataSource: widget.data!.vehicleMeasurementLogModels!,
+                xValueMapper: (VehicleMeasurementLogModel sales, _) {
+                  return sales.createdAt.toString();
+                },
+                yValueMapper: (VehicleMeasurementLogModel sales, _) {
+                  return int.parse((sales.amountExpenses == "") ? "0" : sales.amountExpenses);
+                },
                 // Enable data label
-                dataLabelSettings: DataLabelSettings(
+                dataLabelSettings: const DataLabelSettings(
                   isVisible: true,
                 ),
               )
             ],
+            // series: <LineSeries<SalesData, String>>[
+            //   LineSeries<SalesData, String>(
+            //     dataSource: <SalesData>[
+            //       SalesData('Jan', 20000),
+            //       SalesData('Feb', 28000),
+            //       SalesData('Mar', 32000),
+            //       SalesData('Apr', 35000),
+            //       SalesData('May', 30000),
+            //     ],
+            //     xValueMapper: (SalesData sales, _) => sales.year,
+            //     yValueMapper: (SalesData sales, _) => sales.sales,
+            //     // Enable data label
+            //     dataLabelSettings: DataLabelSettings(
+            //       isVisible: true,
+            //     ),
+            //   )
+            // ],
           ),
           SizedBox(height: 5.h),
           SfCartesianChart(
@@ -119,23 +134,34 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
             legend: Legend(isVisible: true),
             // Enable tooltip
             tooltipBehavior: _tooltipBehavior,
-            series: <LineSeries<SalesData, String>>[
-              LineSeries<SalesData, String>(
-                dataSource: <SalesData>[
-                  SalesData('Jan', 20000),
-                  SalesData('Feb', 24200),
-                  SalesData('Mar', 28000),
-                  SalesData('Apr', 32900),
-                  SalesData('May', 36000),
-                ],
-                xValueMapper: (SalesData sales, _) => sales.year,
-                yValueMapper: (SalesData sales, _) => sales.sales,
+            series: <LineSeries<VehicleMeasurementLogModel, String>>[
+              LineSeries<VehicleMeasurementLogModel, String>(
+                dataSource: widget.data!.vehicleMeasurementLogModels!,
+                xValueMapper: (VehicleMeasurementLogModel sales, _) => sales.createdAt.toString(),
+                yValueMapper: (VehicleMeasurementLogModel sales, _) => int.parse((sales.currentOdo == "") ? "0" : sales.currentOdo),
                 // Enable data label
-                dataLabelSettings: DataLabelSettings(
+                dataLabelSettings: const DataLabelSettings(
                   isVisible: true,
                 ),
               )
             ],
+            // series: <LineSeries<SalesData, String>>[
+            //   LineSeries<SalesData, String>(
+            //     dataSource: <SalesData>[
+            //       SalesData('Jan', 20000),
+            //       SalesData('Feb', 24200),
+            //       SalesData('Mar', 28000),
+            //       SalesData('Apr', 32900),
+            //       SalesData('May', 36000),
+            //     ],
+            //     xValueMapper: (SalesData sales, _) => sales.year,
+            //     yValueMapper: (SalesData sales, _) => sales.sales,
+            //     // Enable data label
+            //     dataLabelSettings: DataLabelSettings(
+            //       isVisible: true,
+            //     ),
+            //   )
+            // ],
           ),
         ],
       ),
