@@ -255,45 +255,71 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
   }
 
   statsView() {
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(16.h),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Stats",
-                  style: AppTheme.theme.textTheme.headline4?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      builder: (context, state) {
+        if (state is GetAllVehicleLoading) {
+          return const AppLoadingIndicator();
+        } else if (state is GetAllVehicleFailed) {
+          return Text(state.errorMessage);
+        } else if (state is GetAllVehicleSuccess) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(16.h),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Stats",
+                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Icon(
+                      //   Icons.edit_square,
+                      //   size: 25.h,
+                      //   color: AppColor.primary,
+                      // ),
+                    ],
                   ),
-                ),
-                // Icon(
-                //   Icons.edit_square,
-                //   size: 25.h,
-                //   color: AppColor.primary,
-                // ),
-              ],
+                  SizedBox(height: 10.h),
+                  emptyState(),
+                  SizedBox(height: 10.h),
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.getAllVehicleDataResponseModel.data![widget.index].categorizedData!.length,
+                    itemBuilder: (context, index) {
+                      return DVPStatsItemWidget(
+                        title: state.getAllVehicleDataResponseModel.data![widget.index].categorizedData![index].measurementTitle,
+                        data: state.getAllVehicleDataResponseModel.data![widget.index].categorizedData![index],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 10.h);
+                    },
+                  ),
+                  // const DVPStatsItemWidget(
+                  //   title: "Oil",
+                  // ),
+                  // SizedBox(height: 10.h),
+                  // const DVPStatsItemWidget(
+                  //   title: "Radiator",
+                  // ),
+                  // SizedBox(height: 10.h),
+                  // const DVPStatsItemWidget(
+                  //   title: "Side Oil",
+                  // ),
+                ],
+              ),
             ),
-            SizedBox(height: 10.h),
-            emptyState(),
-            SizedBox(height: 10.h),
-            const DVPStatsItemWidget(
-              title: "Oil",
-            ),
-            SizedBox(height: 10.h),
-            const DVPStatsItemWidget(
-              title: "Radiator",
-            ),
-            SizedBox(height: 10.h),
-            const DVPStatsItemWidget(
-              title: "Side Oil",
-            ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return Text("data is null");
+        }
+      },
     );
   }
 
