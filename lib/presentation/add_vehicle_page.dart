@@ -302,23 +302,11 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               colorController.text.isEmpty ||
                               machineNumberController.text.isEmpty ||
                               chassisNumberController.text.isEmpty) {
-                            AppDialogAction.showMainPopup(
+                            AppDialogAction.showFailedPopup(
                               context: context,
                               title: "Error",
-                              content: Column(
-                                children: [
-                                  Icon(
-                                    Icons.close,
-                                    color: Colors.red,
-                                    size: 120.h,
-                                  ),
-                                  const Text("field can't be empty"),
-                                ],
-                              ),
+                              description: "field can't be empty",
                               buttonTitle: "Back",
-                              mainButtonAction: () {
-                                Get.back();
-                              },
                             );
                           } else {
                             context.read<CreateVehicleBloc>().add(
@@ -365,23 +353,11 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             colorController.text.isEmpty ||
             machineNumberController.text.isEmpty ||
             chassisNumberController.text.isEmpty) {
-          AppDialogAction.showMainPopup(
+          AppDialogAction.showFailedPopup(
             context: context,
             title: "Error",
-            content: Column(
-              children: [
-                Icon(
-                  Icons.close,
-                  color: Colors.red,
-                  size: 120.h,
-                ),
-                const Text("field can't be empty"),
-              ],
-            ),
+            description: "field can't be empty",
             buttonTitle: "Back",
-            mainButtonAction: () {
-              Get.back();
-            },
           );
         } else {
           context.read<CreateVehicleBloc>().add(

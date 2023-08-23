@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
+import 'package:project_vehicle_log/support/app_assets.dart';
 
 class AppDialogAction {
   static Future<void> showSuccessSignUp({
@@ -286,6 +287,126 @@ class AppDialogAction {
           ),
         ),
       ),
+    );
+  }
+
+  static Future<void> showSuccessPopup({
+    required BuildContext context,
+    required String title,
+    required String description,
+    required String buttonTitle,
+  }) async {
+    await showMainPopup(
+      context: context,
+      title: '',
+      content: Column(
+        children: [
+          Image.asset(
+            AppAssets.iconPopupSuccess,
+            height: 130.h,
+            width: 130.h,
+          ),
+          SizedBox(height: 18.h),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            description,
+            style: GoogleFonts.inter(
+              fontSize: 16.sp,
+            ),
+          ),
+        ],
+      ),
+      buttonTitle: buttonTitle,
+      mainButtonAction: () {
+        Get.back();
+      },
+    );
+  }
+
+  static Future<void> showFailedPopup({
+    required BuildContext context,
+    required String title,
+    required String description,
+    String? buttonTitle,
+  }) async {
+    await showMainPopup(
+      context: context,
+      title: '',
+      content: Column(
+        children: [
+          Image.asset(
+            AppAssets.iconPopupError,
+            height: 130.h,
+            width: 130.h,
+          ),
+          SizedBox(height: 18.h),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            description,
+            style: GoogleFonts.inter(
+              fontSize: 16.sp,
+            ),
+          ),
+        ],
+      ),
+      buttonTitle: buttonTitle ?? "",
+      mainButtonAction: () {
+        Get.back();
+      },
+    );
+  }
+
+  static Future<void> showWarningPopup({
+    required BuildContext context,
+    required String title,
+    required String description,
+    required String buttonTitle,
+  }) async {
+    await showMainPopup(
+      context: context,
+      title: '',
+      content: Column(
+        children: [
+          Image.asset(
+            AppAssets.iconPopupWarning,
+            height: 130.h,
+            width: 130.h,
+          ),
+          SizedBox(height: 18.h),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            description,
+            style: GoogleFonts.inter(
+              fontSize: 16.sp,
+            ),
+          ),
+        ],
+      ),
+      buttonTitle: buttonTitle,
+      mainButtonAction: () {
+        Get.back();
+      },
     );
   }
 }

@@ -338,24 +338,30 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                               amountExpensesController.text.isEmpty ||
                               checkpointDateController.text.isEmpty ||
                               notesController.text.isEmpty) {
-                            AppDialogAction.showMainPopup(
+                            AppDialogAction.showFailedPopup(
                               context: context,
                               title: "Error",
-                              content: Column(
-                                children: [
-                                  Icon(
-                                    Icons.close,
-                                    color: Colors.red,
-                                    size: 120.h,
-                                  ),
-                                  const Text("field can't be empty"),
-                                ],
-                              ),
+                              description: "field can't be empty",
                               buttonTitle: "Back",
-                              mainButtonAction: () {
-                                Get.back();
-                              },
                             );
+                            // AppDialogAction.showMainPopup(
+                            //   context: context,
+                            //   title: "Error",
+                            //   content: Column(
+                            //     children: [
+                            //       Icon(
+                            //         Icons.close,
+                            //         color: Colors.red,
+                            //         size: 120.h,
+                            //       ),
+                            //       const Text("field can't be empty"),
+                            //     ],
+                            //   ),
+                            //   buttonTitle: "Back",
+                            //   mainButtonAction: () {
+                            //     Get.back();
+                            //   },
+                            // );
                           } else {
                             context.read<CreateLogVehicleBloc>().add(
                                   CreateLogVehicleAction(
