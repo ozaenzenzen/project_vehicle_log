@@ -32,7 +32,7 @@ class _AppMainButtonWidgetState extends State<AppMainButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.height ?? 40.h,
+      height: widget.height ?? 48.h,
       width: widget.width ?? MediaQuery.of(context).size.width,
       child: ElevatedButton(
         onPressed: widget.onPressed,
