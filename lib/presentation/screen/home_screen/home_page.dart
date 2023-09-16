@@ -168,7 +168,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 onTap: () {
                                   Get.to(() => const ProfilePage());
                                 },
-                                child: const CircleAvatar(
+                                child: CircleAvatar(
+                                  radius: 36.h,
                                   backgroundColor: AppColor.primary,
                                 ),
                               ),
