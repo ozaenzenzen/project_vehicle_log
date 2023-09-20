@@ -295,6 +295,7 @@ class AppDialogAction {
     required String title,
     required String description,
     required String buttonTitle,
+    Function()? mainButtonAction,
   }) async {
     await showMainPopup(
       context: context,
@@ -324,9 +325,9 @@ class AppDialogAction {
         ],
       ),
       buttonTitle: buttonTitle,
-      mainButtonAction: () {
-        Get.back();
-      },
+      mainButtonAction: mainButtonAction ?? () {
+              Get.back();
+            },
     );
   }
 
@@ -335,6 +336,7 @@ class AppDialogAction {
     required String title,
     required String description,
     String? buttonTitle,
+    Function()? mainButtonAction,
   }) async {
     await showMainPopup(
       context: context,
@@ -364,9 +366,9 @@ class AppDialogAction {
         ],
       ),
       buttonTitle: buttonTitle ?? "",
-      mainButtonAction: () {
-        Get.back();
-      },
+      mainButtonAction: mainButtonAction ?? () {
+              Get.back();
+            },
     );
   }
 
@@ -375,6 +377,7 @@ class AppDialogAction {
     required String title,
     required String description,
     required String buttonTitle,
+    Function()? mainButtonAction,
   }) async {
     await showMainPopup(
       context: context,
@@ -404,9 +407,9 @@ class AppDialogAction {
         ],
       ),
       buttonTitle: buttonTitle,
-      mainButtonAction: () {
-        Get.back();
-      },
+      mainButtonAction: mainButtonAction ?? () {
+              Get.back();
+            },
     );
   }
 }
