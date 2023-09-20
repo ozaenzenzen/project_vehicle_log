@@ -29,7 +29,7 @@ class Userdata {
     this.email,
     this.phone,
     this.link,
-    this.typeuser,
+    this.token,
   });
 
   int? id;
@@ -37,7 +37,7 @@ class Userdata {
   String? email;
   String? phone;
   String? link;
-  int? typeuser;
+  String? token;
 
   factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
         id: json["id"],
@@ -45,7 +45,7 @@ class Userdata {
         email: json["email"],
         phone: json["phone"],
         link: json["link"],
-        typeuser: json["typeuser"],
+        token: json["token"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,6 +54,6 @@ class Userdata {
         "email": email,
         "phone": phone,
         "link": link,
-        "typeuser": typeuser,
+        "token": token,
       };
 }

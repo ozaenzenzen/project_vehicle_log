@@ -28,24 +28,18 @@ class AccountData {
     this.name,
     this.email,
     this.phone,
-    this.link,
-    this.typeuser,
   });
 
   int? userId;
   String? name;
   String? email;
   String? phone;
-  String? link;
-  int? typeuser;
 
   factory AccountData.fromJson(Map<String, dynamic> json) => AccountData(
         userId: json["user_id"] ?? 0,
         name: json["name"] ?? "",
         email: json["email"] ?? "",
         phone: json["phone"] ?? "",
-        link: json["link"] ?? "",
-        typeuser: json["typeuser"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,7 +47,5 @@ class AccountData {
         "name": name,
         "email": email,
         "phone": phone,
-        "link": link,
-        "typeuser": typeuser,
       };
 }
