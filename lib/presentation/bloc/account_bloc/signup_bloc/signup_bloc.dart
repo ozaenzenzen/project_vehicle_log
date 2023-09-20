@@ -35,8 +35,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           name: signUpResponseModel.accountData?.name,
           email: signUpResponseModel.accountData?.email,
           phone: signUpResponseModel.accountData?.phone,
-          link: signUpResponseModel.accountData?.link,
-          typeuser: signUpResponseModel.accountData?.typeuser,
+          // link: signUpResponseModel.accountData?.link,
+          // typeuser: signUpResponseModel.accountData?.typeuser,
         );
         await AccountLocalRepository.saveLocalAccountData(data: data);
         await AccountLocalRepository.signInSaved();
@@ -46,9 +46,15 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           ),
         );
       } else {
+        var errorMessage = "";
+        if (signUpResponseModel.message.toString().contains('required')) {
+          errorMessage = "terdapat field kosong";
+        } else {
+          errorMessage = signUpResponseModel.message.toString();
+        }
         emit(
           SignupFailed(
-            errorMessage: signUpResponseModel.message.toString(),
+            errorMessage: errorMessage,
           ),
         );
       }
