@@ -81,8 +81,9 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
           name: signInResponseModel.userdata?.name,
           email: signInResponseModel.userdata?.email,
           phone: signInResponseModel.userdata?.phone,
-          link: signInResponseModel.userdata?.link,
-          typeuser: signInResponseModel.userdata?.typeuser,
+          token: signInResponseModel.userdata?.token,
+          // link: signInResponseModel.userdata?.link,
+          // typeuser: signInResponseModel.userdata?.typeuser,
         );
         await AccountLocalRepository.saveLocalAccountData(data: data);
         await AccountLocalRepository.signInSaved();
