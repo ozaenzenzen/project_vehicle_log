@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/model/remote/account/signup_request_models.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
+import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
@@ -141,8 +142,16 @@ class _SignUpPageState extends State<SignUpPage> {
                           context: context,
                         );
                       } else if (state is SignupSuccess) {
-                        Get.offAll(
-                          () => const MainPage(),
+                        AppDialogAction.showSuccessPopup(
+                          context: context,
+                          title: "Success",
+                          description: "Berhasil mendaftarkan akun. Silakan login",
+                          buttonTitle: "Login",
+                          mainButtonAction: () {
+                            Get.offAll(
+                              () => const SignInPage(),
+                            );
+                          },
                         );
                       }
                     },
