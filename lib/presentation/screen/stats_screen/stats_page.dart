@@ -120,7 +120,7 @@ class _StatsPageState extends State<StatsPage> {
                               return DropdownMenuItem<DatumVehicle>(
                                 value: e,
                                 child: Text(
-                                  e.vehicleName,
+                                  e.vehicleName ?? "",
                                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                     fontWeight: FontWeight.w500,
                                   ),

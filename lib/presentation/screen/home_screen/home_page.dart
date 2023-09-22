@@ -343,7 +343,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         ),
                                         child: Text(
                                           // "${DummyData.dummyData[index].vehicleName}",
-                                          state.getAllVehicleDataResponseModel.data![index].vehicleName,
+                                          state.getAllVehicleDataResponseModel.data![index].vehicleName!,
                                           // "Menu $index",
                                           style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                             // color: AppColor.text_4,

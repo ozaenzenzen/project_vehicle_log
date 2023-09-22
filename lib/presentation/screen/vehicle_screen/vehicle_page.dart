@@ -131,7 +131,7 @@ class _VehiclePageState extends State<VehiclePage> {
                                     children: [
                                       Text(
                                         // "${DummyData.dummyData[index].vehicleName}",
-                                        state.getAllVehicleDataResponseModel.data![index].vehicleName,
+                                        state.getAllVehicleDataResponseModel.data![index].vehicleName!,
                                         // "Vehicle $index",
                                         style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                           fontWeight: FontWeight.w600,

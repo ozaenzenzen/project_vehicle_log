@@ -99,7 +99,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                   return sales.createdAt.toString();
                 },
                 yValueMapper: (VehicleMeasurementLogModel sales, _) {
-                  return int.parse((sales.amountExpenses == "") ? "0" : sales.amountExpenses);
+                  return int.parse((sales.amountExpenses == "") ? "0" : sales.amountExpenses!);
                 },
                 // Enable data label
                 dataLabelSettings: const DataLabelSettings(
@@ -138,7 +138,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
               LineSeries<VehicleMeasurementLogModel, String>(
                 dataSource: widget.data!.vehicleMeasurementLogModels!,
                 xValueMapper: (VehicleMeasurementLogModel sales, _) => sales.createdAt.toString(),
-                yValueMapper: (VehicleMeasurementLogModel sales, _) => int.parse((sales.currentOdo == "") ? "0" : sales.currentOdo),
+                yValueMapper: (VehicleMeasurementLogModel sales, _) => int.parse((sales.currentOdo == "") ? "0" : sales.currentOdo!),
                 // Enable data label
                 dataLabelSettings: const DataLabelSettings(
                   isVisible: true,

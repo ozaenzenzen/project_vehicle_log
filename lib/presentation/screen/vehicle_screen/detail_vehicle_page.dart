@@ -103,7 +103,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                 children: [
                   Text(
                     // "Name Vehicle",
-                    state.getAllVehicleDataResponseModel.data![widget.index].vehicleName,
+                    state.getAllVehicleDataResponseModel.data![widget.index].vehicleName!,
                     style: AppTheme.theme.textTheme.headline1?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black38,
@@ -188,8 +188,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
         } else if (state is GetAllVehicleFailed) {
           return Text(state.errorMessage);
         } else if (state is GetAllVehicleSuccess) {
-          sortedListLogs = state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels;
-          sortedListLogs.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+          sortedListLogs = state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels!;
+          sortedListLogs.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
           return SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(16.h),
@@ -342,7 +342,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
           AppMainButtonWidget(
             onPressed: () {
               Get.to(() => AddMeasurementPage(
-                    vehicleId: widget.datumVehicle.id,
+                    vehicleId: widget.datumVehicle.id!,
                   ));
             },
             text: "Add Now",

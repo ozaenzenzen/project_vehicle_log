@@ -147,7 +147,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatter.format(widget.vehicleMeasurementLogModels!.createdAt),
+                      formatter.format(widget.vehicleMeasurementLogModels!.createdAt!),
                       style: AppTheme.theme.textTheme.headline6?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -155,7 +155,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     Text(
-                      convertToAgo(widget.vehicleMeasurementLogModels!.createdAt),
+                      convertToAgo(widget.vehicleMeasurementLogModels!.createdAt!),
                       style: AppTheme.theme.textTheme.headline6?.copyWith(
                         // color: AppColor.text_4,
                         fontSize: 12,
@@ -204,7 +204,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      widget.vehicleMeasurementLogModels!.estimateOdoChanging,
+                      widget.vehicleMeasurementLogModels!.estimateOdoChanging!,
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -251,7 +251,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      formatter.format(widget.vehicleMeasurementLogModels!.updatedAt),
+                      formatter.format(widget.vehicleMeasurementLogModels!.updatedAt!),
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -298,7 +298,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      widget.vehicleMeasurementLogModels!.amountExpenses,
+                      widget.vehicleMeasurementLogModels!.amountExpenses!,
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -346,7 +346,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                     ),
                     child: Text(
                       // "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                      widget.vehicleMeasurementLogModels!.notes,
+                      widget.vehicleMeasurementLogModels!.notes!,
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
