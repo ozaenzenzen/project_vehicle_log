@@ -28,7 +28,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
     Map<String, List<VehicleMeasurementLogModel>> categorizedData = {};
     List<LocalCategorizedVehicleLogData> categorizedDataAsList = [];
     for (VehicleMeasurementLogModel item in vehicleMeasurementLogModels) {
-      String category = item.measurementTitle;
+      String category = item.measurementTitle!;
       if (!categorizedData.containsKey(category)) {
         categorizedData[category] = [];
       }
@@ -70,72 +70,94 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
     SigninAction event,
   ) async {
     emit(SigninLoading());
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 500));
     try {
-      SignInResponseModel signInResponseModel = await accountReposistory.signin(
+      SignInResponseModel? signInResponseModel = await accountReposistory.signin(
         event.signInRequestModel,
       );
-      if (signInResponseModel.status == 200) {
-        AccountDataUserModel data = AccountDataUserModel(
-          userId: signInResponseModel.userdata?.id,
-          name: signInResponseModel.userdata?.name,
-          email: signInResponseModel.userdata?.email,
-          phone: signInResponseModel.userdata?.phone,
-          token: signInResponseModel.userdata?.token,
-          // link: signInResponseModel.userdata?.link,
-          // typeuser: signInResponseModel.userdata?.typeuser,
-        );
-        await AccountLocalRepository.saveLocalAccountData(data: data);
-        await AccountLocalRepository.signInSaved();
-        GetAllVehicleDataResponseModel getAllVehicleDataResponseModel = await event.appVehicleReposistory!.getAllVehicleData(
-          signInResponseModel.userdata!.id.toString(),
-        );
-        if (getAllVehicleDataResponseModel.status == 200) {
-          VehicleLocalDataModel data = VehicleLocalDataModel(
-            listVehicleData: getAllVehicleDataResponseModel.data!
-                .map((e) => VehicleDatam(
-                      id: e.id,
-                      userId: e.userId,
-                      vehicleName: e.vehicleName,
-                      vehicleImage: e.vehicleImage,
-                      year: e.year,
-                      engineCapacity: e.engineCapacity,
-                      tankCapacity: e.tankCapacity,
-                      color: e.color,
-                      machineNumber: e.machineNumber,
-                      chassisNumber: e.chassisNumber,
-                      categorizedLog: _helperCategorizeFromRemoteToLocal(e.vehicleMeasurementLogModels),
-                      vehicleMeasurementLogModels: e.vehicleMeasurementLogModels
-                          .map(
-                            (e) => LocalVehicleMeasurementLogModel(
-                              id: e.id,
-                              userId: e.userId,
-                              vehicleId: e.vehicleId,
-                              measurementTitle: e.measurementTitle,
-                              currentOdo: e.currentOdo,
-                              estimateOdoChanging: e.estimateOdoChanging,
-                              amountExpenses: e.amountExpenses,
-                              checkpointDate: e.checkpointDate,
-                              notes: e.notes,
-                              createdAt: e.createdAt,
-                              updatedAt: e.updatedAt,
-                            ),
-                          )
-                          .toList(),
-                    ))
-                .toList(),
+      if (signInResponseModel != null) {
+        if (signInResponseModel.status == 200) {
+          AccountDataUserModel data = AccountDataUserModel(
+            userId: signInResponseModel.userdata?.id,
+            name: signInResponseModel.userdata?.name,
+            email: signInResponseModel.userdata?.email,
+            phone: signInResponseModel.userdata?.phone,
+            token: signInResponseModel.userdata?.token,
+            // link: signInResponseModel.userdata?.link,
+            // typeuser: signInResponseModel.userdata?.typeuser,
           );
-          await event.vehicleLocalRepository.saveLocalVehicleData(data: data);
+          await AccountLocalRepository.saveLocalAccountData(data: data);
+          await AccountLocalRepository.signInSaved();
+          GetAllVehicleDataResponseModel? getAllVehicleDataResponseModel = await event.appVehicleReposistory!.getAllVehicleData(
+            signInResponseModel.userdata!.token.toString(),
+          );
+          if (getAllVehicleDataResponseModel != null) {
+            if (getAllVehicleDataResponseModel.status == 200) {
+              VehicleLocalDataModel data = VehicleLocalDataModel(
+                listVehicleData: getAllVehicleDataResponseModel.data!
+                    .map((e) => VehicleDatam(
+                          id: e.id,
+                          userId: e.userId,
+                          vehicleName: e.vehicleName,
+                          vehicleImage: e.vehicleImage,
+                          year: e.year,
+                          engineCapacity: e.engineCapacity,
+                          tankCapacity: e.tankCapacity,
+                          color: e.color,
+                          machineNumber: e.machineNumber,
+                          chassisNumber: e.chassisNumber,
+                          categorizedLog: _helperCategorizeFromRemoteToLocal(e.vehicleMeasurementLogModels!),
+                          vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!
+                              .map(
+                                (e) => LocalVehicleMeasurementLogModel(
+                                  id: e.id,
+                                  userId: e.userId,
+                                  vehicleId: e.vehicleId,
+                                  measurementTitle: e.measurementTitle,
+                                  currentOdo: e.currentOdo,
+                                  estimateOdoChanging: e.estimateOdoChanging,
+                                  amountExpenses: e.amountExpenses,
+                                  checkpointDate: e.checkpointDate,
+                                  notes: e.notes,
+                                  createdAt: e.createdAt,
+                                  updatedAt: e.updatedAt,
+                                ),
+                              )
+                              .toList(),
+                        ))
+                    .toList(),
+              );
+              await event.vehicleLocalRepository.saveLocalVehicleData(data: data);
+              emit(
+                SigninSuccess(
+                  userdata: signInResponseModel.userdata!,
+                ),
+              );
+            } else {
+              emit(
+                SigninFailed(
+                  errorMessage: signInResponseModel.message.toString(),
+                ),
+              );
+            }
+          } else {
+            emit(
+              SigninFailed(
+                errorMessage: signInResponseModel.message.toString(),
+              ),
+            );
+          }
+        } else {
           emit(
-            SigninSuccess(
-              userdata: signInResponseModel.userdata!,
+            SigninFailed(
+              errorMessage: signInResponseModel.message.toString(),
             ),
           );
         }
       } else {
         emit(
           SigninFailed(
-            errorMessage: signInResponseModel.message.toString(),
+            errorMessage: "Terjadi kesalahan, data kosong",
           ),
         );
       }
