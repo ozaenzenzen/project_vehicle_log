@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signin_bloc/signin_bloc.dart';
+import 'package:project_vehicle_log/presentation/bloc/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_log_vehicle_bloc/get_log_vehicle_bloc.dart';
@@ -42,6 +43,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => GetLogVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory())),
+        BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory())),
       ],
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),
