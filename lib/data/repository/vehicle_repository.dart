@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_request_model.dart';
@@ -11,15 +12,32 @@ import 'package:project_vehicle_log/support/app_api_path.dart';
 import 'package:project_vehicle_log/support/app_api_service.dart';
 
 class AppVehicleReposistory {
-  Future<GetAllVehicleDataResponseModel> getAllVehicleData(String id) async {
-    final response = await AppApiService(
-      EnvironmentConfig.baseUrl(),
-    ).call(
-      AppApiPath.getAllVehicle,
-      method: MethodRequest.get,
-      header: {"usd": id},
-    );
-    return GetAllVehicleDataResponseModel.fromJson(response.data);
+  Future<GetAllVehicleDataResponseModel?> getAllVehicleData(String token) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.getAllVehicle,
+        method: MethodRequest.get,
+        header: {"token": token},
+      );
+      return GetAllVehicleDataResponseModel.fromJson(response.data);
+    } on DioError catch (e) {
+      return GetAllVehicleDataResponseModel(
+        status: e.response?.data['status'],
+        message: e.response?.data['Message'],
+      );
+      // if (e.response?.data is Map) {
+      //   return DataState.error(
+      //     exception: e,
+      //     stackTrace: e.stackTrace,
+      //     message: e.response?.data['Message'] ?? "Error",
+      //     code: int.tryParse('${e.response?.data['StatusCode']}'),
+      //   );
+      // }
+    } catch (errorMessage) {
+      return null;
+    }
   }
 
   Future<GetLogVehicleDataResponseModel> getLogVehicleData(String id) async {
