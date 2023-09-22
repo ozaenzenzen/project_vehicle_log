@@ -88,7 +88,7 @@ class AppDialogAction {
 
   static Future<void> showFreezeAppPopup({
     required BuildContext context,
-    double radius = 0,
+    double radius = 20,
     String title = "",
     String buttonTitle = "Close App",
     Color? color,
@@ -149,6 +149,8 @@ class AppDialogAction {
     bool barrierDismissible = true,
     bool useButtonBack = true,
     EdgeInsetsGeometry padding = const EdgeInsets.all(16),
+    double? buttonHeight,
+    double? buttonTextSize,
   }) async {
     return await showPopup(
       context: context,
@@ -191,8 +193,8 @@ class AppDialogAction {
           AppMainButtonWidget(
             onPressed: mainButtonAction,
             text: buttonTitle,
-            fontSize: 14.sp,
-            height: 40.h,
+            fontSize: buttonTextSize ?? 18.sp,
+            height: buttonHeight ?? 48.h,
           ),
         ],
       ),
@@ -296,20 +298,27 @@ class AppDialogAction {
     required String description,
     required String buttonTitle,
     Function()? mainButtonAction,
+    double radius = 10,
+    double? buttonHeight,
+    double? buttonTextSize,
   }) async {
     await showMainPopup(
       context: context,
       title: '',
+      radius: radius,
+      buttonHeight: buttonHeight,
+      buttonTextSize: buttonTextSize,
       content: Column(
         children: [
           Image.asset(
             AppAssets.iconPopupSuccess,
-            height: 130.h,
-            width: 130.h,
+            height: 96.h,
+            width: 96.h,
           ),
-          SizedBox(height: 18.h),
+          SizedBox(height: 16.h),
           Text(
             title,
+            textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 22.sp,
               fontWeight: FontWeight.w600,
@@ -318,16 +327,19 @@ class AppDialogAction {
           SizedBox(height: 12.h),
           Text(
             description,
+            textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],
       ),
       buttonTitle: buttonTitle,
-      mainButtonAction: mainButtonAction ?? () {
-              Get.back();
-            },
+      mainButtonAction: mainButtonAction ??
+          () {
+            Get.back();
+          },
     );
   }
 
@@ -337,20 +349,27 @@ class AppDialogAction {
     required String description,
     String? buttonTitle,
     Function()? mainButtonAction,
+    double radius = 10,
+    double? buttonHeight,
+    double? buttonTextSize,
   }) async {
     await showMainPopup(
       context: context,
       title: '',
+      radius: radius,
+      buttonHeight: buttonHeight,
+      buttonTextSize: buttonTextSize,
       content: Column(
         children: [
           Image.asset(
             AppAssets.iconPopupError,
-            height: 130.h,
-            width: 130.h,
+            height: 96.h,
+            width: 96.h,
           ),
-          SizedBox(height: 18.h),
+          SizedBox(height: 16.h),
           Text(
             title,
+            textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 22.sp,
               fontWeight: FontWeight.w600,
@@ -359,16 +378,19 @@ class AppDialogAction {
           SizedBox(height: 12.h),
           Text(
             description,
+            textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],
       ),
       buttonTitle: buttonTitle ?? "",
-      mainButtonAction: mainButtonAction ?? () {
-              Get.back();
-            },
+      mainButtonAction: mainButtonAction ??
+          () {
+            Get.back();
+          },
     );
   }
 
@@ -378,20 +400,27 @@ class AppDialogAction {
     required String description,
     required String buttonTitle,
     Function()? mainButtonAction,
+    double radius = 10,
+    double? buttonHeight,
+    double? buttonTextSize,
   }) async {
     await showMainPopup(
       context: context,
       title: '',
+      radius: radius,
+      buttonHeight: buttonHeight,
+      buttonTextSize: buttonTextSize,
       content: Column(
         children: [
           Image.asset(
             AppAssets.iconPopupWarning,
-            height: 130.h,
-            width: 130.h,
+            height: 96.h,
+            width: 96.h,
           ),
-          SizedBox(height: 18.h),
+          SizedBox(height: 16.h),
           Text(
             title,
+            textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 22.sp,
               fontWeight: FontWeight.w600,
@@ -400,16 +429,19 @@ class AppDialogAction {
           SizedBox(height: 12.h),
           Text(
             description,
+            textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],
       ),
       buttonTitle: buttonTitle,
-      mainButtonAction: mainButtonAction ?? () {
-              Get.back();
-            },
+      mainButtonAction: mainButtonAction ??
+          () {
+            Get.back();
+          },
     );
   }
 }
