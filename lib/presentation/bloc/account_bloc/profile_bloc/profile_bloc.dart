@@ -22,7 +22,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(ProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      AccountDataUserModel accountDataUserModel = await localRepository.getLocalAccountData();
+      AccountDataUserModel? accountDataUserModel = await localRepository.getLocalAccountData();
       if (accountDataUserModel != null) {
         emit(ProfileSuccess(
           accountDataUserModel: accountDataUserModel,
