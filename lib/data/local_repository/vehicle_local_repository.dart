@@ -26,7 +26,7 @@ class VehicleLocalRepository {
     debugPrint("[saveLocalVehicleData] vehicleData saved");
   }
 
-  Future<VehicleLocalDataModel> getLocalVehicleData() async {
+  Future<VehicleLocalDataModel?> getLocalVehicleData() async {
     try {
       VehicleLocalDataModel? vehicleData = VehicleLocalDataModel.fromJson(
         LocalService.instance.box.read("vehicleData"),
@@ -39,7 +39,7 @@ class VehicleLocalRepository {
         return vehicleData;
       }
     } catch (errorMessage) {
-      throw Exception(errorMessage);
+      return null;
     }
   }
 }

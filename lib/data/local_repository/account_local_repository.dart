@@ -26,7 +26,7 @@ class AccountLocalRepository {
     debugPrint("[saveLocalAccountData] userData saved");
   }
 
-  Future<AccountDataUserModel> getLocalAccountData() async {
+   Future<AccountDataUserModel?> getLocalAccountData() async {
     try {
       AccountDataUserModel? userData = AccountDataUserModel.fromJson(LocalService.instance.box.read("userData"));
       if (userData == null || userData == [] || userData == "") {
@@ -36,7 +36,7 @@ class AccountLocalRepository {
         return userData;
       }
     } catch (errorMessage) {
-      throw Exception(errorMessage);
+      return null;
     }
   }
 
