@@ -26,35 +26,43 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     emit(SignupLoading());
     await Future.delayed(const Duration(milliseconds: 1000));
     try {
-      SignUpResponseModel signUpResponseModel = await appAccountReposistory.signup(
+      SignUpResponseModel? signUpResponseModel = await appAccountReposistory.signup(
         event.signUpRequestModel,
       );
-      if (signUpResponseModel.status == 201) {
-        AccountDataUserModel data = AccountDataUserModel(
-          userId: signUpResponseModel.accountData?.userId,
-          name: signUpResponseModel.accountData?.name,
-          email: signUpResponseModel.accountData?.email,
-          phone: signUpResponseModel.accountData?.phone,
-          // link: signUpResponseModel.accountData?.link,
-          // typeuser: signUpResponseModel.accountData?.typeuser,
-        );
-        await AccountLocalRepository.saveLocalAccountData(data: data);
-        await AccountLocalRepository.signInSaved();
-        emit(
-          SignupSuccess(
-            signUpResponseModel: signUpResponseModel,
-          ),
-        );
-      } else {
-        var errorMessage = "";
-        if (signUpResponseModel.message.toString().contains('required')) {
-          errorMessage = "terdapat field kosong";
+      if (signUpResponseModel != null) {
+        if (signUpResponseModel.status == 201) {
+          AccountDataUserModel data = AccountDataUserModel(
+            userId: signUpResponseModel.accountData?.userId,
+            name: signUpResponseModel.accountData?.name,
+            email: signUpResponseModel.accountData?.email,
+            phone: signUpResponseModel.accountData?.phone,
+            // link: signUpResponseModel.accountData?.link,
+            // typeuser: signUpResponseModel.accountData?.typeuser,
+          );
+          await AccountLocalRepository.saveLocalAccountData(data: data);
+          await AccountLocalRepository.signInSaved();
+          emit(
+            SignupSuccess(
+              signUpResponseModel: signUpResponseModel,
+            ),
+          );
         } else {
-          errorMessage = signUpResponseModel.message.toString();
+          var errorMessage = "";
+          if (signUpResponseModel.message.toString().contains('required')) {
+            errorMessage = "terdapat field kosong";
+          } else {
+            errorMessage = signUpResponseModel.message.toString();
+          }
+          emit(
+            SignupFailed(
+              errorMessage: errorMessage,
+            ),
+          );
         }
+      } else {
         emit(
           SignupFailed(
-            errorMessage: errorMessage,
+            errorMessage: "Terjadi kesalahan, data kosong",
           ),
         );
       }
