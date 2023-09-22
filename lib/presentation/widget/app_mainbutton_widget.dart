@@ -6,6 +6,7 @@ class AppMainButtonWidget extends StatefulWidget {
   final Function() onPressed;
   final String text;
   final double? fontSize;
+  final FontWeight? fontWeight;
   final double? height;
   final double? width;
   final Color? color;
@@ -17,6 +18,7 @@ class AppMainButtonWidget extends StatefulWidget {
     required this.onPressed,
     required this.text,
     this.fontSize,
+    this.fontWeight,
     this.height,
     this.width,
     this.color,
@@ -49,7 +51,7 @@ class _AppMainButtonWidgetState extends State<AppMainButtonWidget> {
           style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: widget.fontSize ?? 16.sp,
-            fontWeight: FontWeight.w600,
+            fontWeight: widget.fontWeight ?? FontWeight.w500,
           ),
         ),
       ),
