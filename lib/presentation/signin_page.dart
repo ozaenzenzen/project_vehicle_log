@@ -162,6 +162,7 @@ class _SignInPageState extends State<SignInPage> {
                           context: context,
                         );
                       } else if (state is SigninSuccess) {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         Get.offAll(
                           () => const MainPage(),
                         );
