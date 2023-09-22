@@ -29,7 +29,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     Map<String, List<VehicleMeasurementLogModel>> categorizedData = {};
     List<LocalCategorizedVehicleLogData> categorizedDataAsList = [];
     for (VehicleMeasurementLogModel item in vehicleMeasurementLogModels) {
-      String category = item.measurementTitle;
+      String category = item.measurementTitle!;
       if (!categorizedData.containsKey(category)) {
         categorizedData[category] = [];
       }
@@ -116,94 +116,111 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     emit(GetAllVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      GetAllVehicleDataResponseModel getAllVehicleDataResponseModel = await appVehicleReposistory.getAllVehicleData(
-        event.id,
-      );
-      if (getAllVehicleDataResponseModel.status == 200) {
-        VehicleLocalDataModel localData = VehicleLocalDataModel(
-          listVehicleData: getAllVehicleDataResponseModel.data!.map((e) {
-            return VehicleDatam(
-              id: e.id,
-              userId: e.userId,
-              vehicleName: e.vehicleName,
-              vehicleImage: e.vehicleImage,
-              year: e.year,
-              engineCapacity: e.engineCapacity,
-              tankCapacity: e.tankCapacity,
-              color: e.color,
-              machineNumber: e.machineNumber,
-              chassisNumber: e.chassisNumber,
-              categorizedLog: _helperCategorizeFromRemoteToLocal(e.vehicleMeasurementLogModels),
-              vehicleMeasurementLogModels: e.vehicleMeasurementLogModels.map((e) {
-                return LocalVehicleMeasurementLogModel(
+      AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
+      if (dataLocal != null) {
+        GetAllVehicleDataResponseModel? getAllVehicleDataResponseModel = await appVehicleReposistory.getAllVehicleData(
+          dataLocal.token.toString(),
+        );
+        if (getAllVehicleDataResponseModel != null) {
+          if (getAllVehicleDataResponseModel.status == 200) {
+            VehicleLocalDataModel localData = VehicleLocalDataModel(
+              listVehicleData: getAllVehicleDataResponseModel.data!.map((e) {
+                return VehicleDatam(
                   id: e.id,
                   userId: e.userId,
-                  vehicleId: e.vehicleId,
-                  measurementTitle: e.measurementTitle,
-                  currentOdo: e.currentOdo,
-                  estimateOdoChanging: e.estimateOdoChanging,
-                  amountExpenses: e.amountExpenses,
-                  checkpointDate: e.checkpointDate,
-                  notes: e.notes,
-                  createdAt: e.createdAt,
-                  updatedAt: e.updatedAt,
+                  vehicleName: e.vehicleName,
+                  vehicleImage: e.vehicleImage,
+                  year: e.year,
+                  engineCapacity: e.engineCapacity,
+                  tankCapacity: e.tankCapacity,
+                  color: e.color,
+                  machineNumber: e.machineNumber,
+                  chassisNumber: e.chassisNumber,
+                  categorizedLog: _helperCategorizeFromRemoteToLocal(e.vehicleMeasurementLogModels!),
+                  vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!.map((e) {
+                    return LocalVehicleMeasurementLogModel(
+                      id: e.id,
+                      userId: e.userId,
+                      vehicleId: e.vehicleId,
+                      measurementTitle: e.measurementTitle,
+                      currentOdo: e.currentOdo,
+                      estimateOdoChanging: e.estimateOdoChanging,
+                      amountExpenses: e.amountExpenses,
+                      checkpointDate: e.checkpointDate,
+                      notes: e.notes,
+                      createdAt: e.createdAt,
+                      updatedAt: e.updatedAt,
+                    );
+                  }).toList(),
                 );
               }).toList(),
             );
-          }).toList(),
-        );
-        await event.vehicleLocalRepository.saveLocalVehicleData(data: localData);
-        GetAllVehicleDataResponseModel output = GetAllVehicleDataResponseModel(
-          status: getAllVehicleDataResponseModel.status,
-          message: getAllVehicleDataResponseModel.message,
-          data: localData.listVehicleData!.map((e) {
-            return DatumVehicle(
-              id: e.id!,
-              userId: e.userId!,
-              vehicleName: e.vehicleName!,
-              vehicleImage: e.vehicleImage!,
-              year: e.year!,
-              engineCapacity: e.engineCapacity!,
-              tankCapacity: e.tankCapacity!,
-              color: e.color!,
-              machineNumber: e.machineNumber!,
-              chassisNumber: e.chassisNumber!,
-              categorizedData: _helperCategorizeFromLocalToRemote(e.vehicleMeasurementLogModels!),
-              vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!.map((e) {
-                return VehicleMeasurementLogModel(
+            await event.vehicleLocalRepository.saveLocalVehicleData(data: localData);
+            GetAllVehicleDataResponseModel output = GetAllVehicleDataResponseModel(
+              status: getAllVehicleDataResponseModel.status,
+              message: getAllVehicleDataResponseModel.message,
+              data: localData.listVehicleData!.map((e) {
+                return DatumVehicle(
                   id: e.id!,
                   userId: e.userId!,
-                  vehicleId: e.vehicleId!,
-                  measurementTitle: e.measurementTitle!,
-                  currentOdo: e.currentOdo!,
-                  estimateOdoChanging: e.estimateOdoChanging!,
-                  amountExpenses: e.amountExpenses!,
-                  checkpointDate: e.checkpointDate!,
-                  notes: e.notes!,
-                  createdAt: e.createdAt!,
-                  updatedAt: e.updatedAt!,
+                  vehicleName: e.vehicleName!,
+                  vehicleImage: e.vehicleImage!,
+                  year: e.year!,
+                  engineCapacity: e.engineCapacity!,
+                  tankCapacity: e.tankCapacity!,
+                  color: e.color!,
+                  machineNumber: e.machineNumber!,
+                  chassisNumber: e.chassisNumber!,
+                  categorizedData: _helperCategorizeFromLocalToRemote(e.vehicleMeasurementLogModels!),
+                  vehicleMeasurementLogModels: e.vehicleMeasurementLogModels!.map((e) {
+                    return VehicleMeasurementLogModel(
+                      id: e.id!,
+                      userId: e.userId!,
+                      vehicleId: e.vehicleId!,
+                      measurementTitle: e.measurementTitle!,
+                      currentOdo: e.currentOdo!,
+                      estimateOdoChanging: e.estimateOdoChanging!,
+                      amountExpenses: e.amountExpenses!,
+                      checkpointDate: e.checkpointDate!,
+                      notes: e.notes!,
+                      createdAt: e.createdAt!,
+                      updatedAt: e.updatedAt!,
+                    );
+                  }).toList(),
                 );
               }).toList(),
             );
-          }).toList(),
-        );
-        if (output.data!.isEmpty) {
-          emit(
-            GetAllVehicleFailed(
-              errorMessage: "Data is empty",
-            ),
-          );
+            if (output.data!.isEmpty) {
+              emit(
+                GetAllVehicleFailed(
+                  errorMessage: "Data is empty",
+                ),
+              );
+            } else {
+              emit(
+                GetAllVehicleSuccess(
+                  getAllVehicleDataResponseModel: output,
+                ),
+              );
+            }
+          } else {
+            emit(
+              GetAllVehicleFailed(
+                errorMessage: getAllVehicleDataResponseModel.message.toString(),
+              ),
+            );
+          }
         } else {
           emit(
-            GetAllVehicleSuccess(
-              getAllVehicleDataResponseModel: output,
+            GetAllVehicleFailed(
+              errorMessage: "Terjadi kesalahan, data kosong",
             ),
           );
         }
       } else {
         emit(
           GetAllVehicleFailed(
-            errorMessage: getAllVehicleDataResponseModel.message.toString(),
+            errorMessage: "Terjadi kesalahan, data local kosong",
           ),
         );
       }
@@ -222,7 +239,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     emit(GetAllVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      VehicleLocalDataModel vehicleLocalDataModel = await vehicleLocalRepository.getLocalVehicleData();
+      VehicleLocalDataModel? vehicleLocalDataModel = await vehicleLocalRepository.getLocalVehicleData();
       if (vehicleLocalDataModel != null) {
         GetAllVehicleDataResponseModel output = GetAllVehicleDataResponseModel(
           status: 200,
@@ -259,10 +276,10 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
           }).toList(),
         );
         emit(
-            GetAllVehicleSuccess(
-              getAllVehicleDataResponseModel: output,
-            ),
-          );
+          GetAllVehicleSuccess(
+            getAllVehicleDataResponseModel: output,
+          ),
+        );
         // if (output.data!.isEmpty) {
         //   emit(
         //     GetAllVehicleFailed(
@@ -298,7 +315,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     emit(GetAllVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      AccountDataUserModel accountDataUserModel = await localRepository.getLocalAccountData();
+      AccountDataUserModel? accountDataUserModel = await localRepository.getLocalAccountData();
       if (accountDataUserModel != null) {
         emit(GetProfileDataVehicleSuccess(
           accountDataUserModel: accountDataUserModel,
