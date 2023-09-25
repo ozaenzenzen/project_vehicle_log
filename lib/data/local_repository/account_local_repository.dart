@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/support/local_service.dart';
@@ -22,13 +24,14 @@ class AccountLocalRepository {
   static Future<void> saveLocalAccountData({
     required AccountDataUserModel data,
   }) async {
-    await LocalService.instance.box.write("userData", data.toJson());
+    await LocalService.instance.box.write("userData", jsonEncode(data.toJson()));
     debugPrint("[saveLocalAccountData] userData saved");
   }
 
    Future<AccountDataUserModel?> getLocalAccountData() async {
     try {
-      AccountDataUserModel? userData = AccountDataUserModel.fromJson(LocalService.instance.box.read("userData"));
+      String dataFromLocal = LocalService.instance.box.read("userData");
+      AccountDataUserModel? userData = AccountDataUserModel.fromJson(jsonDecode(dataFromLocal));
       if (userData == null || userData == [] || userData == "") {
         return AccountDataUserModel();
         // throw Exception("User data is empty");
