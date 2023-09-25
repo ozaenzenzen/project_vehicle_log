@@ -32,7 +32,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     profileBloc = BlocProvider.of<ProfileBloc>(context)
       ..add(
         GetProfileRemoteAction(
-          accountReposistory: AppAccountReposistory(),
+          accountRepository: AppAccountReposistory(),
         ),
       );
   }

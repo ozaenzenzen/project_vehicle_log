@@ -18,7 +18,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         _getProfileDataAction(localRepository);
       }
       if (event is GetProfileRemoteAction) {
-        _getProfileRemoteAction(event.accountReposistory);
+        _getProfileRemoteAction(event.accountRepository);
       }
     });
   }

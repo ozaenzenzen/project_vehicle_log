@@ -6,6 +6,6 @@ abstract class ProfileEvent {}
 class GetProfileLocalAction extends ProfileEvent {}
 
 class GetProfileRemoteAction extends ProfileEvent {
-  final AppAccountReposistory accountReposistory;
-  GetProfileRemoteAction({required this.accountReposistory});
+  final AppAccountReposistory accountRepository;
+  GetProfileRemoteAction({required this.accountRepository});
 }
