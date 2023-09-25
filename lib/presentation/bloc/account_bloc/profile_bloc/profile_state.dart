@@ -6,10 +6,12 @@ abstract class ProfileState {}
 class ProfileInitial extends ProfileState {}
 
 class ProfileSuccess extends ProfileState {
-  final AccountDataUserModel accountDataUserModel;
+  // final AccountDataUserModel accountDataUserModel;
+  final UserDataModel userDataModel;
 
   ProfileSuccess({
-    required this.accountDataUserModel,
+    // required this.accountDataUserModel,
+    required this.userDataModel,
   });
 }
 
