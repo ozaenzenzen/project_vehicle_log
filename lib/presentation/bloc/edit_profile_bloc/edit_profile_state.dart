@@ -12,11 +12,6 @@ class EditProfileSuccess extends EditProfileState {
   EditProfileSuccess({required this.editProfileResponseModel});
 }
 
-class GetProfileFromEditSuccess extends EditProfileState {
-  final AccountDataUserModel accountDataUserModel;
-  GetProfileFromEditSuccess({required this.accountDataUserModel});
-}
-
 class EditProfileFailed extends EditProfileState {
   final String? errorMessage;
   EditProfileFailed({this.errorMessage});

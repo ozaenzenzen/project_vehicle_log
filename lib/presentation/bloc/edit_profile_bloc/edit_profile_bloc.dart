@@ -16,35 +16,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<EditProfileEvent>((event, emit) {
       if (event is EditProfileAction) {
         _editProfileAction(accountReposistory, event);
-      } else if (event is GetProfileFromEditAction) {
-        _getProfileAction(event.accountLocalRepository);
-      }
+      } 
     });
-  }
-
-  Future<void> _getProfileAction(
-    AccountLocalRepository localRepository,
-  ) async {
-    emit(EditProfileLoading());
-    await Future.delayed(const Duration(milliseconds: 500));
-    try {
-      AccountDataUserModel? accountDataUserModel = await localRepository.getLocalAccountData();
-      if (accountDataUserModel != null) {
-        emit(GetProfileFromEditSuccess(
-          accountDataUserModel: accountDataUserModel,
-        ));
-      } else {
-        emit(
-          EditProfileFailed(errorMessage: "Failed To Get Profile Data"),
-        );
-      }
-    } catch (errorMessage) {
-      emit(
-        EditProfileFailed(
-          errorMessage: errorMessage.toString(),
-        ),
-      );
-    }
   }
 
   Future<void> _editProfileAction(
