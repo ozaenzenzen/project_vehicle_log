@@ -12,6 +12,7 @@ import 'package:project_vehicle_log/presentation/screen/profile_screen/edit_prof
 import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_webview_screen.dart';
+import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
@@ -26,26 +27,30 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late ProfileBloc profileBloc;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    profileBloc = ProfileBloc(AccountLocalRepository());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc(AccountLocalRepository())
+      create: (context) => profileBloc
         ..add(
           GetProfileRemoteAction(
-            accountRepository: AppAccountReposistory()
+            accountRepository: AppAccountReposistory(),
           ),
         ),
       child: Scaffold(
         backgroundColor: AppColor.shape,
-        appBar: AppBar(
-          title: Text(
-            "My Profile",
-            textAlign: TextAlign.left,
-            style: AppTheme.theme.textTheme.headline3?.copyWith(
-              color: AppColor.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        appBar: AppBarWidget(
+          title: 'My Profile',
+          onBack: () {
+            Get.back();
+          },
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -73,7 +78,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                   InkWell(
                                     onTap: () {
                                       Get.back();
-                                      Get.to(() => const EditProfilePage());
+                                      Get.to(() => EditProfilePage(
+                                            callbackAction: () {
+                                              //
+                                            },
+                                          ));
                                     },
                                     child: Container(
                                       height: 120.h,
@@ -161,6 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         BlocBuilder<ProfileBloc, ProfileState>(
+                          bloc: context.watch<ProfileBloc>(),
                           builder: (context, state) {
                             if (state is ProfileLoading) {
                               return SizedBox(
@@ -188,7 +198,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(height: 5.h),
                         InkWell(
                           onTap: () {
-                            Get.to(() => const EditProfilePage());
+                            Get.to(() => EditProfilePage(
+                                  callbackAction: () {
+                                    debugPrint('panggil');
+                                    context.read<ProfileBloc>().add(
+                                          GetProfileRemoteAction(
+                                            accountRepository: AppAccountReposistory(),
+                                          ),
+                                        );
+                                  },
+                                ));
                           },
                           child: Text(
                             "Edit Profile",
@@ -205,6 +224,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 35.h),
                 BlocBuilder<ProfileBloc, ProfileState>(
+                  bloc: context.watch<ProfileBloc>(),
                   builder: (context, state) {
                     if (state is ProfileLoading) {
                       return SizedBox(
@@ -244,6 +264,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 20.h),
                 BlocBuilder<ProfileBloc, ProfileState>(
+                  bloc: context.watch<ProfileBloc>(),
                   builder: (context, state) {
                     if (state is ProfileLoading) {
                       return SizedBox(
