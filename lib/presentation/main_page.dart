@@ -25,7 +25,7 @@ class _MainPageState extends State<MainPage> {
   );
 
   void _selectedTab(int index) {
-    debugPrint("index masuk $index");
+    // debugPrint("index masuk $index");
     if (index == 0) {
       indexClicked = 0;
       pageController.jumpToPage(
@@ -105,7 +105,7 @@ class _MainPageState extends State<MainPage> {
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: (currentPage) {
-          debugPrint("page now: $currentPage");
+          // debugPrint("page now: $currentPage");
           setState(() {
             indexClicked = currentPage;
           });
