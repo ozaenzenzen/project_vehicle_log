@@ -28,7 +28,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc(AccountLocalRepository())..add(GetProfileDataAction()),
+      create: (context) => ProfileBloc(AccountLocalRepository())
+        ..add(
+          GetProfileLocalAction(),
+        ),
       child: Scaffold(
         backgroundColor: AppColor.shape,
         appBar: AppBar(
@@ -164,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               );
                             } else if (state is ProfileSuccess) {
                               return Text(
-                                "${state.accountDataUserModel.name}",
+                                "${state.userDataModel.name}",
                                 style: AppTheme.theme.textTheme.headline2?.copyWith(
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -214,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(width: 20.w),
                           Text(
-                            "${state.accountDataUserModel.email}",
+                            "${state.userDataModel.email}",
                             style: AppTheme.theme.textTheme.headlineMedium?.copyWith(),
                           ),
                         ],
@@ -253,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(width: 20.w),
                           Text(
-                            "+62${state.accountDataUserModel.phone}",
+                            "+62${state.userDataModel.phone}",
                             style: AppTheme.theme.textTheme.headlineMedium?.copyWith(),
                           ),
                         ],
@@ -431,9 +434,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     return InkWell(
                       onTap: () {
                         context.read<SignoutBloc>().add(SignoutAction(
-                          accountLocalRepository: AccountLocalRepository(),
-                          vehicleLocalRepository: VehicleLocalRepository(),
-                        ));
+                              accountLocalRepository: AccountLocalRepository(),
+                              vehicleLocalRepository: VehicleLocalRepository(),
+                            ));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,

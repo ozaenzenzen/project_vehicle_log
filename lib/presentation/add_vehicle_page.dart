@@ -41,15 +41,15 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   late ProfileBloc profileBloc;
 
-  @override
-  void initState() {
-    profileBloc = BlocProvider.of(context)..add(GetProfileDataAction());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
+  //   super.initState();
+  // }
 
   @override
   void didChangeDependencies() {
-    profileBloc = BlocProvider.of(context)..add(GetProfileDataAction());
+    profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
     super.didChangeDependencies();
   }
 
@@ -67,7 +67,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileSuccess) {
-            accountDataUserModel = state.accountDataUserModel;
+            accountDataUserModel = AccountDataUserModel.fromJson(
+              state.userDataModel.toJson(),
+            );
           }
         },
         child: Scaffold(

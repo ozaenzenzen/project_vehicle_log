@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               BlocBuilder<ProfileBloc, ProfileState>(
                                 bloc: BlocProvider.of<ProfileBloc>(context)
                                   ..add(
-                                    GetProfileDataAction(),
+                                    GetProfileLocalAction(),
                                   ),
                                 builder: (context, state) {
                                   if (state is ProfileLoading) {
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     return Text(state.errorMessage);
                                   } else if (state is ProfileSuccess) {
                                     return Text(
-                                      "Hi, ${state.accountDataUserModel.name}",
+                                      "Hi, ${state.userDataModel.name}",
                                       style: AppTheme.theme.textTheme.headline1?.copyWith(
                                         // color: AppColor.text_4,
                                         color: Colors.black38,
