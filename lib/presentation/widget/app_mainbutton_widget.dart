@@ -22,7 +22,7 @@ class AppMainButtonWidget extends StatefulWidget {
     this.height,
     this.width,
     this.color,
-    this.radius = 8,
+    this.radius = 4,
     this.elevation = 0,
   }) : super(key: key);
 
