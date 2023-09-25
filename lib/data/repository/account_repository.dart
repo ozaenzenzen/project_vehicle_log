@@ -41,12 +41,12 @@ class AppAccountReposistory {
     }
   }
 
-  Future<GetUserDataResponseModel?> getUserdata(String token) async {
+  Future<GetUserDataResponseModel?> getUserdata({required String token}) async {
     try {
       final response = await AppApiService(
         EnvironmentConfig.baseUrl(),
       ).call(
-        AppApiPath.signUpAccount,
+        AppApiPath.getUserData,
         method: MethodRequest.get,
         header: <String, String>{
           'token': token,
