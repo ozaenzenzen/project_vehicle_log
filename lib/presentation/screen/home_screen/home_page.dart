@@ -7,6 +7,7 @@ import 'package:project_vehicle_log/data/local_repository/account_local_reposito
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
+import 'package:project_vehicle_log/data/repository/account_repository.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/data/vehicle_data_model.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
@@ -102,6 +103,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 //   vehicleLocalRepository: VehicleLocalRepository(),
                 // ),
               );
+
+          context.read<ProfileBloc>().add(
+                GetProfileRemoteAction(
+                  accountRepository: AppAccountReposistory(),
+                ),
+              );
         },
         child: SingleChildScrollView(
           physics: const ScrollPhysics(),
@@ -130,10 +137,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               BlocBuilder<ProfileBloc, ProfileState>(
-                                bloc: BlocProvider.of<ProfileBloc>(context)
-                                  ..add(
-                                    GetProfileLocalAction(),
-                                  ),
                                 builder: (context, state) {
                                   if (state is ProfileLoading) {
                                     return SizedBox(
@@ -144,12 +147,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   } else if (state is ProfileFailed) {
                                     return Text(state.errorMessage);
                                   } else if (state is ProfileSuccess) {
-                                    return Text(
-                                      "Hi, ${state.userDataModel.name}",
-                                      style: AppTheme.theme.textTheme.headline1?.copyWith(
-                                        // color: AppColor.text_4,
-                                        color: Colors.black38,
-                                        fontWeight: FontWeight.w500,
+                                    return Expanded(
+                                      child: Text(
+                                        "Hi, ${state.userDataModel.name}",
+                                        style: AppTheme.theme.textTheme.headline1?.copyWith(
+                                          // color: AppColor.text_4,
+                                          color: Colors.black38,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     );
                                   } else {
