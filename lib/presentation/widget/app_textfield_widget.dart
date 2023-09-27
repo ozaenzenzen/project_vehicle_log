@@ -8,11 +8,13 @@ class AppTextFieldWidget extends StatefulWidget {
   final int? textFieldMaxLines;
   final TextEditingController? controller;
   final bool readOnly;
+  final bool ignorePointerActive;
   final TextInputType? keyboardType;
   final Function()? onTap;
   final void Function(String)? onChanged;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
+  final bool obscureText;
 
   const AppTextFieldWidget({
     Key? key,
@@ -21,11 +23,13 @@ class AppTextFieldWidget extends StatefulWidget {
     this.controller,
     this.textFieldMaxLines,
     this.readOnly = false,
+    this.ignorePointerActive = false,
     this.onTap,
     this.keyboardType,
     this.onChanged,
     this.suffixIcon,
     this.prefixIcon,
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -64,38 +68,73 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
         SizedBox(
           // height: 48.h,
           height: height,
-          child: TextField(
-            controller: widget.controller,
-            keyboardType: widget.keyboardType,
-            // maxLines: 5,
-            maxLines: widget.textFieldMaxLines,
-            // minLines: 1,
-            style: GoogleFonts.inter(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
-            ),
-            decoration: InputDecoration(
-              suffixIcon: widget.suffixIcon,
-              prefixIcon: widget.prefixIcon,
-              contentPadding: EdgeInsets.all(10.h),
-              // hintText: "jane29@gmail.com",
-              hintText: widget.textFieldHintText,
-              hintStyle: GoogleFonts.inter(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-              ),
-              border: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Color(0xff7F848F),
+          child: widget.ignorePointerActive
+              ? IgnorePointer(
+                  child: TextField(
+                    obscureText: widget.obscureText,
+                    controller: widget.controller,
+                    keyboardType: widget.keyboardType,
+                    // maxLines: 5,
+                    maxLines: (widget.obscureText) ? 1 : widget.textFieldMaxLines,
+                    // minLines: 1,
+                    style: GoogleFonts.inter(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      suffixIcon: widget.suffixIcon,
+                      prefixIcon: widget.prefixIcon,
+                      contentPadding: EdgeInsets.all(10.h),
+                      // hintText: "jane29@gmail.com",
+                      hintText: widget.textFieldHintText,
+                      hintStyle: GoogleFonts.inter(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xff7F848F),
+                        ),
+                      ),
+                    ),
+                    onChanged: widget.onChanged,
+                    readOnly: widget.readOnly,
+                    onTap: widget.onTap,
+                  ),
+                )
+              : TextField(
+                  obscureText: widget.obscureText,
+                  controller: widget.controller,
+                  keyboardType: widget.keyboardType,
+                  // maxLines: 5,
+                  maxLines: (widget.obscureText) ? 1 : widget.textFieldMaxLines,
+                  // minLines: 1,
+                  style: GoogleFonts.inter(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    suffixIcon: widget.suffixIcon,
+                    prefixIcon: widget.prefixIcon,
+                    contentPadding: EdgeInsets.all(10.h),
+                    // hintText: "jane29@gmail.com",
+                    hintText: widget.textFieldHintText,
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xff7F848F),
+                      ),
+                    ),
+                  ),
+                  onChanged: widget.onChanged,
+                  readOnly: widget.readOnly,
+                  onTap: widget.onTap,
                 ),
-              ),
-
-            ),
-            onChanged: widget.onChanged,
-            readOnly: widget.readOnly,
-            onTap: widget.onTap,
-          ),
         ),
       ],
     );

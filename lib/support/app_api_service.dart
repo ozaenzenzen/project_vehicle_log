@@ -97,7 +97,7 @@ class AppApiService {
       //debugPrint('Success $selectedMethod $url: \nResponse : ${url.contains("rss") ? "rss feed response to long" : response.data}');
       return response;
     } on DioError catch (e) {
-      debugPrint('Error $selectedMethod $url: $e\nData: ${e.response?.data}');
+      // debugPrint('Error $selectedMethod $url: $e\nData: ${(e.response?.data ?? "empty")}');
       if (e.response?.data is Map) {
         (e.response?.data as Map).addAll(<String, dynamic>{
           "status": "error",

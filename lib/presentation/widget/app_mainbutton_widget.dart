@@ -6,6 +6,7 @@ class AppMainButtonWidget extends StatefulWidget {
   final Function() onPressed;
   final String text;
   final double? fontSize;
+  final FontWeight? fontWeight;
   final double? height;
   final double? width;
   final Color? color;
@@ -17,10 +18,11 @@ class AppMainButtonWidget extends StatefulWidget {
     required this.onPressed,
     required this.text,
     this.fontSize,
+    this.fontWeight,
     this.height,
     this.width,
     this.color,
-    this.radius = 8,
+    this.radius = 4,
     this.elevation = 0,
   }) : super(key: key);
 
@@ -32,7 +34,7 @@ class _AppMainButtonWidgetState extends State<AppMainButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.height ?? 40.h,
+      height: widget.height ?? 48.h,
       width: widget.width ?? MediaQuery.of(context).size.width,
       child: ElevatedButton(
         onPressed: widget.onPressed,
@@ -49,7 +51,7 @@ class _AppMainButtonWidgetState extends State<AppMainButtonWidget> {
           style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: widget.fontSize ?? 16.sp,
-            fontWeight: FontWeight.w600,
+            fontWeight: widget.fontWeight ?? FontWeight.w500,
           ),
         ),
       ),

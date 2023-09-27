@@ -68,7 +68,7 @@ class AppCustomAppBarState extends State<AppCustomAppBar> {
         item: widget.items![index],
         index: index,
         onPressed: (index) {
-          debugPrint("klik index $index");
+          // debugPrint("klik index $index");
           widget.onTabSelected!(index);
           setState(() {
             _selectedIndex = index;
