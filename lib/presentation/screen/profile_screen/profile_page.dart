@@ -166,59 +166,61 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     SizedBox(width: 20.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BlocBuilder<ProfileBloc, ProfileState>(
-                          bloc: context.watch<ProfileBloc>(),
-                          builder: (context, state) {
-                            if (state is ProfileLoading) {
-                              return SizedBox(
-                                height: 20.h,
-                                width: 150.w,
-                                child: const SkeletonLine(),
-                              );
-                            } else if (state is ProfileSuccess) {
-                              return Text(
-                                "${state.userDataModel.name}",
-                                style: AppTheme.theme.textTheme.headline2?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              );
-                            } else {
-                              return Text(
-                                "User name",
-                                style: AppTheme.theme.textTheme.headline2?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                        SizedBox(height: 5.h),
-                        InkWell(
-                          onTap: () {
-                            Get.to(() => EditProfilePage(
-                                  callbackAction: () {
-                                    debugPrint('panggil');
-                                    context.read<ProfileBloc>().add(
-                                          GetProfileRemoteAction(
-                                            accountRepository: AppAccountReposistory(),
-                                          ),
-                                        );
-                                  },
-                                ));
-                          },
-                          child: Text(
-                            "Edit Profile",
-                            style: AppTheme.theme.textTheme.headline6?.copyWith(
-                              color: AppColor.text_4,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BlocBuilder<ProfileBloc, ProfileState>(
+                            bloc: context.watch<ProfileBloc>(),
+                            builder: (context, state) {
+                              if (state is ProfileLoading) {
+                                return SizedBox(
+                                  height: 20.h,
+                                  width: 150.w,
+                                  child: const SkeletonLine(),
+                                );
+                              } else if (state is ProfileSuccess) {
+                                return Text(
+                                  "${state.userDataModel.name}",
+                                  style: AppTheme.theme.textTheme.headline2?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  "User name",
+                                  style: AppTheme.theme.textTheme.headline2?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                          SizedBox(height: 5.h),
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => EditProfilePage(
+                                    callbackAction: () {
+                                      debugPrint('panggil');
+                                      context.read<ProfileBloc>().add(
+                                            GetProfileRemoteAction(
+                                              accountRepository: AppAccountReposistory(),
+                                            ),
+                                          );
+                                    },
+                                  ));
+                            },
+                            child: Text(
+                              "Edit Profile",
+                              style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                color: AppColor.text_4,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
