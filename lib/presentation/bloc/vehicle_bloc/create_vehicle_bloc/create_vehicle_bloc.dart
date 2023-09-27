@@ -2,6 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
@@ -23,21 +25,38 @@ class CreateVehicleBloc extends Bloc<CreateVehicleEvent, CreateVehicleState> {
     CreateVehicleAction event,
   ) async {
     emit(CreateVehicleLoading());
-    await Future.delayed(const Duration(milliseconds: 1000));
     try {
-      CreateVehicleResponseModel createVehicleResponseModel = await appVehicleReposistory.createVehicleData(
-        event.createVehicleRequestModel,
-      );
-      if (createVehicleResponseModel.status == 201) {
-        emit(
-          CreateVehicleSuccess(
-            createVehicleResponseModel: createVehicleResponseModel,
-          ),
+      AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
+      if (dataLocal != null) {
+        CreateVehicleResponseModel? createVehicleResponseModel = await appVehicleReposistory.createVehicleData(
+          createVehicleRequestModel: event.createVehicleRequestModel,
+          token: dataLocal.token!,
         );
+        if (createVehicleResponseModel != null) {
+          if (createVehicleResponseModel.status == 201) {
+            emit(
+              CreateVehicleSuccess(
+                createVehicleResponseModel: createVehicleResponseModel,
+              ),
+            );
+          } else {
+            emit(
+              CreateVehicleFailed(
+                errorMessage: createVehicleResponseModel.message.toString(),
+              ),
+            );
+          }
+        } else {
+          emit(
+            CreateVehicleFailed(
+              errorMessage: 'Data Empty',
+            ),
+          );
+        }
       } else {
         emit(
           CreateVehicleFailed(
-            errorMessage: createVehicleResponseModel.message.toString(),
+            errorMessage: 'Terjadi kesalahan',
           ),
         );
       }

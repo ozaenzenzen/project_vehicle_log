@@ -46,12 +46,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    getAllVehicleBloc = BlocProvider.of<GetAllVehicleBloc>(context)
-      ..add(
-        GetProfileDataVehicleAction(
-          localRepository: AccountLocalRepository(),
-        ),
-      );
     data = [
       _ChartData('David', 25),
       _ChartData('Steve', 38),
@@ -90,9 +84,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         if (state is GetProfileDataVehicleSuccess) {
           accountDataUserModelHomePage = state.accountDataUserModel;
           context.read<GetAllVehicleBloc>().add(
-                // GetAllVehicleDataAction(
-                //   id: state.accountDataUserModel.userId.toString(),
-                // ),
                 GetAllVehicleDataFromLocalAction(
                   vehicleLocalRepository: VehicleLocalRepository(),
                 ),
@@ -111,9 +102,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   id: accountDataUserModelHomePage!.userId.toString(),
                   vehicleLocalRepository: VehicleLocalRepository(),
                 ),
-                // GetAllVehicleDataFromLocalAction(
-                //   vehicleLocalRepository: VehicleLocalRepository(),
-                // ),
               );
         },
         child: SingleChildScrollView(

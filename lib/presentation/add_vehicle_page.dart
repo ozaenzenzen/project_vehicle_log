@@ -12,6 +12,7 @@ import 'package:project_vehicle_log/presentation/bloc/account_bloc/profile_bloc/
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
+import 'package:project_vehicle_log/presentation/widget/app_bottom_navbar_button_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
@@ -76,6 +77,87 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
         child: Scaffold(
           appBar: const AppBarWidget(
             title: "Add Vehicle",
+          ),
+          bottomSheet: Container(
+            decoration: const BoxDecoration(
+              color: AppColor.white,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                  color: Colors.black12,
+                  offset: Offset(0, -1),
+                ),
+              ],
+            ),
+            padding: EdgeInsets.only(
+              left: 16.w,
+              right: 16.w,
+              top: 16.h,
+              bottom: 24.h,
+            ),
+            child: BlocConsumer<CreateVehicleBloc, CreateVehicleState>(
+              listener: (context, state) {
+                if (state is CreateVehicleFailed) {
+                  AppDialogAction.showMainPopup(
+                    context: context,
+                    title: "Error",
+                    content: Text(state.errorMessage),
+                    mainButtonAction: () {
+                      Get.back();
+                    },
+                  );
+                } else if (state is CreateVehicleSuccess) {
+                  Get.off(() => const MainPage());
+                }
+              },
+              builder: (context, state) {
+                if (state is CreateVehicleLoading) {
+                  return const Center(
+                    child: AppLoadingIndicator(),
+                  );
+                }
+                return AppMainButtonWidget(
+                  onPressed: () {
+                    if (accountDataUserModel!.userId == null ||
+                        vehicleNameController.text.isEmpty ||
+                        imagePickedInBase64 == "" ||
+                        imagePickedInBase64 == null ||
+                        yearController.text.isEmpty ||
+                        engineCapacityController.text.isEmpty ||
+                        tankCapacityController.text.isEmpty ||
+                        colorController.text.isEmpty ||
+                        machineNumberController.text.isEmpty ||
+                        chassisNumberController.text.isEmpty) {
+                      AppDialogAction.showFailedPopup(
+                        context: context,
+                        title: "Error",
+                        description: "field can't be empty",
+                        buttonTitle: "Back",
+                      );
+                    } else {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      context.read<CreateVehicleBloc>().add(
+                            CreateVehicleAction(
+                              createVehicleRequestModel: CreateVehicleRequestModel(
+                                userId: accountDataUserModel!.userId!,
+                                vehicleName: vehicleNameController.text,
+                                vehicleImage: imagePickedInBase64!,
+                                year: yearController.text,
+                                engineCapacity: engineCapacityController.text,
+                                tankCapacity: tankCapacityController.text,
+                                color: colorController.text,
+                                machineNumber: machineNumberController.text,
+                                chassisNumber: chassisNumberController.text,
+                              ),
+                            ),
+                          );
+                    }
+                  },
+                  text: "Add Vehicle",
+                );
+              },
+            ),
           ),
           body: SingleChildScrollView(
             child: Container(
@@ -264,68 +346,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                     textFieldHintText: "Chassis Number",
                     controller: chassisNumberController,
                   ),
-                  SizedBox(height: 20.h),
-                  BlocConsumer<CreateVehicleBloc, CreateVehicleState>(
-                    listener: (context, state) {
-                      if (state is CreateVehicleFailed) {
-                        AppDialogAction.showMainPopup(
-                          context: context,
-                          title: "Error",
-                          content: Text(state.errorMessage),
-                          mainButtonAction: () {
-                            Get.back();
-                          },
-                        );
-                      } else if (state is CreateVehicleSuccess) {
-                        Get.off(() => const MainPage());
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is CreateVehicleLoading) {
-                        return const Center(
-                          child: AppLoadingIndicator(),
-                        );
-                      }
-                      return AppMainButtonWidget(
-                        onPressed: () {
-                          if (accountDataUserModel!.userId == null ||
-                              vehicleNameController.text.isEmpty ||
-                              imagePickedInBase64 == "" ||
-                              imagePickedInBase64 == null ||
-                              yearController.text.isEmpty ||
-                              engineCapacityController.text.isEmpty ||
-                              tankCapacityController.text.isEmpty ||
-                              colorController.text.isEmpty ||
-                              machineNumberController.text.isEmpty ||
-                              chassisNumberController.text.isEmpty) {
-                            AppDialogAction.showFailedPopup(
-                              context: context,
-                              title: "Error",
-                              description: "field can't be empty",
-                              buttonTitle: "Back",
-                            );
-                          } else {
-                            context.read<CreateVehicleBloc>().add(
-                                  CreateVehicleAction(
-                                    createVehicleRequestModel: CreateVehicleRequestModel(
-                                      userId: accountDataUserModel!.userId!,
-                                      vehicleName: vehicleNameController.text,
-                                      vehicleImage: imagePickedInBase64!,
-                                      year: yearController.text,
-                                      engineCapacity: engineCapacityController.text,
-                                      tankCapacity: tankCapacityController.text,
-                                      color: colorController.text,
-                                      machineNumber: machineNumberController.text,
-                                      chassisNumber: chassisNumberController.text,
-                                    ),
-                                  ),
-                                );
-                          }
-                        },
-                        text: "Add Vehicle",
-                      );
-                    },
-                  ),
+                  SizedBox(height: kToolbarHeight + 20.h),
                 ],
               ),
             ),
