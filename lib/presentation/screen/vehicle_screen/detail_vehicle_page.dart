@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:project_vehicle_log/presentation/screen/vehicle_screen/edit_main
 import 'package:project_vehicle_log/presentation/screen/vehicle_screen/list_item_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
+import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -357,20 +359,31 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
     return Scaffold(
       backgroundColor: AppColor.shape,
       appBar: AppBar(
+        backgroundColor: AppColor.primary,
+        elevation: 10,
+        shadowColor: const Color(0xff101828),
+        centerTitle: true,
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
         title: Text(
           "Detail Vehicle Page",
           textAlign: TextAlign.left,
-          style: AppTheme.theme.textTheme.headline3?.copyWith(
-            color: AppColor.white,
+          style: GoogleFonts.inter(
+            color: Colors.white,
             fontWeight: FontWeight.w600,
+            fontSize: 18.sp,
           ),
         ),
         bottom: PreferredSize(
           preferredSize: _tabBar.preferredSize,
-          child: Container(
-            // color: Colors.white,
-            child: _tabBar,
-          ),
+          child: _tabBar,
         ),
       ),
       body: TabBarView(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
+import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
@@ -27,17 +28,8 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.shape,
-      appBar: AppBar(
-        title: Text(
-          // "Detail Measurement: ${widget.title}",
-          // "${widget.data.vehicleName}: ${widget.data.listControl![widget.index]}",
-           "${widget.data.vehicleName}: ${widget.data.categorizedData![widget.index].measurementTitle}",
-          textAlign: TextAlign.left,
-          style: AppTheme.theme.textTheme.headline3?.copyWith(
-            color: AppColor.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+      appBar: AppBarWidget(
+        title: "${widget.data.vehicleName}: ${widget.data.categorizedData![widget.index].measurementTitle}",
       ),
     );
   }

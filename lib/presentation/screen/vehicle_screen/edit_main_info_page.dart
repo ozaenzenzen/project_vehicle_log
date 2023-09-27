@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
+import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -26,15 +27,8 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Edit Vehicle",
-            textAlign: TextAlign.left,
-            style: AppTheme.theme.textTheme.headline3?.copyWith(
-              color: AppColor.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        appBar: const AppBarWidget(
+          title: "Edit Vehicle",
         ),
         body: SingleChildScrollView(
           child: Container(

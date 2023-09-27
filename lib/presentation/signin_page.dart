@@ -38,7 +38,6 @@ class _SignInPageState extends State<SignInPage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        // appBar: AppBar(),
         body: Container(
           padding: EdgeInsets.all(16.h),
           child: Stack(

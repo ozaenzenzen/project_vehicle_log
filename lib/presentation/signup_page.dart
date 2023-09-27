@@ -35,7 +35,6 @@ class _SignUpPageState extends State<SignUpPage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        // appBar: AppBar(),
         resizeToAvoidBottomInset: false,
         body: Container(
           padding: EdgeInsets.all(16.h),

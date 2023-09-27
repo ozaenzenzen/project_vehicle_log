@@ -12,6 +12,7 @@ import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
+import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -67,15 +68,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "Add Measurement",
-              textAlign: TextAlign.left,
-              style: AppTheme.theme.textTheme.headline3?.copyWith(
-                color: AppColor.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+          appBar: const AppBarWidget(
+            title: "Add Measurement",
           ),
           body: SingleChildScrollView(
             child: Container(

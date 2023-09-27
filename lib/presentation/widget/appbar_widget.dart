@@ -4,20 +4,28 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 
-class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final Function()? onBack;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
-
+  
   const AppBarWidget({
-    key,
+    Key? key,
     required this.title,
-    this.actions,
     this.onBack,
+    this.actions,
     this.bottom,
   }) : super(key: key);
 
+  @override
+  State<AppBarWidget> createState() => _AppBarWidgetState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -26,7 +34,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       shadowColor: const Color(0xff101828),
       centerTitle: true,
       leading: InkWell(
-        onTap: onBack ??
+        onTap: widget.onBack ??
             () {
               Get.back();
             },
@@ -36,18 +44,63 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: Text(
-        title,
+        widget.title,
         style: GoogleFonts.inter(
           color: Colors.white,
           fontWeight: FontWeight.w600,
           fontSize: 18.sp,
         ),
       ),
-      actions: actions,
-      bottom: bottom,
+      actions: widget.actions,
+      bottom: widget.bottom,
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
+
+// class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+//   final String title;
+//   final Function()? onBack;
+//   final List<Widget>? actions;
+//   final PreferredSizeWidget? bottom;
+
+//   const AppBarWidget({
+//     key,
+//     required this.title,
+//     this.actions,
+//     this.onBack,
+//     this.bottom,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AppBar(
+//       backgroundColor: AppColor.primary,
+//       elevation: 10,
+//       shadowColor: const Color(0xff101828),
+//       centerTitle: true,
+//       leading: InkWell(
+//         onTap: onBack ??
+//             () {
+//               Get.back();
+//             },
+//         child: const Icon(
+//           Icons.arrow_back,
+//           color: Colors.white,
+//         ),
+//       ),
+//       title: Text(
+//         title,
+//         style: GoogleFonts.inter(
+//           color: Colors.white,
+//           fontWeight: FontWeight.w600,
+//           fontSize: 18.sp,
+//         ),
+//       ),
+//       actions: actions,
+//       bottom: bottom,
+//     );
+//   }
+
+//   @override
+//   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+// }
