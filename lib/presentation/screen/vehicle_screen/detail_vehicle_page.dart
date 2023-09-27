@@ -145,7 +145,11 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(() => const EditMainInfoPage());
+                          Get.to(
+                            () => EditMainInfoPage(
+                              index: widget.index,
+                            ),
+                          );
                         },
                         child: Icon(
                           Icons.edit_square,

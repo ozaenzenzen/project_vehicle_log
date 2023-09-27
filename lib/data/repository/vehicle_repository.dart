@@ -72,15 +72,25 @@ class AppVehicleReposistory {
     }
   }
 
-  Future<EditVehicleResponseModel> editVehicleData(EditVehicleRequestModel editVehicleRequestModel) async {
-    final response = await AppApiService(
-      EnvironmentConfig.baseUrl(),
-    ).call(
-      AppApiPath.editVehicle,
-      method: MethodRequest.post,
-      request: editVehicleRequestModel.toJson(),
-    );
-    return EditVehicleResponseModel.fromJson(response.data);
+  Future<EditVehicleResponseModel?> editVehicleData({
+    required EditVehicleRequestModel editVehicleRequestModel,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.editVehicle,
+        method: MethodRequest.post,
+        request: editVehicleRequestModel.toJson(),
+        header: {
+          "token": token,
+        },
+      );
+      return EditVehicleResponseModel.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<CreateLogVehicleResponseModel> createLogVehicleData(CreateLogVehicleRequestModel createLogVehicleRequestModel) async {

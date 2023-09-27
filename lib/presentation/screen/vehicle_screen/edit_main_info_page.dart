@@ -2,35 +2,157 @@ import 'dart:convert';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_request_model.dart';
+import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log/presentation/bloc/edit_profile_bloc/edit_profile_bloc.dart';
+import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/edit_vehicle_bloc/edit_vehicle_bloc.dart';
+import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class EditMainInfoPage extends StatefulWidget {
-  const EditMainInfoPage({Key? key}) : super(key: key);
+  final int index;
+
+  const EditMainInfoPage({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
 
   @override
   State<EditMainInfoPage> createState() => _EditMainInfoPageState();
 }
 
 class _EditMainInfoPageState extends State<EditMainInfoPage> {
+  int? vehicleId;
+
   String imagePickedInBase64 = "";
+  TextEditingController vehicleNameController = TextEditingController();
+  TextEditingController yearController = TextEditingController();
+  TextEditingController engineCapacityController = TextEditingController();
+  TextEditingController tankCapacityController = TextEditingController();
+  TextEditingController colorController = TextEditingController();
+  TextEditingController machineNumberController = TextEditingController();
+  TextEditingController chassisNumberController = TextEditingController();
+
+  late GetAllVehicleBloc getAllVehicleBloc;
+  late EditVehicleBloc editVehicleBloc;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getAllVehicleBloc = BlocProvider.of(context)
+      ..add(
+        GetAllVehicleDataFromLocalAction(
+          vehicleLocalRepository: VehicleLocalRepository(),
+        ),
+      );
+    editVehicleBloc = EditVehicleBloc();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        appBar: const AppBarWidget(
-          title: "Edit Vehicle",
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<GetAllVehicleBloc>(
+          create: (context) => GetAllVehicleBloc(
+            AppVehicleReposistory(),
+          ),
         ),
-        body: SingleChildScrollView(
+        BlocProvider<EditVehicleBloc>(
+          create: (context) => EditVehicleBloc(),
+        ),
+      ],
+      child: BlocListener<EditVehicleBloc, EditVehicleState>(
+        listener: (context, state) {
+          if (state is EditVehicleSuccess) {
+            AppDialogAction.showSuccessPopup(
+              context: context,
+              title: 'Berhasil',
+              description: state.editVehicleResponseModel.message,
+              buttonTitle: 'Kembali',
+              mainButtonAction: () {
+                Get.offAll(const MainPage());
+              },
+            );
+          }
+          if (state is EditVehicleFailed) {
+            AppDialogAction.showFailedPopup(
+              context: context,
+              title: 'Terjadi kesalahan',
+              description: state.errorMessage,
+              buttonTitle: 'Kembali',
+            );
+          }
+        },
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            appBar: const AppBarWidget(
+              title: "Edit Vehicle",
+            ),
+            body: Stack(
+              children: [
+                bodyView(),
+                BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+                  builder: (context, state) {
+                    if (state is GetAllVehicleLoading) {
+                      return loadingView();
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+                BlocBuilder<EditVehicleBloc, EditVehicleState>(
+                  builder: (context, state) {
+                    if (state is EditVehicleLoading) {
+                      return loadingView();
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget bodyView() {
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      bloc: context.read<GetAllVehicleBloc>()
+        ..add(
+          GetAllVehicleDataFromLocalAction(
+            vehicleLocalRepository: VehicleLocalRepository(),
+          ),
+        ),
+      builder: (context, state) {
+        if (state is GetAllVehicleSuccess) {
+          vehicleId = state.getAllVehicleDataResponseModel.data![widget.index].id!;
+          // imagePickedInBase64 = state.getAllVehicleDataResponseModel.data![widget.index].vehicleImage!;
+          vehicleNameController.text = state.getAllVehicleDataResponseModel.data![widget.index].vehicleName!;
+          yearController.text = state.getAllVehicleDataResponseModel.data![widget.index].year!;
+          engineCapacityController.text = state.getAllVehicleDataResponseModel.data![widget.index].engineCapacity!;
+          tankCapacityController.text = state.getAllVehicleDataResponseModel.data![widget.index].tankCapacity!;
+          colorController.text = state.getAllVehicleDataResponseModel.data![widget.index].color!;
+          machineNumberController.text = state.getAllVehicleDataResponseModel.data![widget.index].machineNumber!;
+          chassisNumberController.text = state.getAllVehicleDataResponseModel.data![widget.index].chassisNumber!;
+        }
+        return SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
             color: AppColor.shape,
@@ -176,51 +298,101 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                         ),
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Vehicle Name",
                   textFieldHintText: "Vehicle Name",
+                  controller: vehicleNameController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Year",
                   textFieldHintText: "Year",
+                  controller: yearController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Engine Capacity (cc)",
                   textFieldHintText: "ex: 250",
+                  controller: engineCapacityController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Tank Capacity (Litre)",
                   textFieldHintText: "ex: 250",
+                  controller: tankCapacityController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Color",
                   textFieldHintText: "Color",
+                  controller: colorController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Machine Number",
                   textFieldHintText: "Machine Number",
+                  controller: machineNumberController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Chassis Number",
                   textFieldHintText: "Chassis Number",
+                  controller: chassisNumberController,
                 ),
                 SizedBox(height: 20.h),
                 AppMainButtonWidget(
                   onPressed: () {
                     // Get.off(() => const MainPage());
+                    context.read<EditVehicleBloc>().add(
+                          EditVehicleAction(
+                            appVehicleReposistory: AppVehicleReposistory(),
+                            editVehicleRequestModel: EditVehicleRequestModel(
+                              vehicleId: vehicleId!,
+                              vehicleName: vehicleNameController.text,
+                              vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
+                              year: yearController.text,
+                              engineCapacity: engineCapacityController.text,
+                              tankCapacity: tankCapacityController.text,
+                              color: colorController.text,
+                              machineNumber: machineNumberController.text,
+                              chassisNumber: chassisNumberController.text,
+                            ),
+                          ),
+                        );
                   },
                   text: "Edit Vehicle",
                 ),
               ],
             ),
           ),
-        ),
+        );
+      },
+    );
+  }
+
+  Widget loadingView() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      color: Colors.black38,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 50.h,
+            width: 50.h,
+            child: const CircularProgressIndicator(),
+          ),
+          SizedBox(height: 24.h),
+          Text(
+            'Proses sedang berlangsung',
+            style: GoogleFonts.inter(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+            ),
+          ),
+        ],
       ),
     );
   }
