@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/presentation/add_vehicle_page.dart';
-import 'package:project_vehicle_log/presentation/home_screen/home_page.dart';
-import 'package:project_vehicle_log/presentation/stats_screen/stats_page.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_page.dart';
+import 'package:project_vehicle_log/presentation/screen/home_screen/home_page.dart';
+import 'package:project_vehicle_log/presentation/screen/profile_screen/profile_page.dart';
+import 'package:project_vehicle_log/presentation/screen/stats_screen/stats_page.dart';
+import 'package:project_vehicle_log/presentation/screen/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_custom_appbar.dart';
-import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 
 class MainPage extends StatefulWidget {
@@ -25,27 +25,27 @@ class _MainPageState extends State<MainPage> {
   );
 
   void _selectedTab(int index) {
-    debugPrint("index masuk $index");
+    // debugPrint("index masuk $index");
     if (index == 0) {
       indexClicked = 0;
-      pageController.animateToPage(
+      pageController.jumpToPage(
         0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+        // duration: const Duration(milliseconds: 300),
+        // curve: Curves.ease,
       );
     } else if (index == 1) {
       indexClicked = 1;
-      pageController.animateToPage(
+      pageController.jumpToPage(
         1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+        // duration: const Duration(milliseconds: 300),
+        // curve: Curves.ease,
       );
     } else if (index == 2) {
       indexClicked = 2;
-      pageController.animateToPage(
+      pageController.jumpToPage(
         2,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+        // duration: const Duration(milliseconds: 300),
+        // curve: Curves.ease,
       );
     } else {
       Get.to(() => const ProfilePage());
@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppColor.shape,
+      backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(() => const AddVehiclePage());
@@ -102,9 +102,10 @@ class _MainPageState extends State<MainPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: (currentPage) {
-          debugPrint("page now: $currentPage");
+          // debugPrint("page now: $currentPage");
           setState(() {
             indexClicked = currentPage;
           });
