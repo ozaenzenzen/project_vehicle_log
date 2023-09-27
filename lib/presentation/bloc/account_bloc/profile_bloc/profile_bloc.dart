@@ -23,18 +23,28 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
   }
   Future<void> _getProfileRemoteAction(
-    AppAccountReposistory accountReposistory,
+    AppAccountReposistory accountRepository,
   ) async {
     emit(ProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
       AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
-        GetUserDataResponseModel? getUserDataResponseModel = await accountReposistory.getUserdata(
+        GetUserDataResponseModel? getUserDataResponseModel = await accountRepository.getUserdata(
           token: dataLocal.token!,
         );
         if (getUserDataResponseModel != null) {
           if (getUserDataResponseModel.status == 200) {
+            AccountDataUserModel data = AccountDataUserModel(
+              userId: getUserDataResponseModel.userdata?.id,
+              name: getUserDataResponseModel.userdata?.name,
+              email: getUserDataResponseModel.userdata?.email,
+              phone: getUserDataResponseModel.userdata?.phone,
+              token: dataLocal.token,
+              // link: signInResponseModel.userdata?.link,
+              // typeuser: signInResponseModel.userdata?.typeuser,
+            );
+            await AccountLocalRepository.saveLocalAccountData(data: data);
             emit(
               ProfileSuccess(
                 userDataModel: UserDataModel.fromJson(
