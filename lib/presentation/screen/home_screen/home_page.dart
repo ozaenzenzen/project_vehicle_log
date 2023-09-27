@@ -62,12 +62,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
   }
 
+  late ProfileBloc profileBloc;
   @override
   void didChangeDependencies() {
     getAllVehicleBloc = BlocProvider.of<GetAllVehicleBloc>(context)
       ..add(
         GetProfileDataVehicleAction(
           localRepository: AccountLocalRepository(),
+        ),
+      );
+    profileBloc = BlocProvider.of<ProfileBloc>(context)
+      ..add(
+        GetProfileRemoteAction(
+          accountRepository: AppAccountReposistory(),
         ),
       );
     super.didChangeDependencies();
@@ -94,6 +101,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
       child: RefreshIndicator(
         onRefresh: () async {
+          context.read<ProfileBloc>().add(
+                GetProfileRemoteAction(
+                  accountRepository: AppAccountReposistory(),
+                ),
+              );
           context.read<GetAllVehicleBloc>().add(
                 GetAllVehicleDataAction(
                   id: accountDataUserModelHomePage!.userId.toString(),
@@ -102,12 +114,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 // GetAllVehicleDataFromLocalAction(
                 //   vehicleLocalRepository: VehicleLocalRepository(),
                 // ),
-              );
-
-          context.read<ProfileBloc>().add(
-                GetProfileRemoteAction(
-                  accountRepository: AppAccountReposistory(),
-                ),
               );
         },
         child: SingleChildScrollView(
