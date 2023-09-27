@@ -8,6 +8,7 @@ import 'package:project_vehicle_log/data/local_repository/vehicle_local_reposito
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/bloc/account_bloc/signout_bloc/signout_bloc.dart';
+import 'package:project_vehicle_log/presentation/screen/notification_screen/notification_page.dart';
 import 'package:project_vehicle_log/presentation/screen/profile_screen/edit_profile_page.dart';
 import 'package:project_vehicle_log/presentation/signin_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
@@ -51,6 +52,19 @@ class _ProfilePageState extends State<ProfilePage> {
           onBack: () {
             Get.back();
           },
+          actions: [
+            InkWell(
+              onTap: () {
+                Get.to(() => const NotificationPage());
+              },
+              child: Padding(
+                padding: EdgeInsets.all(16.w),
+                child: const Icon(
+                  Icons.notifications_active,
+                ),
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Container(

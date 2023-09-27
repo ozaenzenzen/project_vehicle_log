@@ -1,18 +1,18 @@
 class GetNotificationResponseModel {
-  int status;
-  String message;
+  dynamic status;
+  String? message;
   List<Notification>? notification;
 
   GetNotificationResponseModel({
-    required this.status,
-    required this.message,
-    required this.notification,
+    this.status,
+    this.message,
+    this.notification,
   });
 
   factory GetNotificationResponseModel.fromJson(Map<String, dynamic> json) => GetNotificationResponseModel(
         status: json["status"],
         message: json["message"],
-        notification: List<Notification>.from(json["notification"].map((x) => Notification.fromJson(x))),
+        notification: json["notification"] == null ? null : List<Notification>.from(json["notification"].map((x) => Notification.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -23,24 +23,24 @@ class GetNotificationResponseModel {
 }
 
 class Notification {
-  int notificationId;
-  int userId;
-  String notificationTitle;
-  String notificationDescription;
-  int notificationStatus;
-  int notificationType;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? notificationId;
+  int? userId;
+  String? notificationTitle;
+  String? notificationDescription;
+  int? notificationStatus;
+  int? notificationType;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   Notification({
-    required this.notificationId,
-    required this.userId,
-    required this.notificationTitle,
-    required this.notificationDescription,
-    required this.notificationStatus,
-    required this.notificationType,
-    required this.createdAt,
-    required this.updatedAt,
+    this.notificationId,
+    this.userId,
+    this.notificationTitle,
+    this.notificationDescription,
+    this.notificationStatus,
+    this.notificationType,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
@@ -50,8 +50,8 @@ class Notification {
         notificationDescription: json["notification_description"],
         notificationStatus: json["notification_status"],
         notificationType: json["notification_type"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,7 +61,7 @@ class Notification {
         "notification_description": notificationDescription,
         "notification_status": notificationStatus,
         "notification_type": notificationType,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
       };
 }
