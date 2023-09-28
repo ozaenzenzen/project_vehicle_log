@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
@@ -12,6 +15,7 @@ import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dar
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_dialog_action.dart';
+import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -27,6 +31,7 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  String profilePicture = "";
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -37,6 +42,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     profileBloc = ProfileBloc(AccountLocalRepository());
+    profileBloc = profileBloc
+      ..add(
+        GetProfileRemoteAction(
+          accountRepository: AppAccountReposistory(),
+        ),
+      );
   }
 
   @override
@@ -68,199 +79,42 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 widget.callbackAction?.call();
               },
             ),
-            bottomNavigationBar: bottomButtonSection(),
-            body: BlocBuilder<ProfileBloc, ProfileState>(
-              bloc: profileBloc
-                ..add(
-                  GetProfileRemoteAction(
-                    accountRepository: AppAccountReposistory(),
-                  ),
+            bottomNavigationBar: bottomView(),
+            body: Stack(
+              children: [
+                BlocListener<ProfileBloc, ProfileState>(
+                  listener: (context, state) {
+                    debugPrint('state now : $state');
+                    if (state is ProfileSuccess) {
+                      debugPrint('state now inise : $state');
+                      profilePicture = state.userDataModel.profilePicture ?? "";
+                      nameController.text = state.userDataModel.name ?? "";
+                      emailController.text = state.userDataModel.email ?? "";
+                      phoneController.text = state.userDataModel.phone ?? "";
+                      setState(() {});
+                    }
+                  },
+                  child: formView(),
                 ),
-              builder: (context, state) {
-                if (state is ProfileSuccess) {
-                  nameController.text = state.userDataModel.name ?? "";
-                  emailController.text = state.userDataModel.email ?? "";
-                  phoneController.text = state.userDataModel.phone ?? "";
-                  return SingleChildScrollView(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: AppColor.shape,
-                      padding: EdgeInsets.all(16.h),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 25.h),
-                          InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return Container(
-                                    padding: EdgeInsets.all(16.h),
-                                    color: Colors.white,
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            height: 120.h,
-                                            width: 120.h,
-                                            padding: EdgeInsets.all(10.h),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                color: Colors.black12,
-                                              ),
-                                              borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  Icons.image,
-                                                  size: 50.h,
-                                                ),
-                                                SizedBox(height: 10.h),
-                                                Text(
-                                                  "Change Image",
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 20.w),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            height: 120.h,
-                                            width: 120.h,
-                                            padding: EdgeInsets.all(10.h),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                color: Colors.black12,
-                                              ),
-                                              borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  Icons.image_search_outlined,
-                                                  size: 50.h,
-                                                ),
-                                                SizedBox(height: 10.h),
-                                                Text(
-                                                  "See Image",
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    // child: Text("Bottom Sheet"),
-                                  );
-                                },
-                              );
-                            },
-                            child: Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 60.h,
-                                  backgroundColor: AppColor.primary,
-                                ),
-                                Positioned(
-                                  right: 10.h,
-                                  bottom: 10.h,
-                                  child: Icon(
-                                    Icons.edit_square,
-                                    color: AppColor.text_1,
-                                    size: 25.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 35.h),
-                          // const AppTextFieldWidget(
-                          //   textFieldTitle: "Account Type",
-                          //   textFieldHintText: "ex: 250",
-                          //   ignorePointerActive: true,
-                          // ),
-                          SizedBox(height: 15.h),
-                          AppTextFieldWidget(
-                            textFieldTitle: "Name",
-                            textFieldHintText: "Name",
-                            controller: nameController,
-                          ),
-                          SizedBox(height: 15.h),
-                          AppTextFieldWidget(
-                            textFieldTitle: "Email",
-                            textFieldHintText: "Email",
-                            controller: emailController,
-                          ),
-                          SizedBox(height: 15.h),
-                          AppTextFieldWidget(
-                            textFieldTitle: "Phone Number",
-                            textFieldHintText: "ex: 088811110808",
-                            controller: phoneController,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                } else if (state is ProfileFailed) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 50.h,
-                          width: 50.h,
-                          child: Text(state.errorMessage),
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (state is ProfileLoading) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 50.h,
-                          width: 50.h,
-                          child: const CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    if (state is ProfileLoading) {
+                      return loadingView();
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+                BlocBuilder<EditProfileBloc, EditProfileState>(
+                  builder: (context, state) {
+                    if (state is EditProfileLoading) {
+                      return loadingView();
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -268,7 +122,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget bottomButtonSection() {
+  Widget bottomView() {
     return BlocConsumer<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         if (state is EditProfileFailed) {
@@ -288,52 +142,233 @@ class _EditProfilePageState extends State<EditProfilePage> {
         }
       },
       builder: (context, state) {
-        if (state is EditProfileLoading) {
-          return Container(
-            padding: EdgeInsets.only(
-              left: 16.w,
-              right: 16.w,
-              top: 16.h,
-              bottom: 24.h,
-            ),
-            decoration: const BoxDecoration(
-              color: AppColor.white,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                  color: Colors.black12,
-                  offset: Offset(0, -1),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 50.h,
-                  width: 50.h,
-                  child: const CircularProgressIndicator(),
-                ),
-              ],
-            ),
-          );
-        }
         return AppBottomNavBarButtonWidget(
           onTap: () {
-            // Get.off(() => const MainPage());
-            context.read<EditProfileBloc>().add(
-                  EditProfileAction(
-                    editProfileRequestModel: EditProfileRequestModel(
-                      profilePicture: "nameController.",
-                      name: nameController.text,
+            if (state is EditProfileLoading || state is ProfileLoading) {
+              AppDialogAction.showFailedPopup(
+                context: context,
+                title: 'Terjadi kesalahan',
+                description: 'Mohon tunggu sebentar, masih mengambil data',
+              );
+            } else {
+              context.read<EditProfileBloc>().add(
+                    EditProfileAction(
+                      editProfileRequestModel: EditProfileRequestModel(
+                        profilePicture: profilePicture,
+                        name: nameController.text,
+                      ),
                     ),
-                  ),
-                );
+                  );
+            }
           },
           title: 'Update Profile',
         );
       },
+    );
+  }
+
+  Widget formView() {
+    return SingleChildScrollView(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        color: AppColor.shape,
+        padding: EdgeInsets.all(16.h),
+        child: Column(
+          children: [
+            SizedBox(height: 25.h),
+            InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      padding: EdgeInsets.all(16.h),
+                      color: Colors.white,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              profilePicture = await AppImagePickerService.getImageAsBase64().then(
+                                (value) {
+                                  setState(() {});
+                                  if (value != null) {
+                                    return value;
+                                  } else {
+                                    return "";
+                                  }
+                                },
+                              );
+                            },
+                            child: Container(
+                              height: 120.h,
+                              width: 120.h,
+                              padding: EdgeInsets.all(10.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.image,
+                                    size: 50.h,
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Text(
+                                    "Change Image",
+                                    textAlign: TextAlign.center,
+                                    style: AppTheme.theme.textTheme.titleLarge?.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20.w),
+                          InkWell(
+                            onTap: () async {
+                              // profilePicture = await AppImagePickerService.getImageAsBase64().then(
+                              //   (value) {
+                              //     setState(() {});
+                              //     if (value != null) {
+                              //       return value;
+                              //     } else {
+                              //       return "";
+                              //     }
+                              //   },
+                              // );
+                            },
+                            child: Container(
+                              height: 120.h,
+                              width: 120.h,
+                              padding: EdgeInsets.all(10.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.black12,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.image_search_outlined,
+                                    size: 50.h,
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Text(
+                                    "See Image",
+                                    textAlign: TextAlign.center,
+                                    style: AppTheme.theme.textTheme.titleLarge?.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // child: Text("Bottom Sheet"),
+                    );
+                  },
+                );
+              },
+              child: Stack(
+                children: [
+                  (profilePicture != "")
+                      ? ClipOval(
+                          child: Image.memory(
+                            base64Decode(profilePicture),
+                            height: 120.h,
+                            width: 120.h,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : CircleAvatar(
+                          radius: 60.h,
+                          backgroundColor: AppColor.primary,
+                        ),
+                  Positioned(
+                    right: 10.h,
+                    bottom: 10.h,
+                    child: Icon(
+                      Icons.edit_square,
+                      color: AppColor.text_1,
+                      size: 25.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 35.h),
+            // const AppTextFieldWidget(
+            //   textFieldTitle: "Account Type",
+            //   textFieldHintText: "ex: 250",
+            //   ignorePointerActive: true,
+            // ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Name",
+              textFieldHintText: "Name",
+              controller: nameController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Email",
+              textFieldHintText: "Email",
+              controller: emailController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Phone Number",
+              textFieldHintText: "ex: 088811110808",
+              controller: phoneController,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget loadingView() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      color: Colors.black38,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 50.h,
+            width: 50.h,
+            child: const CircularProgressIndicator(),
+          ),
+          SizedBox(height: 24.h),
+          Text(
+            'Proses sedang berlangsung',
+            style: GoogleFonts.inter(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
