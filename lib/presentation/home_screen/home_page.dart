@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -119,271 +121,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     SizedBox(height: 40.h),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BlocBuilder<ProfileBloc, ProfileState>(
-                                builder: (context, state) {
-                                  if (state is ProfileLoading) {
-                                    return SizedBox(
-                                      height: 40.h,
-                                      width: 150.w,
-                                      child: const SkeletonLine(),
-                                    );
-                                  } else if (state is ProfileFailed) {
-                                    return Text(state.errorMessage);
-                                  } else if (state is ProfileSuccess) {
-                                    return Expanded(
-                                      child: Text(
-                                        "Hi, ${state.userDataModel.name}",
-                                        style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                                          // color: AppColor.text_4,
-                                          color: Colors.black38,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    return Text(
-                                      "Hi, User",
-                                      style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                                        // color: AppColor.text_4,
-                                        color: Colors.black38,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(() => const ProfilePage());
-                                },
-                                child: CircleAvatar(
-                                  radius: 36.h,
-                                  backgroundColor: AppColor.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            // "Update and measure your vehicle logs",
-                            // "Update and measure your vehicle mileage",
-                            "Manage your vehicle mileage",
-                            style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                              // color: AppColor.text_4,
-                              color: Colors.black38,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            "Current Date: ${formattedDate.format(DateTime.now())}",
-                            style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                              // color: AppColor.text_4,
-                              color: Colors.black38,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    headHomeSection(),
                     SizedBox(height: 20.h),
-                    BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
-                      builder: (context, state) {
-                        if (state is GetAllVehicleFailed) {
-                          return SizedBox(
-                            child: Text(state.errorMessage),
-                          );
-                        } else if (state is GetAllVehicleLoading) {
-                          return const Center(
-                            child: AppLoadingIndicator(),
-                          );
-                        } else if (state is GetAllVehicleSuccess) {
-                          if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
-                            return const Text("data is empty");
-                          }
-                          return Column(
-                            children: [
-                              AppContainerBoxWidget(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Summary",
-                                        style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      Text(
-                                        "Number of Vehicle: 8",
-                                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.h),
-                                      Text(
-                                        "Critical: Oil, Water",
-                                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5.h),
-                                      Text(
-                                        "Last Update: 16 Nov 2022",
-                                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                            height: 100.h,
-                                            width: 100.h,
-                                            child: SfCircularChart(
-                                              tooltipBehavior: _tooltip,
-                                              series: <CircularSeries<_ChartData, String>>[
-                                                DoughnutSeries<_ChartData, String>(
-                                                  dataSource: data,
-                                                  xValueMapper: (_ChartData data, ints) => data.x,
-                                                  yValueMapper: (_ChartData data, ints) => data.y,
-                                                  name: 'Gold',
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 100.h,
-                                            width: 100.h,
-                                            child: SfCircularChart(
-                                              tooltipBehavior: _tooltip,
-                                              series: <CircularSeries<_ChartData, String>>[
-                                                DoughnutSeries<_ChartData, String>(
-                                                  dataSource: data,
-                                                  xValueMapper: (_ChartData data, ints) => data.x,
-                                                  yValueMapper: (_ChartData data, ints) => data.y,
-                                                  name: 'Gold',
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 100.h,
-                                            width: 100.h,
-                                            child: SfCircularChart(
-                                              tooltipBehavior: _tooltip,
-                                              series: <CircularSeries<_ChartData, String>>[
-                                                DoughnutSeries<_ChartData, String>(
-                                                  dataSource: data,
-                                                  xValueMapper: (_ChartData data, ints) => data.x,
-                                                  yValueMapper: (_ChartData data, ints) => data.y,
-                                                  name: 'Gold',
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      // SfCircularChart(
-                                      //   series: <CircularSeries>[
-                                      //     // Render pie chart
-                                      //     PieSeries<ChartData, String>(
-                                      //       dataSource: chartData,
-                                      //       pointColorMapper: (ChartData data, _) => data.color,
-                                      //       xValueMapper: (ChartData data, _) => data.x,
-                                      //       yValueMapper: (ChartData data, _) => data.y,
-                                      //     )
-                                      //   ],
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 20.h),
-                              SizedBox(
-                                height: 40.h,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  // itemCount: 8,
-                                  // itemCount: DummyData.dummyData.length,
-                                  itemCount: state.getAllVehicleDataResponseModel.data!.length,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          debugPrint("test hit $index");
-                                          indexClicked = index;
-                                          vehicleListColor = AppColor.white;
-                                        });
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 15.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: index == indexClicked ? AppColor.primary : Colors.transparent,
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Text(
-                                          // "${DummyData.dummyData[index].vehicleName}",
-                                          state.getAllVehicleDataResponseModel.data![index].vehicleName!,
-                                          // "Menu $index",
-                                          style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                                            // color: AppColor.text_4,
-                                            // color: Colors.black38,
-                                            color: index == indexClicked ? AppColor.white : Colors.black38,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              SizedBox(height: 20.h),
-                              // Container(
-                              //   color: Colors.amber,
-                              //   height: 10,
-                              // ),
-                              ListMeasurementWidget(
-                                // data: DummyData.dummyData[indexClicked].listControl!,
-                                // data: DummyData.dummyData[indexClicked],
-                                data: state.getAllVehicleDataResponseModel.data![indexClicked],
-                                index: indexClicked,
-                              ),
-                              // Container(
-                              //   height: MediaQuery.of(context).size.height,
-                              //   child: PageView.builder(
-                              //     controller: homeSectionPageController,
-                              //     itemCount: DummyData.dummyData.length,
-                              //     itemBuilder: (context, index) {
-                              //       return Container(
-                              //         height: 40,
-                              //         width: MediaQuery.of(context).size.width,
-                              //         color: Colors.red,
-                              //       );
-                              //     },
-                              //   ),
-                              // ),
-                            ],
-                          );
-                        } else {
-                          return const Text("data is empty");
-                        }
-                      },
+                    Column(
+                      children: [
+                        homeVehicleSummarySection(),
+                        SizedBox(height: 20.h),
+                        homeListVehicleSection(),
+                        SizedBox(height: 20.h),
+                        homeListMeasurementSection(),
+                      ],
                     ),
                   ],
                 ),
@@ -394,11 +141,390 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
     );
   }
+
+  Widget homeListVehicleSection() {
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      builder: (context, state) {
+        if (state is GetAllVehicleSuccess) {
+          return SizedBox(
+            height: 40.h,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: state.getAllVehicleDataResponseModel.data!.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      debugPrint("test hit $index");
+                      indexClicked = index;
+                      vehicleListColor = AppColor.white;
+                    });
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: index == indexClicked ? AppColor.primary : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      state.getAllVehicleDataResponseModel.data![index].vehicleName!,
+                      style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                        color: index == indexClicked ? AppColor.white : Colors.black38,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        } else if (state is GetAllVehicleLoading) {
+          return SkeletonLine(
+            style: SkeletonLineStyle(
+              width: MediaQuery.of(context).size.width,
+              height: 20.h,
+            ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+
+  Widget homeListMeasurementSection() {
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      builder: (context, state) {
+        if (state is GetAllVehicleSuccess) {
+          return ListMeasurementWidget(
+            data: state.getAllVehicleDataResponseModel.data![indexClicked],
+            index: indexClicked,
+          );
+        } else if (state is GetAllVehicleLoading) {
+          return GridView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisSpacing: 20.h,
+              mainAxisSpacing: 20.h,
+              crossAxisCount: 2,
+            ),
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return const SkeletonAvatar();
+            },
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+
+  Widget homeVehicleSummarySection() {
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      builder: (context, state) {
+        if (state is GetAllVehicleSuccess) {
+          return AppContainerBoxWidget(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Summary",
+                    style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    "Number of Vehicle: 8",
+                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    "Critical: Oil, Water",
+                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    "Last Update: 16 Nov 2022",
+                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 100.h,
+                        width: 100.h,
+                        child: SfCircularChart(
+                          tooltipBehavior: _tooltip,
+                          series: <CircularSeries<_ChartData, String>>[
+                            DoughnutSeries<_ChartData, String>(
+                              dataSource: data,
+                              xValueMapper: (_ChartData data, ints) => data.x,
+                              yValueMapper: (_ChartData data, ints) => data.y,
+                              name: 'Gold',
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100.h,
+                        width: 100.h,
+                        child: SfCircularChart(
+                          tooltipBehavior: _tooltip,
+                          series: <CircularSeries<_ChartData, String>>[
+                            DoughnutSeries<_ChartData, String>(
+                              dataSource: data,
+                              xValueMapper: (_ChartData data, ints) => data.x,
+                              yValueMapper: (_ChartData data, ints) => data.y,
+                              name: 'Gold',
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100.h,
+                        width: 100.h,
+                        child: SfCircularChart(
+                          tooltipBehavior: _tooltip,
+                          series: <CircularSeries<_ChartData, String>>[
+                            DoughnutSeries<_ChartData, String>(
+                              dataSource: data,
+                              xValueMapper: (_ChartData data, ints) => data.x,
+                              yValueMapper: (_ChartData data, ints) => data.y,
+                              name: 'Gold',
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else if (state is GetAllVehicleLoading) {
+          return SkeletonAvatar(
+            style: SkeletonAvatarStyle(
+              width: MediaQuery.of(context).size.width,
+              height: 200.h,
+            ),
+          );
+        } else {
+          return AppContainerBoxWidget(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Summary",
+                    style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    "Number of Vehicle: 8",
+                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    "Critical: Oil, Water",
+                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    "Last Update: 16 Nov 2022",
+                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.black54,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 100.h,
+                        width: 100.h,
+                        child: SfCircularChart(
+                          tooltipBehavior: _tooltip,
+                          series: <CircularSeries<_ChartData, String>>[
+                            DoughnutSeries<_ChartData, String>(
+                              dataSource: data,
+                              xValueMapper: (_ChartData data, ints) => data.x,
+                              yValueMapper: (_ChartData data, ints) => data.y,
+                              name: 'Gold',
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100.h,
+                        width: 100.h,
+                        child: SfCircularChart(
+                          tooltipBehavior: _tooltip,
+                          series: <CircularSeries<_ChartData, String>>[
+                            DoughnutSeries<_ChartData, String>(
+                              dataSource: data,
+                              xValueMapper: (_ChartData data, ints) => data.x,
+                              yValueMapper: (_ChartData data, ints) => data.y,
+                              name: 'Gold',
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 100.h,
+                        width: 100.h,
+                        child: SfCircularChart(
+                          tooltipBehavior: _tooltip,
+                          series: <CircularSeries<_ChartData, String>>[
+                            DoughnutSeries<_ChartData, String>(
+                              dataSource: data,
+                              xValueMapper: (_ChartData data, ints) => data.x,
+                              yValueMapper: (_ChartData data, ints) => data.y,
+                              name: 'Gold',
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Widget headHomeSection() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileLoading) {
+                    return SizedBox(
+                      height: 40.h,
+                      width: 150.w,
+                      child: const SkeletonLine(),
+                    );
+                  } else if (state is ProfileFailed) {
+                    return Text(state.errorMessage);
+                  } else if (state is ProfileSuccess) {
+                    return Expanded(
+                      child: Text(
+                        "Hi, ${state.userDataModel.name}",
+                        style: AppTheme.theme.textTheme.displayLarge?.copyWith(
+                          color: Colors.black38,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      "Hi, User",
+                      style: AppTheme.theme.textTheme.displayLarge?.copyWith(
+                        color: Colors.black38,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  }
+                },
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(() => const ProfilePage());
+                },
+                child: BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    if (state is ProfileLoading) {
+                      return ClipOval(
+                        child: SkeletonAvatar(
+                          style: SkeletonAvatarStyle(
+                            height: 80.h,
+                            width: 80.h,
+                          ),
+                        ),
+                      );
+                    } else if (state is ProfileSuccess) {
+                      if (state.userDataModel.profilePicture != null || state.userDataModel.profilePicture!.length > 2) {
+                        return ClipOval(
+                          child: Image.memory(
+                            base64Decode(state.userDataModel.profilePicture!),
+                            height: 80.h,
+                            width: 80.h,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      } else {
+                        return CircleAvatar(
+                          radius: 36.h,
+                          backgroundColor: AppColor.primary,
+                        );
+                      }
+                    } else {
+                      return CircleAvatar(
+                        radius: 36.h,
+                        backgroundColor: AppColor.primary,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            "Manage your vehicle mileage",
+            style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+              // color: AppColor.text_4,
+              color: Colors.black38,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            "Current Date: ${formattedDate.format(DateTime.now())}",
+            style: AppTheme.theme.textTheme.titleLarge?.copyWith(
+              color: Colors.black38,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class ListMeasurementWidget extends StatelessWidget {
-  // final List<String> data;
-  // final VehicleDataModel data;
   final DatumVehicle data;
   final int index;
 
@@ -419,17 +545,12 @@ class ListMeasurementWidget extends StatelessWidget {
         mainAxisSpacing: 20.h,
         crossAxisCount: 2,
       ),
-      // itemCount: 6,
-      // itemCount: DummyData.dummyData[0].listControl!.length,
-      // itemCount: data.listControl?.length,
-      // itemCount: data.vehicleMeasurementLogModels.length,
       itemCount: data.categorizedData!.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
             Get.to(
               () => DetailMeasurementPage(
-                // title: data.listControl![index],
                 data: data,
                 index: index,
               ),
@@ -446,9 +567,6 @@ class ListMeasurementWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  // "Oil",
-                  // data.listControl![index],
-                  // data.vehicleMeasurementLogModels[index].measurementTitle,
                   data.categorizedData![index].measurementTitle!,
                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
