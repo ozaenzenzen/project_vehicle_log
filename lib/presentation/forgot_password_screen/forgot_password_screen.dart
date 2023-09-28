@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
-import 'package:project_vehicle_log/support/app_color.dart';
-import 'package:project_vehicle_log/support/app_theme.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);

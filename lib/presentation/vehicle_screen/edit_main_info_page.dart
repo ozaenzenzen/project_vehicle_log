@@ -9,10 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
-import 'package:project_vehicle_log/presentation/bloc/edit_profile_bloc/edit_profile_bloc.dart';
-import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/edit_vehicle_bloc/edit_vehicle_bloc.dart';
-import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/edit_vehicle_bloc/edit_vehicle_bloc.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
@@ -162,7 +161,7 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
               children: [
                 Text(
                   "Edit Vehicle",
-                  style: AppTheme.theme.textTheme.headline1?.copyWith(
+                  style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                     // color: AppColor.text_4,
                     color: Colors.black38,
                     fontWeight: FontWeight.w500,
@@ -171,7 +170,7 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                 SizedBox(height: 10.h),
                 Text(
                   "Edit your vehicle alongside with measurement parameter",
-                  style: AppTheme.theme.textTheme.headline5?.copyWith(
+                  style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     // color: AppColor.text_4,
                     color: Colors.black38,
                     fontWeight: FontWeight.w500,
@@ -180,7 +179,7 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                 SizedBox(height: 24.h),
                 Text(
                   "Vehicle Image",
-                  style: AppTheme.theme.textTheme.headline6?.copyWith(
+                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: const Color(0xff331814),
                     fontSize: 14.sp,
@@ -224,7 +223,7 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                                   children: [
                                     Text(
                                       "Browse File",
-                                      style: AppTheme.theme.textTheme.headline4?.copyWith(
+                                      style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                         decoration: TextDecoration.underline,
                                         fontWeight: FontWeight.w700,
                                         color: AppColor.blue,
@@ -233,7 +232,7 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                                     SizedBox(height: 6.h),
                                     Text(
                                       "Format dokumen .jpg",
-                                      style: AppTheme.theme.textTheme.headline5?.copyWith(
+                                      style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                         color: AppColor.disabled,
                                       ),
                                     ),

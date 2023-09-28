@@ -40,7 +40,7 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
                   children: [
                     Text(
                       "Stats",
-                      style: AppTheme.theme.textTheme.headline4?.copyWith(
+                      style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
                       ),
@@ -96,7 +96,7 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
                         checkpointDateController.text = formattedDate; //set output date to TextField value.
                       });
                     } else {
-                      print("Date is not selected");
+                      debugPrint("Date is not selected");
                     }
                   },
                 ),

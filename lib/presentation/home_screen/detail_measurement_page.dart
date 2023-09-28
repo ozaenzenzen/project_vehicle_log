@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
-import 'package:project_vehicle_log/support/app_theme.dart';
 
 class DetailMeasurementPage extends StatefulWidget {
   // final String title;

@@ -53,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
                           // "Vehicle Log Apps Version 1.0.0+1",
                           // "Vehicle Log Apps Version ${AppInfo.appVersion}",
                           "Vehicle Log Apps Version ${snapshot.data}",
-                          style: AppTheme.theme.textTheme.caption?.copyWith(
+                          style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                             fontSize: 10.sp,
                             color: Colors.grey,
                             fontWeight: FontWeight.w400,
@@ -71,7 +71,7 @@ class _SignInPageState extends State<SignInPage> {
                   //   alignment: Alignment.center,
                   //   child: Text(
                   //     "Masuk",
-                  //     style: AppTheme.theme.textTheme.headline2?.copyWith(
+                  //     style: AppTheme.theme.textTheme.displayMedium?.copyWith(
                   //       fontWeight: FontWeight.w600,
                   //     ),
                   //   ),
@@ -81,7 +81,7 @@ class _SignInPageState extends State<SignInPage> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Masuk",
-                      style: AppTheme.theme.textTheme.headline2?.copyWith(
+                      style: AppTheme.theme.textTheme.displayMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -125,7 +125,7 @@ class _SignInPageState extends State<SignInPage> {
                             SizedBox(width: 10.w),
                             Text(
                               "Remember Me",
-                              style: AppTheme.theme.textTheme.headline4?.copyWith(
+                              style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                 fontSize: 14.sp,
                                 color: Colors.black,
                               ),
@@ -140,7 +140,7 @@ class _SignInPageState extends State<SignInPage> {
                         },
                         child: Text(
                           "Forgot Password",
-                          style: AppTheme.theme.textTheme.headline4?.copyWith(
+                          style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                             fontSize: 14.sp,
                             color: Colors.blue,
                             fontWeight: FontWeight.w600,

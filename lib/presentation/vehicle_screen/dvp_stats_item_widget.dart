@@ -53,7 +53,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
             children: [
               Text(
                 widget.title.toString(),
-                style: AppTheme.theme.textTheme.headline5?.copyWith(
+                style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
                 ),
@@ -72,7 +72,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                   padding: EdgeInsets.all(8.h),
                   child: Text(
                     "Update",
-                    style: AppTheme.theme.textTheme.headline6?.copyWith(
+                    style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                       color: AppColor.primary,
                       // color: Colors.grey.shade700,
                       fontWeight: FontWeight.w600,

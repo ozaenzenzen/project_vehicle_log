@@ -81,7 +81,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                     children: [
                       Text(
                         "Select Service",
-                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                         ),
@@ -95,7 +95,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                         onTap: () {},
                         child: Text(
                           "Add Other Service",
-                          style: AppTheme.theme.textTheme.headline6?.copyWith(
+                          style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                             color: AppColor.blue,
                             fontWeight: FontWeight.w600,
                             decoration: TextDecoration.underline,
@@ -231,7 +231,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                     children: [
                       Text(
                         "Stats",
-                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                         ),
@@ -293,7 +293,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                           checkpointDateController.text = formattedDate; //set output date to TextField value.
                         });
                       } else {
-                        print("Date is not selected");
+                        debugPrint("Date is not selected");
                       }
                     },
                   ),

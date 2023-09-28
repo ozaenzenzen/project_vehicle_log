@@ -127,7 +127,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 Text(
                                                   "Change Image",
                                                   textAlign: TextAlign.center,
-                                                  style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -163,7 +163,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                 Text(
                                                   "See Image",
                                                   textAlign: TextAlign.center,
-                                                  style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w600,
                                                   ),

@@ -7,65 +7,115 @@ class AppTheme {
   static ThemeData theme = ThemeData();
   static appThemeInit() {
     theme = theme.copyWith(
+      // backgroundColor: Colors.white,
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        primary: AppColor.primary,
+        secondary: AppColor.primary,
+        background: Colors.white,
+        // secondary: AppColor.secondary,
+        // secondaryVariant: ColorUI.secondaryVariant,
+      ),
       primaryColor: AppColor.primary,
       scaffoldBackgroundColor: Colors.white,
-      backgroundColor: Colors.white,
       unselectedWidgetColor: const Color(0xffb5b5b5),
       textTheme: TextTheme(
-        headline1: GoogleFonts.inter(
+        displayLarge: GoogleFonts.inter(
           fontSize: 36.sp,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
-        headline2: GoogleFonts.inter(
+        displayMedium: GoogleFonts.inter(
           fontSize: 25.sp,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
-        headline3: GoogleFonts.inter(
+        displaySmall: GoogleFonts.inter(
           fontSize: 21.sp,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
-        headline4: GoogleFonts.inter(
+        headlineMedium: GoogleFonts.inter(
           fontSize: 18.sp,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
-        headline5: GoogleFonts.inter(
+        headlineSmall: GoogleFonts.inter(
           fontSize: 16.sp,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
-        headline6: GoogleFonts.inter(
+        titleLarge: GoogleFonts.inter(
           fontSize: 14.sp,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
-        bodyText1: GoogleFonts.inter(
+        bodyLarge: GoogleFonts.inter(
           fontSize: 16.sp,
           color: Colors.black,
           fontWeight: FontWeight.w500,
           fontStyle: FontStyle.normal,
         ),
-        bodyText2: GoogleFonts.inter(
+        bodyMedium: GoogleFonts.inter(
           fontSize: 14.sp,
           fontWeight: FontWeight.w500,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
-        caption: GoogleFonts.inter(
+        bodySmall: GoogleFonts.inter(
           fontSize: 13.sp,
           color: Colors.black,
           fontStyle: FontStyle.normal,
         ),
       ),
-      colorScheme: ColorScheme.fromSwatch().copyWith(
-        primary: AppColor.primary,
-        // secondary: AppColor.secondary,
-        secondary: AppColor.primary,
-        // secondaryVariant: ColorUI.secondaryVariant,
-      ),
+      // textTheme: TextTheme(
+      //   headline1: GoogleFonts.inter(
+      //     fontSize: 36.sp,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   headline2: GoogleFonts.inter(
+      //     fontSize: 25.sp,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   headline3: GoogleFonts.inter(
+      //     fontSize: 21.sp,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   headline4: GoogleFonts.inter(
+      //     fontSize: 18.sp,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   headline5: GoogleFonts.inter(
+      //     fontSize: 16.sp,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   headline6: GoogleFonts.inter(
+      //     fontSize: 14.sp,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   bodyText1: GoogleFonts.inter(
+      //     fontSize: 16.sp,
+      //     color: Colors.black,
+      //     fontWeight: FontWeight.w500,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   bodyText2: GoogleFonts.inter(
+      //     fontSize: 14.sp,
+      //     fontWeight: FontWeight.w500,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      //   caption: GoogleFonts.inter(
+      //     fontSize: 13.sp,
+      //     color: Colors.black,
+      //     fontStyle: FontStyle.normal,
+      //   ),
+      // ),
     );
   }
 }

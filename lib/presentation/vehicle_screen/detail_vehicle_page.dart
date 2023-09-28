@@ -37,7 +37,7 @@ class DetailVehiclePage extends StatefulWidget {
 class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProviderStateMixin {
   late TabController tabController;
 
-  TooltipBehavior? _tooltipBehavior;
+  TooltipBehavior? tooltipBehavior;
 
   late GetAllVehicleBloc getAllVehicleBloc;
 
@@ -52,7 +52,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
           vehicleLocalRepository: VehicleLocalRepository(),
         ),
       );
-    _tooltipBehavior = TooltipBehavior(enable: true);
+    tooltipBehavior = TooltipBehavior(enable: true);
     tabController = TabController(
       vsync: this,
       length: 3,
@@ -107,7 +107,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   Text(
                     // "Name Vehicle",
                     state.getAllVehicleDataResponseModel.data![widget.index].vehicleName!,
-                    style: AppTheme.theme.textTheme.headline1?.copyWith(
+                    style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black38,
                       fontWeight: FontWeight.w500,
@@ -116,7 +116,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   SizedBox(height: 20.h),
                   (state.getAllVehicleDataResponseModel.data![widget.index].vehicleImage! == 'x')
                       ? Image.network("https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw")
-                      : Container(
+                      : SizedBox(
                           // child: Image.network("https://media.istockphoto.com/id/1096052566/vector/stamprsimp2red.jpg?s=612x612&w=0&k=20&c=KVu0nVz7ZLbZsRsx81VBZcuXZ1MlEmLk9IQabO2GkYo="),
                           // child: Image.network("https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw"),
                           child: Image.memory(
@@ -137,7 +137,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     children: [
                       Text(
                         "Main Info",
-                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                         ),
@@ -193,7 +193,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
             ),
           );
         } else {
-          return Text("data is null");
+          return const Text("data is null");
         }
       },
     );
@@ -220,7 +220,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     children: [
                       Text(
                         "Logs",
-                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                         ),
@@ -255,7 +255,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   // Center(
                   //   child: Text(
                   //     "See more",
-                  //     style: AppTheme.theme.textTheme.headline6?.copyWith(
+                  //     style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                   //       decoration: TextDecoration.underline,
                   //       color: AppColor.blue,
                   //       fontWeight: FontWeight.w600,
@@ -268,7 +268,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
             ),
           );
         } else {
-          return Text("data is null");
+          return const Text("data is null");
         }
       },
     );
@@ -292,7 +292,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     children: [
                       Text(
                         "Stats",
-                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                         ),
@@ -337,7 +337,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
             ),
           );
         } else {
-          return Text("data is null");
+          return const Text("data is null");
         }
       },
     );

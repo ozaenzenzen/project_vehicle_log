@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_request_model.dart';
-import 'package:project_vehicle_log/presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
-import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
-import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
-import 'package:project_vehicle_log/presentation/widget/app_bottom_navbar_button_widget.dart';
+import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
@@ -169,7 +166,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 children: [
                   Text(
                     "Add Vehicle",
-                    style: AppTheme.theme.textTheme.headline1?.copyWith(
+                    style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black38,
                       fontWeight: FontWeight.w500,
@@ -178,7 +175,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                   SizedBox(height: 10.h),
                   Text(
                     "Add your vehicle alongside with measurement parameter",
-                    style: AppTheme.theme.textTheme.headline5?.copyWith(
+                    style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black38,
                       fontWeight: FontWeight.w500,
@@ -187,7 +184,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                   SizedBox(height: 24.h),
                   Text(
                     "Vehicle Image",
-                    style: AppTheme.theme.textTheme.headline6?.copyWith(
+                    style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: const Color(0xff331814),
                       fontSize: 14.sp,
@@ -231,7 +228,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                     children: [
                                       Text(
                                         "Browse File",
-                                        style: AppTheme.theme.textTheme.headline4?.copyWith(
+                                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                           decoration: TextDecoration.underline,
                                           fontWeight: FontWeight.w700,
                                           color: AppColor.blue,
@@ -240,7 +237,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                       SizedBox(height: 6.h),
                                       Text(
                                         "Format dokumen .jpg",
-                                        style: AppTheme.theme.textTheme.headline5?.copyWith(
+                                        style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                           color: AppColor.disabled,
                                         ),
                                       ),

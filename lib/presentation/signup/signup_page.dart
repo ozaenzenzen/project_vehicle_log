@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/model/remote/account/signup_request_models.dart';
-import 'package:project_vehicle_log/presentation/bloc/account_bloc/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
-import 'package:project_vehicle_log/presentation/signin_page.dart';
+import 'package:project_vehicle_log/presentation/signin/signin_page.dart';
+import 'package:project_vehicle_log/presentation/signup/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
@@ -52,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           // "Vehicle Log Apps Version 1.0.0+1",
                           // "Vehicle Log Apps Version ${AppInfo.appVersion}",
                           "Vehicle Log Apps Version ${snapshot.data}",
-                          style: AppTheme.theme.textTheme.caption?.copyWith(
+                          style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                             fontSize: 10.sp,
                             color: Colors.grey,
                             fontWeight: FontWeight.w400,
@@ -69,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Daftar Akun",
-                      style: AppTheme.theme.textTheme.headline2?.copyWith(
+                      style: AppTheme.theme.textTheme.displayMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -121,7 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               SizedBox(height: 20.h),
                               Text(
                                 "Error",
-                                style: AppTheme.theme.textTheme.headline4?.copyWith(
+                                style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                   // color: AppColor.text_4,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
@@ -130,7 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               SizedBox(height: 10.h),
                               Text(
                                 state.errorMessage,
-                                style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                                   // color: AppColor.text_4,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
@@ -177,7 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             text: "Daftar",
                           ),
                           SizedBox(height: 20.h),
-                          Text("Sudah Ada Akun?"),
+                          const Text("Sudah Ada Akun?"),
                           SizedBox(height: 20.h),
                           AppMainButtonWidget(
                             onPressed: () {
@@ -200,7 +200,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   //       // "Vehicle Log Apps Version 1.0.0+1",
                   //       // "Vehicle Log Apps Version ${AppInfo.appVersion}",
                   //       "Vehicle Log Apps Version ${snapshot.data}",
-                  //       style: AppTheme.theme.textTheme.caption?.copyWith(
+                  //       style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                   //         fontSize: 10.sp,
                   //         color: Colors.grey,
                   //         fontWeight: FontWeight.w400,

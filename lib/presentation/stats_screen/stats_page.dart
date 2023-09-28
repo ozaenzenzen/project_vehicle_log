@@ -67,7 +67,7 @@ class _StatsPageState extends State<StatsPage> {
               SizedBox(height: 40.h),
               Text(
                 "Stats",
-                style: AppTheme.theme.textTheme.headline1?.copyWith(
+                style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                   // color: AppColor.text_4,
                   color: Colors.black38,
                   fontWeight: FontWeight.w500,
@@ -76,7 +76,7 @@ class _StatsPageState extends State<StatsPage> {
               SizedBox(height: 10.h),
               Text(
                 "Show stats based on your vehicle",
-                style: AppTheme.theme.textTheme.headline5?.copyWith(
+                style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                   // color: AppColor.text_4,
                   color: Colors.black38,
                   fontWeight: FontWeight.w500,
@@ -227,7 +227,7 @@ class _StatsPageState extends State<StatsPage> {
                                     ),
                                     // child: Text(
                                     //   DummyData.dummyData[0].listControl![index],
-                                    //   style: AppTheme.theme.textTheme.headline5?.copyWith(
+                                    //   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                     //     // color: AppColor.text_4,
                                     //     color: Colors.black38,
                                     //     fontWeight: FontWeight.w500,
@@ -244,7 +244,7 @@ class _StatsPageState extends State<StatsPage> {
                         ],
                       );
                     } else {
-                      return Text("data is null");
+                      return const Text("data is null");
                     }
                   },
                 ),

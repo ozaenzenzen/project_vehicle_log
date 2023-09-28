@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           Text(
                                             "Change Image",
                                             textAlign: TextAlign.center,
-                                            style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                            style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                                               color: Colors.black,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -158,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           Text(
                                             "See Image",
                                             textAlign: TextAlign.center,
-                                            style: AppTheme.theme.textTheme.headline6?.copyWith(
+                                            style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                                               color: Colors.black,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -196,14 +196,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               } else if (state is ProfileSuccess) {
                                 return Text(
                                   "${state.userDataModel.name}",
-                                  style: AppTheme.theme.textTheme.headline2?.copyWith(
+                                  style: AppTheme.theme.textTheme.displayMedium?.copyWith(
                                     fontWeight: FontWeight.w700,
                                   ),
                                 );
                               } else {
                                 return Text(
                                   "User name",
-                                  style: AppTheme.theme.textTheme.headline2?.copyWith(
+                                  style: AppTheme.theme.textTheme.displayMedium?.copyWith(
                                     fontWeight: FontWeight.w700,
                                   ),
                                 );
@@ -226,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: Text(
                               "Edit Profile",
-                              style: AppTheme.theme.textTheme.headline6?.copyWith(
+                              style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                                 color: AppColor.text_4,
                                 fontWeight: FontWeight.w600,
                                 decoration: TextDecoration.underline,
@@ -504,7 +504,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context, snapshot) {
                       return Text(
                         snapshot.data.toString(),
-                        style: AppTheme.theme.textTheme.headline6?.copyWith(
+                        style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                           color: AppColor.primary.withOpacity(0.5),
                           fontWeight: FontWeight.w500,
                         ),

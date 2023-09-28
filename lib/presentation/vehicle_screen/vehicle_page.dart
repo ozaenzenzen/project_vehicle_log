@@ -54,7 +54,7 @@ class _VehiclePageState extends State<VehiclePage> {
                 SizedBox(height: 40.h),
                 Text(
                   "Your Vehicle",
-                  style: AppTheme.theme.textTheme.headline1?.copyWith(
+                  style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                     // color: AppColor.text_4,
                     color: Colors.black38,
                     fontWeight: FontWeight.w500,
@@ -63,7 +63,7 @@ class _VehiclePageState extends State<VehiclePage> {
                 SizedBox(height: 10.h),
                 Text(
                   "Choose your vehicle",
-                  style: AppTheme.theme.textTheme.headline5?.copyWith(
+                  style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     // color: AppColor.text_4,
                     color: Colors.black38,
                     fontWeight: FontWeight.w500,
@@ -82,9 +82,7 @@ class _VehiclePageState extends State<VehiclePage> {
                       );
                     } else if (state is GetAllVehicleSuccess) {
                       if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
-                        return Container(
-                          child: Text("data is empty"),
-                        );
+                        return const Text("data is empty");
                       }
                       return ListView.separated(
                         shrinkWrap: true,
@@ -150,9 +148,7 @@ class _VehiclePageState extends State<VehiclePage> {
                         },
                       );
                     } else {
-                      return Container(
-                        child: Text("data is empty"),
-                      );
+                      return const Text("data is empty");
                     }
                   },
                 ),

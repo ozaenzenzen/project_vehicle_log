@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     return Expanded(
                                       child: Text(
                                         "Hi, ${state.userDataModel.name}",
-                                        style: AppTheme.theme.textTheme.headline1?.copyWith(
+                                        style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                                           // color: AppColor.text_4,
                                           color: Colors.black38,
                                           fontWeight: FontWeight.w500,
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   } else {
                                     return Text(
                                       "Hi, User",
-                                      style: AppTheme.theme.textTheme.headline1?.copyWith(
+                                      style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                                         // color: AppColor.text_4,
                                         color: Colors.black38,
                                         fontWeight: FontWeight.w500,
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             // "Update and measure your vehicle logs",
                             // "Update and measure your vehicle mileage",
                             "Manage your vehicle mileage",
-                            style: AppTheme.theme.textTheme.headline4?.copyWith(
+                            style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                               // color: AppColor.text_4,
                               color: Colors.black38,
                               fontWeight: FontWeight.w500,
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           SizedBox(height: 10.h),
                           Text(
                             "Current Date: ${formattedDate.format(DateTime.now())}",
-                            style: AppTheme.theme.textTheme.headline6?.copyWith(
+                            style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                               // color: AppColor.text_4,
                               color: Colors.black38,
                               fontWeight: FontWeight.w500,
@@ -220,7 +220,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     children: [
                                       Text(
                                         "Summary",
-                                        style: AppTheme.theme.textTheme.headline5?.copyWith(
+                                        style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                           color: Colors.black54,
                                         ),
                                       ),
@@ -381,9 +381,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ],
                           );
                         } else {
-                          return Container(
-                            child: Text("data is empty"),
-                          );
+                          return const Text("data is empty");
                         }
                       },
                     ),
