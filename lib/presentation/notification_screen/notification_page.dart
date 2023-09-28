@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log/data/repository/notification_repository.dart';
-import 'package:project_vehicle_log/presentation/bloc/notification_bloc/notification_bloc.dart';
+import 'package:project_vehicle_log/presentation/notification_screen/notification_bloc/notification_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 
