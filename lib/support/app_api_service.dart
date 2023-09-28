@@ -65,6 +65,7 @@ class AppApiService {
     debugPrint("Header : ${dio.options.headers}");
     debugPrint("Request : $request");
 
+    // ignore: unused_local_variable
     MethodRequest selectedMethod;
     try {
       Response response;
@@ -94,7 +95,7 @@ class AppApiService {
             data: useFormData ? FormData.fromMap(request!) : request,
           );
       }
-      debugPrint('Success $selectedMethod $url: \nResponse : ${url.contains("rss") ? "rss feed response to long" : response.data}');
+      // debugPrint('Success $selectedMethod $url: \nResponse : ${url.contains("rss") ? "rss feed response to long" : response.data}');
       return response;
     } on DioError catch (e) {
       // debugPrint('Error $selectedMethod $url: $e\nData: ${(e.response?.data ?? "empty")}');
