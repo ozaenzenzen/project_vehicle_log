@@ -185,7 +185,6 @@ class _ProfilePageState extends State<ProfilePage> {
       onTap: () {
         Get.to(() => EditProfilePage(
               callbackAction: () {
-                debugPrint('panggil');
                 context.read<ProfileBloc>().add(
                       GetProfileRemoteAction(
                         accountRepository: AppAccountReposistory(),
