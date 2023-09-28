@@ -1,10 +1,10 @@
 class CreateLogVehicleResponseModel {
-  int status;
-  String message;
+  dynamic status;
+  String? message;
 
   CreateLogVehicleResponseModel({
-    required this.status,
-    required this.message,
+    this.status,
+    this.message,
   });
 
   factory CreateLogVehicleResponseModel.fromJson(Map<String, dynamic> json) => CreateLogVehicleResponseModel(

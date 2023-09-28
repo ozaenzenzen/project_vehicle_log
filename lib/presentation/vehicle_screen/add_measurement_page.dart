@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log/data/dummy_data_service.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
@@ -9,6 +10,7 @@ import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
@@ -71,320 +73,303 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           appBar: const AppBarWidget(
             title: "Add Measurement",
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(16.h),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Select Service",
-                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      // Icon(
-                      //   Icons.edit_square,
-                      //   size: 25.h,
-                      //   color: AppColor.primary,
-                      // ),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "Add Other Service",
-                          style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                            color: AppColor.blue,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 16.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.h,
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                  SizedBox(
-                    height: 100.h,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      // itemCount: 8,
-                      itemCount: MeasurementServiceDummyData.dummyDataService.length,
-                      // itemCount: DummyData.dummyData.length,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(width: 10.h);
-                      },
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              measurementTitleController.text = MeasurementServiceDummyData.dummyDataService[index].title!;
-                              //   debugPrint("test hit $index");
-                              //   indexClicked = index;
-                              //   vehicleListColor = AppColor.white;
-                            });
-                          },
-                          child: Container(
-                            width: 100.w,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 15.h,
-                            ),
-                            decoration: BoxDecoration(
-                              // color: index == indexClicked ? AppColor.primary : Colors.transparent,
-                              color: AppColor.white,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: AppColor.blue,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  // Icons.time_to_leave_rounded,
-                                  MeasurementServiceDummyData.dummyDataService[index].icons,
-                                  color: AppColor.blue,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Select Service",
+                                style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                Text(
-                                  // "${DummyData.dummyData[index].vehicleName}",
-                                  // "Menu $index",
-                                  "${MeasurementServiceDummyData.dummyDataService[index].title}",
-                                  textAlign: TextAlign.center,
-                                  // overflow: TextOverflow.ellipsis,
-                                  style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                                    // color: AppColor.text_4,
-                                    // color: Colors.black38,
+                              ),
+                              InkWell(
+                                onTap: () {},
+                                child: Text(
+                                  "Add Other Service",
+                                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                                     color: AppColor.blue,
-                                    // color: index == indexClicked ? AppColor.white : Colors.black38,
                                     fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  // Wrap(
-                  //   spacing: 10.h,
-                  //   runSpacing: 10.h,
-                  //   children: [
-                  //     Container(
-                  //       height: 40.h,
-                  //       width: 100.w,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(16),
-                  //         color: AppColor.disabled,
-                  //       ),
-                  //       alignment: Alignment.center,
-                  //       child: Text("Oil"),
-                  //     ),
-                  //     Container(
-                  //       height: 40.h,
-                  //       width: 100.w,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(16),
-                  //         color: AppColor.disabled,
-                  //       ),
-                  //       alignment: Alignment.center,
-                  //       child: Text("Oil"),
-                  //     ),
-                  //     Container(
-                  //       height: 40.h,
-                  //       width: 100.w,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(16),
-                  //         color: AppColor.disabled,
-                  //       ),
-                  //       alignment: Alignment.center,
-                  //       child: Text("Oil"),
-                  //     ),
-                  //     Container(
-                  //       height: 40.h,
-                  //       width: 100.w,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(16),
-                  //         color: AppColor.disabled,
-                  //       ),
-                  //       alignment: Alignment.center,
-                  //       child: Text("Oil"),
-                  //     ),
-                  //     Container(
-                  //       height: 40.h,
-                  //       width: 100.w,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(16),
-                  //         color: AppColor.disabled,
-                  //       ),
-                  //       alignment: Alignment.center,
-                  //       child: Text("Oil"),
-                  //     ),
-                  //   ],
-                  // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Stats",
-                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
                         ),
-                      ),
-                      Icon(
-                        Icons.edit_square,
-                        size: 25.h,
-                        color: AppColor.primary,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15.h),
-                  AppTextFieldWidget(
-                    textFieldTitle: "Measurement Title",
-                    textFieldHintText: "ex: Oil",
-                    controller: measurementTitleController,
-                    readOnly: true,
-                    ignorePointerActive: true,
-                  ),
-                  SizedBox(height: 15.h),
-                  AppTextFieldWidget(
-                    textFieldTitle: "Current Odo (km)",
-                    textFieldHintText: "ex: 12000",
-                    controller: currentOdoController,
-                  ),
-                  SizedBox(height: 15.h),
-                  AppTextFieldWidget(
-                    textFieldTitle: "Estimate Odo Changing (km)",
-                    textFieldHintText: "ex: 14000",
-                    controller: estimateOdoController,
-                  ),
-                  SizedBox(height: 15.h),
-                  AppTextFieldWidget(
-                    textFieldTitle: "Amount Expenses (Rp)",
-                    textFieldHintText: "ex: 40000",
-                    controller: amountExpensesController,
-                  ),
-                  SizedBox(height: 15.h),
-                  AppTextFieldWidget(
-                    textFieldTitle: "Checkpoint Date",
-                    textFieldHintText: "12-2-2023",
-                    controller: checkpointDateController,
-                    readOnly: true,
-                    suffixIcon: const Icon(Icons.date_range_sharp),
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                          lastDate: DateTime(2101));
-
-                      if (pickedDate != null) {
-                        debugPrint(pickedDate.toString()); //pickedDate output format => 2021-03-10 00:00:00.000
-                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                        debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
-                        //you can implement different kind of Date Format here according to your requirement
-
-                        setState(() {
-                          checkpointDateController.text = formattedDate; //set output date to TextField value.
-                        });
-                      } else {
-                        debugPrint("Date is not selected");
-                      }
-                    },
-                  ),
-                  SizedBox(height: 15.h),
-                  AppTextFieldWidget(
-                    textFieldTitle: "Notes",
-                    textFieldHintText: "notes",
-                    controller: notesController,
-                  ),
-                  SizedBox(height: 25.h),
-                  BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
-                    listener: (context, state) {
-                      if (state is CreateLogVehicleFailed) {
-                        AppDialogAction.showMainPopup(
-                          context: context,
-                          title: "Error",
-                          content: Text(state.errorMessage),
-                          mainButtonAction: () {
-                            Get.back();
-                          },
-                        );
-                      } else if (state is CreateLogVehicleSuccess) {
-                        Get.off(() => const MainPage());
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is CreateLogVehicleLoading) {
-                        return const Center(
-                          child: AppLoadingIndicator(),
-                        );
-                      }
-                      return AppMainButtonWidget(
-                        onPressed: () {
-                          if (accountDataUserModel!.userId == null ||
-                              measurementTitleController.text.isEmpty ||
-                              currentOdoController.text.isEmpty ||
-                              estimateOdoController.text.isEmpty ||
-                              amountExpensesController.text.isEmpty ||
-                              checkpointDateController.text.isEmpty ||
-                              notesController.text.isEmpty) {
-                            AppDialogAction.showFailedPopup(
-                              context: context,
-                              title: "Error",
-                              description: "field can't be empty",
-                              buttonTitle: "Back",
-                            );
-                            // AppDialogAction.showMainPopup(
-                            //   context: context,
-                            //   title: "Error",
-                            //   content: Column(
-                            //     children: [
-                            //       Icon(
-                            //         Icons.close,
-                            //         color: Colors.red,
-                            //         size: 120.h,
-                            //       ),
-                            //       const Text("field can't be empty"),
-                            //     ],
-                            //   ),
-                            //   buttonTitle: "Back",
-                            //   mainButtonAction: () {
-                            //     Get.back();
-                            //   },
-                            // );
-                          } else {
-                            context.read<CreateLogVehicleBloc>().add(
-                                  CreateLogVehicleAction(
-                                    createLogVehicleRequestModel: CreateLogVehicleRequestModel(
-                                      userId: accountDataUserModel!.userId!,
-                                      vehicleId: widget.vehicleId,
-                                      measurementTitle: measurementTitleController.text,
-                                      currentOdo: currentOdoController.text,
-                                      estimateOdoChanging: estimateOdoController.text,
-                                      amountExpenses: amountExpensesController.text,
-                                      checkpointDate: checkpointDateController.text,
-                                      notes: notesController.text,
+                        SizedBox(height: 10.h),
+                        SizedBox(
+                          height: 100.h,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: MeasurementServiceDummyData.dummyDataService.length,
+                            separatorBuilder: (context, index) {
+                              return SizedBox(width: 10.h);
+                            },
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    measurementTitleController.text = MeasurementServiceDummyData.dummyDataService[index].title!;
+                                    //   debugPrint("test hit $index");
+                                    //   indexClicked = index;
+                                    //   vehicleListColor = AppColor.white;
+                                  });
+                                },
+                                child: Container(
+                                  width: 100.w,
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 15.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    // color: index == indexClicked ? AppColor.primary : Colors.transparent,
+                                    color: AppColor.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: AppColor.blue,
                                     ),
                                   ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        // Icons.time_to_leave_rounded,
+                                        MeasurementServiceDummyData.dummyDataService[index].icons,
+                                        color: AppColor.blue,
+                                      ),
+                                      Text(
+                                        // "${DummyData.dummyData[index].vehicleName}",
+                                        // "Menu $index",
+                                        "${MeasurementServiceDummyData.dummyDataService[index].title}",
+                                        textAlign: TextAlign.center,
+                                        // overflow: TextOverflow.ellipsis,
+                                        style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                                          // color: AppColor.text_4,
+                                          // color: Colors.black38,
+                                          color: AppColor.blue,
+                                          // color: index == indexClicked ? AppColor.white : Colors.black38,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.h,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Stats",
+                                style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Icon(
+                                Icons.edit_square,
+                                size: 25.h,
+                                color: AppColor.primary,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 15.h),
+                          AppTextFieldWidget(
+                            textFieldTitle: "Measurement Title",
+                            textFieldHintText: "ex: Oil",
+                            controller: measurementTitleController,
+                            readOnly: true,
+                            ignorePointerActive: true,
+                          ),
+                          SizedBox(height: 15.h),
+                          AppTextFieldWidget(
+                            textFieldTitle: "Current Odo (km)",
+                            textFieldHintText: "ex: 12000",
+                            controller: currentOdoController,
+                          ),
+                          SizedBox(height: 15.h),
+                          AppTextFieldWidget(
+                            textFieldTitle: "Estimate Odo Changing (km)",
+                            textFieldHintText: "ex: 14000",
+                            controller: estimateOdoController,
+                          ),
+                          SizedBox(height: 15.h),
+                          AppTextFieldWidget(
+                            textFieldTitle: "Amount Expenses (Rp)",
+                            textFieldHintText: "ex: 40000",
+                            controller: amountExpensesController,
+                          ),
+                          SizedBox(height: 15.h),
+                          AppTextFieldWidget(
+                            textFieldTitle: "Checkpoint Date",
+                            textFieldHintText: DateTime.now().toString(),
+                            controller: checkpointDateController,
+                            readOnly: true,
+                            suffixIcon: const Icon(Icons.date_range_sharp),
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                  lastDate: DateTime(2101));
+
+                              if (pickedDate != null) {
+                                debugPrint(pickedDate.toString()); //pickedDate output format => 2021-03-10 00:00:00.000
+                                String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
+                                //you can implement different kind of Date Format here according to your requirement
+
+                                setState(() {
+                                  checkpointDateController.text = formattedDate; //set output date to TextField value.
+                                });
+                              } else {
+                                debugPrint("Date is not selected");
+                              }
+                            },
+                          ),
+                          SizedBox(height: 15.h),
+                          AppTextFieldWidget(
+                            textFieldTitle: "Notes",
+                            textFieldHintText: "notes",
+                            maxLines: 4,
+                            controller: notesController,
+                          ),
+                          SizedBox(height: 25.h),
+                          BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
+                            listener: (context, state) {
+                              if (state is CreateLogVehicleFailed) {
+                                AppDialogAction.showFailedPopup(
+                                  context: context,
+                                  title: "Terjadi kesalahan",
+                                  description: state.errorMessage,
+                                  buttonTitle: "Kembali",
+                                  mainButtonAction: () {
+                                    Get.back();
+                                  },
                                 );
-                          }
-                          // Get.back();
-                        },
-                        text: "Add",
-                      );
-                    },
-                  ),
-                ],
+                              } else if (state is CreateLogVehicleSuccess) {
+                                AppDialogAction.showSuccessPopup(
+                                  context: context,
+                                  title: "Berhasil",
+                                  description: state.createLogVehicleResponseModel.message!,
+                                  buttonTitle: "Kembali",
+                                  mainButtonAction: () {
+                                    Get.offAll(() => const MainPage());
+                                  },
+                                );
+                              }
+                            },
+                            builder: (context, state) {
+                              return AppMainButtonWidget(
+                                onPressed: () {
+                                  if (accountDataUserModel!.userId == null ||
+                                      measurementTitleController.text.isEmpty ||
+                                      currentOdoController.text.isEmpty ||
+                                      estimateOdoController.text.isEmpty ||
+                                      amountExpensesController.text.isEmpty ||
+                                      checkpointDateController.text.isEmpty ||
+                                      notesController.text.isEmpty) {
+                                    AppDialogAction.showFailedPopup(
+                                      context: context,
+                                      title: "Error",
+                                      description: "field can't be empty",
+                                      buttonTitle: "Back",
+                                    );
+                                  } else {
+                                    context.read<CreateLogVehicleBloc>().add(
+                                          CreateLogVehicleAction(
+                                            createLogVehicleRequestModel: CreateLogVehicleRequestModel(
+                                              userId: accountDataUserModel!.userId!,
+                                              vehicleId: widget.vehicleId,
+                                              measurementTitle: measurementTitleController.text,
+                                              currentOdo: currentOdoController.text,
+                                              estimateOdoChanging: estimateOdoController.text,
+                                              amountExpenses: amountExpensesController.text,
+                                              checkpointDate: checkpointDateController.text,
+                                              notes: notesController.text,
+                                            ),
+                                          ),
+                                        );
+                                  }
+                                  // Get.back();
+                                },
+                                text: "Add",
+                              );
+                            },
+                          ),
+                          SizedBox(height: 16.h),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              BlocBuilder<CreateLogVehicleBloc, CreateLogVehicleState>(
+                builder: (context, state) {
+                  if (state is CreateLogVehicleLoading) {
+                    return loadingView();
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget loadingView() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      color: Colors.black38,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 50.h,
+            width: 50.h,
+            child: const CircularProgressIndicator(),
+          ),
+          SizedBox(height: 24.h),
+          Text(
+            'Proses sedang berlangsung',
+            style: GoogleFonts.inter(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+            ),
+          ),
+        ],
       ),
     );
   }

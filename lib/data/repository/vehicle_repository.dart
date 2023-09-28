@@ -93,14 +93,24 @@ class AppVehicleReposistory {
     }
   }
 
-  Future<CreateLogVehicleResponseModel> createLogVehicleData(CreateLogVehicleRequestModel createLogVehicleRequestModel) async {
-    final response = await AppApiService(
-      EnvironmentConfig.baseUrl(),
-    ).call(
-      AppApiPath.createLogVehicle,
-      method: MethodRequest.post,
-      request: createLogVehicleRequestModel.toJson(),
-    );
-    return CreateLogVehicleResponseModel.fromJson(response.data);
+  Future<CreateLogVehicleResponseModel?> createLogVehicleData({
+    required CreateLogVehicleRequestModel createLogVehicleRequestModel,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.createLogVehicle,
+        method: MethodRequest.post,
+        request: createLogVehicleRequestModel.toJson(),
+        header: {
+          "token": token,
+        },
+      );
+      return CreateLogVehicleResponseModel.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
   }
 }

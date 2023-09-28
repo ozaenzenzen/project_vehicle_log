@@ -16,7 +16,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<EditProfileEvent>((event, emit) {
       if (event is EditProfileAction) {
         _editProfileAction(accountReposistory, event);
-      } 
+      }
     });
   }
 
@@ -26,8 +26,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   ) async {
     emit(EditProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
-    AccountDataUserModel? data = await AccountLocalRepository().getLocalAccountData();
     try {
+      AccountDataUserModel? data = await AccountLocalRepository().getLocalAccountData();
       EditProfileResponseModel? editProfileResponseModel = await accountReposistory.editProfile(
         token: data!.token!,
         data: editProfileAction.editProfileRequestModel,

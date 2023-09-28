@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTextFieldWidget extends StatefulWidget {
   final String textFieldTitle;
   final String textFieldHintText;
-  final int? textFieldMaxLines;
+  final int? maxLines;
   final TextEditingController? controller;
   final bool readOnly;
   final bool ignorePointerActive;
@@ -21,7 +21,7 @@ class AppTextFieldWidget extends StatefulWidget {
     required this.textFieldTitle,
     required this.textFieldHintText,
     this.controller,
-    this.textFieldMaxLines,
+    this.maxLines,
     this.readOnly = false,
     this.ignorePointerActive = false,
     this.onTap,
@@ -75,7 +75,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     controller: widget.controller,
                     keyboardType: widget.keyboardType,
                     // maxLines: 5,
-                    maxLines: (widget.obscureText) ? 1 : widget.textFieldMaxLines,
+                    maxLines: (widget.obscureText) ? 1 : widget.maxLines,
                     // minLines: 1,
                     style: GoogleFonts.inter(
                       fontSize: 14.sp,
@@ -108,7 +108,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                   controller: widget.controller,
                   keyboardType: widget.keyboardType,
                   // maxLines: 5,
-                  maxLines: (widget.obscureText) ? 1 : widget.textFieldMaxLines,
+                  maxLines: (widget.obscureText) ? 1 : widget.maxLines,
                   // minLines: 1,
                   style: GoogleFonts.inter(
                     fontSize: 14.sp,
