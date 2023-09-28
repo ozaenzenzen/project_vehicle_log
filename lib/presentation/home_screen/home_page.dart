@@ -9,6 +9,7 @@ import 'package:project_vehicle_log/data/local_repository/vehicle_local_reposito
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
+import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
@@ -40,8 +41,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late List<_ChartData> data;
   late TooltipBehavior _tooltip;
 
-  late GetAllVehicleBloc getAllVehicleBloc;
-
   @override
   void initState() {
     data = [
@@ -54,86 +53,89 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
   }
 
-  late ProfileBloc profileBloc;
-  @override
-  void didChangeDependencies() {
-    getAllVehicleBloc = BlocProvider.of<GetAllVehicleBloc>(context)
-      ..add(
-        GetProfileDataVehicleAction(
-          localRepository: AccountLocalRepository(),
-        ),
-      );
-    profileBloc = BlocProvider.of<ProfileBloc>(context)
-      ..add(
-        GetProfileRemoteAction(
-          accountRepository: AppAccountReposistory(),
-        ),
-      );
-    super.didChangeDependencies();
-  }
-
   AccountDataUserModel? accountDataUserModelHomePage;
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
-      bloc: getAllVehicleBloc,
-      listener: (context, state) {
-        if (state is GetProfileDataVehicleSuccess) {
-          accountDataUserModelHomePage = state.accountDataUserModel;
-          context.read<GetAllVehicleBloc>().add(
-                GetAllVehicleDataFromLocalAction(
-                  vehicleLocalRepository: VehicleLocalRepository(),
-                ),
-              );
-        }
-      },
-      child: RefreshIndicator(
-        onRefresh: () async {
-          context.read<ProfileBloc>().add(
-                GetProfileRemoteAction(
-                  accountRepository: AppAccountReposistory(),
-                ),
-              );
-          context.read<GetAllVehicleBloc>().add(
-                GetAllVehicleDataAction(
-                  id: accountDataUserModelHomePage!.userId.toString(),
-                  vehicleLocalRepository: VehicleLocalRepository(),
-                ),
-              );
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ProfileBloc(
+            AccountLocalRepository(),
+          )..add(
+              GetProfileRemoteAction(
+                accountRepository: AppAccountReposistory(),
+              ),
+            ),
+        ),
+        BlocProvider(
+          create: (context) => GetAllVehicleBloc(
+            AppVehicleReposistory(),
+          )..add(
+              GetProfileDataVehicleAction(
+                localRepository: AccountLocalRepository(),
+              ),
+            ),
+        ),
+      ],
+      child: BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
+        listener: (context, state) {
+          if (state is GetProfileDataVehicleSuccess) {
+            accountDataUserModelHomePage = state.accountDataUserModel;
+            context.read<GetAllVehicleBloc>().add(
+                  GetAllVehicleDataFromLocalAction(
+                    vehicleLocalRepository: VehicleLocalRepository(),
+                  ),
+                );
+          }
         },
-        child: SingleChildScrollView(
-          physics: const ScrollPhysics(),
-          child: Container(
-            color: AppColor.shape,
-            padding: EdgeInsets.all(16.h),
-            alignment: Alignment.center,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(height: 40.h),
-                    headHomeSection(),
-                    SizedBox(height: 20.h),
-                    Column(
-                      children: [
-                        homeVehicleSummarySection(),
-                        SizedBox(height: 20.h),
-                        homeListVehicleSection(),
-                        SizedBox(height: 20.h),
-                        homeListMeasurementSection(),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+        child: RefreshIndicator(
+          onRefresh: () async {
+            context.read<ProfileBloc>().add(
+                  GetProfileRemoteAction(
+                    accountRepository: AppAccountReposistory(),
+                  ),
+                );
+            context.read<GetAllVehicleBloc>().add(
+                  GetAllVehicleDataAction(
+                    id: accountDataUserModelHomePage!.userId.toString(),
+                    vehicleLocalRepository: VehicleLocalRepository(),
+                  ),
+                );
+          },
+          child: SingleChildScrollView(
+            physics: const ScrollPhysics(),
+            child: Container(
+              color: AppColor.shape,
+              padding: EdgeInsets.all(16.h),
+              alignment: Alignment.center,
+              child: Stack(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(height: 40.h),
+                      headHomeSection(),
+                      SizedBox(height: 20.h),
+                      Column(
+                        children: [
+                          homeVehicleSummarySection(),
+                          SizedBox(height: 20.h),
+                          homeListVehicleSection(),
+                          SizedBox(height: 20.h),
+                          homeListMeasurementSection(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
