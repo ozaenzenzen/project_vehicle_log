@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -122,6 +124,23 @@ class _VehiclePageState extends State<VehiclePage> {
                                   CircleAvatar(
                                     radius: 40.h,
                                     backgroundColor: AppColor.primary,
+                                    child: state.getAllVehicleDataResponseModel.data![index].vehicleImage == "x"
+                                        ? ClipOval(
+                                            child: Image.network(
+                                              "https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw",
+                                              fit: BoxFit.cover,
+                                              height: 80.h,
+                                              width: 80.h,
+                                            ),
+                                          )
+                                        : ClipOval(
+                                            child: Image.memory(
+                                              base64Decode(state.getAllVehicleDataResponseModel.data![index].vehicleImage!),
+                                              fit: BoxFit.cover,
+                                              height: 80.h,
+                                              width: 80.h,
+                                            ),
+                                          ),
                                   ),
                                   SizedBox(width: 25.w),
                                   Column(
