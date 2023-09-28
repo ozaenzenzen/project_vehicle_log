@@ -6,12 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_request_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/edit_vehicle_bloc/edit_vehicle_bloc.dart';
-import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
@@ -21,10 +20,12 @@ import 'package:project_vehicle_log/support/app_image_picker.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class EditMainInfoPage extends StatefulWidget {
+  final DatumVehicle data;
   final int index;
 
   const EditMainInfoPage({
     Key? key,
+    required this.data,
     required this.index,
   }) : super(key: key);
 
@@ -44,18 +45,26 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
   TextEditingController machineNumberController = TextEditingController();
   TextEditingController chassisNumberController = TextEditingController();
 
-  late GetAllVehicleBloc getAllVehicleBloc;
   late EditVehicleBloc editVehicleBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    vehicleId = widget.data.id!;
+    imagePickedInBase64 = widget.data.vehicleImage!;
+    vehicleNameController.text = widget.data.vehicleName!;
+    yearController.text = widget.data.year!;
+    engineCapacityController.text = widget.data.engineCapacity!;
+    tankCapacityController.text = widget.data.tankCapacity!;
+    colorController.text = widget.data.color!;
+    machineNumberController.text = widget.data.machineNumber!;
+    chassisNumberController.text = widget.data.chassisNumber!;
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    getAllVehicleBloc = BlocProvider.of(context)
-      ..add(
-        GetAllVehicleDataFromLocalAction(
-          vehicleLocalRepository: VehicleLocalRepository(),
-        ),
-      );
+
     editVehicleBloc = EditVehicleBloc();
   }
 
@@ -63,11 +72,6 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<GetAllVehicleBloc>(
-          create: (context) => GetAllVehicleBloc(
-            AppVehicleReposistory(),
-          ),
-        ),
         BlocProvider<EditVehicleBloc>(
           create: (context) => EditVehicleBloc(),
         ),
@@ -105,15 +109,6 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
             body: Stack(
               children: [
                 bodyView(),
-                BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
-                  builder: (context, state) {
-                    if (state is GetAllVehicleLoading) {
-                      return loadingView();
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
                 BlocBuilder<EditVehicleBloc, EditVehicleState>(
                   builder: (context, state) {
                     if (state is EditVehicleLoading) {
@@ -132,240 +127,219 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
   }
 
   Widget bodyView() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
-      bloc: context.read<GetAllVehicleBloc>()
-        ..add(
-          GetAllVehicleDataFromLocalAction(
-            vehicleLocalRepository: VehicleLocalRepository(),
-          ),
-        ),
-      builder: (context, state) {
-        if (state is GetAllVehicleSuccess) {
-          vehicleId = state.getAllVehicleDataResponseModel.data![widget.index].id!;
-          // imagePickedInBase64 = state.getAllVehicleDataResponseModel.data![widget.index].vehicleImage!;
-          vehicleNameController.text = state.getAllVehicleDataResponseModel.data![widget.index].vehicleName!;
-          yearController.text = state.getAllVehicleDataResponseModel.data![widget.index].year!;
-          engineCapacityController.text = state.getAllVehicleDataResponseModel.data![widget.index].engineCapacity!;
-          tankCapacityController.text = state.getAllVehicleDataResponseModel.data![widget.index].tankCapacity!;
-          colorController.text = state.getAllVehicleDataResponseModel.data![widget.index].color!;
-          machineNumberController.text = state.getAllVehicleDataResponseModel.data![widget.index].machineNumber!;
-          chassisNumberController.text = state.getAllVehicleDataResponseModel.data![widget.index].chassisNumber!;
-        }
-        return SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            color: AppColor.shape,
-            padding: EdgeInsets.all(16.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Edit Vehicle",
-                  style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                    // color: AppColor.text_4,
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                Text(
-                  "Edit your vehicle alongside with measurement parameter",
-                  style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                    // color: AppColor.text_4,
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                Text(
-                  "Vehicle Image",
-                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xff331814),
-                    fontSize: 14.sp,
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                InkWell(
-                  onTap: () async {
-                    imagePickedInBase64 = await AppImagePickerService.getImageAsBase64().then(
-                      (value) {
-                        setState(() {});
-                        return value!;
-                      },
-                    );
+    return SingleChildScrollView(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        color: AppColor.shape,
+        padding: EdgeInsets.all(16.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Edit Vehicle",
+              style: AppTheme.theme.textTheme.displayLarge?.copyWith(
+                // color: AppColor.text_4,
+                color: Colors.black38,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(height: 10.h),
+            Text(
+              "Edit your vehicle alongside with measurement parameter",
+              style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                // color: AppColor.text_4,
+                color: Colors.black38,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(height: 24.h),
+            Text(
+              "Vehicle Image",
+              style: AppTheme.theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: const Color(0xff331814),
+                fontSize: 14.sp,
+              ),
+            ),
+            SizedBox(height: 10.h),
+            InkWell(
+              onTap: () async {
+                imagePickedInBase64 = await AppImagePickerService.getImageAsBase64().then(
+                  (value) {
+                    setState(() {});
+                    return value!;
                   },
-                  child: (imagePickedInBase64 == "")
-                      ? DottedBorder(
-                          radius: const Radius.circular(20),
-                          dashPattern: const [7, 3],
-                          strokeWidth: 2,
-                          color: AppColor.blue,
-                          child: Container(
-                            height: 200.h,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: AppColor.border,
-                              borderRadius: BorderRadius.circular(6),
+                );
+              },
+              child: (imagePickedInBase64 == "")
+                  ? DottedBorder(
+                      radius: const Radius.circular(20),
+                      dashPattern: const [7, 3],
+                      strokeWidth: 2,
+                      color: AppColor.blue,
+                      child: Container(
+                        height: 200.h,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: AppColor.border,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.file_upload_outlined,
+                              size: 24.h,
+                              color: AppColor.blue,
                             ),
-                            child: Row(
+                            SizedBox(width: 18.h),
+                            Column(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Icons.file_upload_outlined,
-                                  size: 24.h,
-                                  color: AppColor.blue,
+                                Text(
+                                  "Browse File",
+                                  style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColor.blue,
+                                  ),
                                 ),
-                                SizedBox(width: 18.h),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                SizedBox(height: 6.h),
+                                Text(
+                                  "Format dokumen .jpg",
+                                  style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                                    color: AppColor.disabled,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.h),
+                                // borderRadius: BorderRadius.only(
+                                //   topLeft: Radius.circular(8.h),
+                                //   topRight: Radius.circular(8.h),
+                                // ),
+                                child: Image.memory(
+                                  base64Decode(base64.normalize(imagePickedInBase64)),
+                                  height: 190.h,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 10.h,
+                              right: 10.h,
+                              child: InkWell(
+                                onTap: () {
+                                  debugPrint("Test ontap");
+                                  setState(() {
+                                    imagePickedInBase64 = "";
+                                  });
+                                },
+                                child: Stack(
                                   children: [
-                                    Text(
-                                      "Browse File",
-                                      style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                                        decoration: TextDecoration.underline,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColor.blue,
+                                    Container(
+                                      height: 30.h,
+                                      width: 30.h,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white.withOpacity(0.65),
                                       ),
-                                    ),
-                                    SizedBox(height: 6.h),
-                                    Text(
-                                      "Format dokumen .jpg",
-                                      style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                                        color: AppColor.disabled,
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 25.h,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        )
-                      : Center(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.h),
-                                    // borderRadius: BorderRadius.only(
-                                    //   topLeft: Radius.circular(8.h),
-                                    //   topRight: Radius.circular(8.h),
-                                    // ),
-                                    child: Image.memory(
-                                      base64Decode(base64.normalize(imagePickedInBase64)),
-                                      height: 190.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 10.h,
-                                  right: 10.h,
-                                  child: InkWell(
-                                    onTap: () {
-                                      debugPrint("Test ontap");
-                                      setState(() {
-                                        imagePickedInBase64 = "";
-                                      });
-                                    },
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height: 30.h,
-                                          width: 30.h,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white.withOpacity(0.65),
-                                          ),
-                                          child: Icon(
-                                            Icons.close,
-                                            size: 25.h,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          ],
                         ),
-                ),
-                SizedBox(height: 15.h),
-                AppTextFieldWidget(
-                  textFieldTitle: "Vehicle Name",
-                  textFieldHintText: "Vehicle Name",
-                  controller: vehicleNameController,
-                ),
-                SizedBox(height: 15.h),
-                AppTextFieldWidget(
-                  textFieldTitle: "Year",
-                  textFieldHintText: "Year",
-                  controller: yearController,
-                ),
-                SizedBox(height: 15.h),
-                AppTextFieldWidget(
-                  textFieldTitle: "Engine Capacity (cc)",
-                  textFieldHintText: "ex: 250",
-                  controller: engineCapacityController,
-                ),
-                SizedBox(height: 15.h),
-                AppTextFieldWidget(
-                  textFieldTitle: "Tank Capacity (Litre)",
-                  textFieldHintText: "ex: 250",
-                  controller: tankCapacityController,
-                ),
-                SizedBox(height: 15.h),
-                AppTextFieldWidget(
-                  textFieldTitle: "Color",
-                  textFieldHintText: "Color",
-                  controller: colorController,
-                ),
-                SizedBox(height: 15.h),
-                AppTextFieldWidget(
-                  textFieldTitle: "Machine Number",
-                  textFieldHintText: "Machine Number",
-                  controller: machineNumberController,
-                ),
-                SizedBox(height: 15.h),
-                AppTextFieldWidget(
-                  textFieldTitle: "Chassis Number",
-                  textFieldHintText: "Chassis Number",
-                  controller: chassisNumberController,
-                ),
-                SizedBox(height: 20.h),
-                AppMainButtonWidget(
-                  onPressed: () {
-                    // Get.off(() => const MainPage());
-                    context.read<EditVehicleBloc>().add(
-                          EditVehicleAction(
-                            appVehicleReposistory: AppVehicleReposistory(),
-                            editVehicleRequestModel: EditVehicleRequestModel(
-                              vehicleId: vehicleId!,
-                              vehicleName: vehicleNameController.text,
-                              vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
-                              year: yearController.text,
-                              engineCapacity: engineCapacityController.text,
-                              tankCapacity: tankCapacityController.text,
-                              color: colorController.text,
-                              machineNumber: machineNumberController.text,
-                              chassisNumber: chassisNumberController.text,
-                            ),
-                          ),
-                        );
-                  },
-                  text: "Edit Vehicle",
-                ),
-              ],
+                      ),
+                    ),
             ),
-          ),
-        );
-      },
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Vehicle Name",
+              textFieldHintText: "Vehicle Name",
+              controller: vehicleNameController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Year",
+              textFieldHintText: "Year",
+              controller: yearController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Engine Capacity (cc)",
+              textFieldHintText: "ex: 250",
+              controller: engineCapacityController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Tank Capacity (Litre)",
+              textFieldHintText: "ex: 250",
+              controller: tankCapacityController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Color",
+              textFieldHintText: "Color",
+              controller: colorController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Machine Number",
+              textFieldHintText: "Machine Number",
+              controller: machineNumberController,
+            ),
+            SizedBox(height: 15.h),
+            AppTextFieldWidget(
+              textFieldTitle: "Chassis Number",
+              textFieldHintText: "Chassis Number",
+              controller: chassisNumberController,
+            ),
+            SizedBox(height: 20.h),
+            AppMainButtonWidget(
+              onPressed: () {
+                // Get.off(() => const MainPage());
+                context.read<EditVehicleBloc>().add(
+                      EditVehicleAction(
+                        appVehicleReposistory: AppVehicleReposistory(),
+                        editVehicleRequestModel: EditVehicleRequestModel(
+                          vehicleId: vehicleId!,
+                          vehicleName: vehicleNameController.text,
+                          vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
+                          year: yearController.text,
+                          engineCapacity: engineCapacityController.text,
+                          tankCapacity: tankCapacityController.text,
+                          color: colorController.text,
+                          machineNumber: machineNumberController.text,
+                          chassisNumber: chassisNumberController.text,
+                        ),
+                      ),
+                    );
+              },
+              text: "Edit Vehicle",
+            ),
+          ],
+        ),
+      ),
     );
   }
 

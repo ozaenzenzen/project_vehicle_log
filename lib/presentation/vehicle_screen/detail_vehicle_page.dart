@@ -146,6 +146,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                         onTap: () {
                           Get.to(
                             () => EditMainInfoPage(
+                              data: state.getAllVehicleDataResponseModel.data![widget.index],
                               index: widget.index,
                             ),
                           );
