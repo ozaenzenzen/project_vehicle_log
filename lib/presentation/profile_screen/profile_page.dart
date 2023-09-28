@@ -252,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         } else if (state is ProfileSuccess) {
-          if (profilePicture.length < 2) {
+          if (profilePicture.length < 30) {
             return CircleAvatar(
               radius: 40.h,
               backgroundColor: AppColor.primary,

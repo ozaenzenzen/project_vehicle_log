@@ -290,7 +290,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
               child: Stack(
                 children: [
-                  (profilePicture != "")
+                  (profilePicture != "" && profilePicture.length > 30)
                       ? ClipOval(
                           child: Image.memory(
                             base64Decode(profilePicture),

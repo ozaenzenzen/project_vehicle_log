@@ -474,7 +474,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                       );
                     } else if (state is ProfileSuccess) {
-                      if (state.userDataModel.profilePicture != null || state.userDataModel.profilePicture!.length > 2) {
+                      if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
                         return ClipOval(
                           child: Image.memory(
                             base64Decode(state.userDataModel.profilePicture!),
