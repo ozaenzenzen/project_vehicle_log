@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/data/dummy_data.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
-import 'package:project_vehicle_log/data/vehicle_data_model.dart';
-import 'package:project_vehicle_log/presentation/bloc/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
-import 'package:project_vehicle_log/presentation/screen/home_screen/detail_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/support/app_color.dart';

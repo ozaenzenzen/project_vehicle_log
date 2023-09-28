@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
-import 'package:project_vehicle_log/presentation/screen/vehicle_screen/edit_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/edit_measurement_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

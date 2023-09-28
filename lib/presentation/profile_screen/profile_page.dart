@@ -6,11 +6,9 @@ import 'package:project_vehicle_log/data/dummy_data_profile.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
-import 'package:project_vehicle_log/presentation/bloc/account_bloc/profile_bloc/profile_bloc.dart';
-import 'package:project_vehicle_log/presentation/bloc/account_bloc/signout_bloc/signout_bloc.dart';
-import 'package:project_vehicle_log/presentation/screen/notification_screen/notification_page.dart';
-import 'package:project_vehicle_log/presentation/screen/profile_screen/edit_profile_page.dart';
-import 'package:project_vehicle_log/presentation/signin_page.dart';
+import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
+import 'package:project_vehicle_log/presentation/profile_screen/signout_bloc/signout_bloc.dart';
+import 'package:project_vehicle_log/presentation/signin/signin_page.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_webview_screen.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
@@ -19,6 +17,8 @@ import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_info.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:project_vehicle_log/presentation/edit_profile/edit_profile_page.dart';
+import 'package:project_vehicle_log/presentation/notification_screen/notification_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
