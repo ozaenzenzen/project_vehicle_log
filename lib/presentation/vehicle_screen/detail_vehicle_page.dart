@@ -106,7 +106,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                 children: [
                   Text(
                     // "Name Vehicle",
-                    state.getAllVehicleDataResponseModel.data![widget.index].vehicleName!,
+                    state.getAllVehicleDataResponseModel!.data![widget.index].vehicleName!,
                     style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                       // color: AppColor.text_4,
                       color: Colors.black38,
@@ -114,14 +114,14 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  (state.getAllVehicleDataResponseModel.data![widget.index].vehicleImage! == 'x')
+                  (state.getAllVehicleDataResponseModel!.data![widget.index].vehicleImage! == 'x')
                       ? Image.network("https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw")
                       : SizedBox(
                           // child: Image.network("https://media.istockphoto.com/id/1096052566/vector/stamprsimp2red.jpg?s=612x612&w=0&k=20&c=KVu0nVz7ZLbZsRsx81VBZcuXZ1MlEmLk9IQabO2GkYo="),
                           // child: Image.network("https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw"),
                           child: Image.memory(
                             base64Decode(
-                              state.getAllVehicleDataResponseModel.data![widget.index].vehicleImage!,
+                              state.getAllVehicleDataResponseModel!.data![widget.index].vehicleImage!,
                             ),
                             height: 200.h,
                             width: MediaQuery.of(context).size.width,
@@ -146,7 +146,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                         onTap: () {
                           Get.to(
                             () => EditMainInfoPage(
-                              data: state.getAllVehicleDataResponseModel.data![widget.index],
+                              data: state.getAllVehicleDataResponseModel!.data![widget.index],
                               index: widget.index,
                             ),
                           );
@@ -162,32 +162,32 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   SizedBox(height: 10.h),
                   ItemListWidget(
                     title: "Year",
-                    value: state.getAllVehicleDataResponseModel.data![widget.index].year,
+                    value: state.getAllVehicleDataResponseModel!.data![widget.index].year,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
                     title: "Engine Capacity (cc)",
-                    value: state.getAllVehicleDataResponseModel.data![widget.index].engineCapacity,
+                    value: state.getAllVehicleDataResponseModel!.data![widget.index].engineCapacity,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
                     title: "Tank Capacity (Litre)",
-                    value: state.getAllVehicleDataResponseModel.data![widget.index].tankCapacity,
+                    value: state.getAllVehicleDataResponseModel!.data![widget.index].tankCapacity,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
                     title: "Color",
-                    value: state.getAllVehicleDataResponseModel.data![widget.index].color,
+                    value: state.getAllVehicleDataResponseModel!.data![widget.index].color,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
                     title: "Machine Number",
-                    value: state.getAllVehicleDataResponseModel.data![widget.index].machineNumber,
+                    value: state.getAllVehicleDataResponseModel!.data![widget.index].machineNumber,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
                     title: "Chassis Number",
-                    value: state.getAllVehicleDataResponseModel.data![widget.index].chassisNumber,
+                    value: state.getAllVehicleDataResponseModel!.data![widget.index].chassisNumber,
                   ),
                 ],
               ),
@@ -209,7 +209,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
         } else if (state is GetAllVehicleFailed) {
           return Text(state.errorMessage);
         } else if (state is GetAllVehicleSuccess) {
-          sortedListLogs = state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels!;
+          sortedListLogs = state.getAllVehicleDataResponseModel!.data![widget.index].vehicleMeasurementLogModels!;
           sortedListLogs.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
           return SingleChildScrollView(
             child: Container(
@@ -311,11 +311,11 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: state.getAllVehicleDataResponseModel.data![widget.index].categorizedData!.length,
+                    itemCount: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData!.length,
                     itemBuilder: (context, index) {
                       return DVPStatsItemWidget(
-                        title: state.getAllVehicleDataResponseModel.data![widget.index].categorizedData![index].measurementTitle,
-                        data: state.getAllVehicleDataResponseModel.data![widget.index].categorizedData![index],
+                        title: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData![index].measurementTitle,
+                        data: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData![index],
                       );
                     },
                     separatorBuilder: (context, index) {

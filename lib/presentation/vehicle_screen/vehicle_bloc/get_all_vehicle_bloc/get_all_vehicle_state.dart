@@ -6,10 +6,10 @@ abstract class GetAllVehicleState {}
 class GetAllVehicleInitial extends GetAllVehicleState {}
 
 class GetAllVehicleSuccess extends GetAllVehicleState {
-  final GetAllVehicleDataResponseModel getAllVehicleDataResponseModel;
+  final GetAllVehicleDataResponseModel? getAllVehicleDataResponseModel;
 
   GetAllVehicleSuccess({
-    required this.getAllVehicleDataResponseModel,
+    this.getAllVehicleDataResponseModel,
   });
 }
 

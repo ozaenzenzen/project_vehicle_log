@@ -8,10 +8,10 @@ import 'package:project_vehicle_log/data/local_repository/account_local_reposito
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
-import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:skeletons/skeletons.dart';
 
 class VehiclePage extends StatefulWidget {
   const VehiclePage({Key? key}) : super(key: key);
@@ -74,37 +74,42 @@ class _VehiclePageState extends State<VehiclePage> {
                 SizedBox(height: 20.h),
                 BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
                   builder: (context, state) {
-                    if (state is GetAllVehicleFailed) {
-                      return SizedBox(
-                        child: Text(state.errorMessage),
-                      );
-                    } else if (state is GetAllVehicleLoading) {
-                      return const Center(
-                        child: AppLoadingIndicator(),
-                      );
-                    } else if (state is GetAllVehicleSuccess) {
-                      if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
-                        return const Text("data is empty");
-                      }
+                    if (state is GetAllVehicleLoading) {
                       return ListView.separated(
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
                         physics: const NeverScrollableScrollPhysics(),
-                        // itemCount: 8,
-                        // itemCount: DummyData.dummyData.length,
-                        itemCount: state.getAllVehicleDataResponseModel.data!.length,
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return SkeletonLine(
+                            style: SkeletonLineStyle(
+                              height: 90.h,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            height: 20.h,
+                          );
+                        },
+                      );
+                    } else if (state is GetAllVehicleSuccess) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.getAllVehicleDataResponseModel == null ? 0 : state.getAllVehicleDataResponseModel!.data!.length,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
                               Get.to(
                                 () => DetailVehiclePage(
                                   index: index,
-                                  datumVehicle: state.getAllVehicleDataResponseModel.data![index],
+                                  datumVehicle: state.getAllVehicleDataResponseModel!.data![index],
                                 ),
                               );
                             },
                             child: Container(
-                              // height: 120.h,
                               padding: EdgeInsets.all(16.h),
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -124,7 +129,7 @@ class _VehiclePageState extends State<VehiclePage> {
                                   CircleAvatar(
                                     radius: 40.h,
                                     backgroundColor: AppColor.primary,
-                                    child: state.getAllVehicleDataResponseModel.data![index].vehicleImage == "x"
+                                    child: state.getAllVehicleDataResponseModel!.data![index].vehicleImage == "x"
                                         ? ClipOval(
                                             child: Image.network(
                                               "https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw",
@@ -135,7 +140,7 @@ class _VehiclePageState extends State<VehiclePage> {
                                           )
                                         : ClipOval(
                                             child: Image.memory(
-                                              base64Decode(state.getAllVehicleDataResponseModel.data![index].vehicleImage!),
+                                              base64Decode(state.getAllVehicleDataResponseModel!.data![index].vehicleImage!),
                                               fit: BoxFit.cover,
                                               height: 80.h,
                                               width: 80.h,
@@ -147,7 +152,7 @@ class _VehiclePageState extends State<VehiclePage> {
                                     children: [
                                       Text(
                                         // "${DummyData.dummyData[index].vehicleName}",
-                                        state.getAllVehicleDataResponseModel.data![index].vehicleName!,
+                                        state.getAllVehicleDataResponseModel!.data![index].vehicleName!,
                                         // "Vehicle $index",
                                         style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                           fontWeight: FontWeight.w600,
@@ -167,7 +172,7 @@ class _VehiclePageState extends State<VehiclePage> {
                         },
                       );
                     } else {
-                      return const Text("data is empty");
+                      return const SizedBox();
                     }
                   },
                 ),

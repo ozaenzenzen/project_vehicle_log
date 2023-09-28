@@ -88,10 +88,10 @@ class _StatsPageState extends State<StatsPage> {
                 listener: (context, state) {
                   // debugPrint("listen something $state");
                   if (state is GetAllVehicleSuccess) {
-                    if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
+                    if (state.getAllVehicleDataResponseModel!.data!.isEmpty) {
                       dropDownValue = null;
                     } else {
-                      dropDownValue = state.getAllVehicleDataResponseModel.data!.first;
+                      dropDownValue = state.getAllVehicleDataResponseModel!.data!.first;
                     }
                   }
                 },
@@ -104,7 +104,7 @@ class _StatsPageState extends State<StatsPage> {
                     } else if (state is GetAllVehicleFailed) {
                       return Text(state.errorMessage);
                     } else if (state is GetAllVehicleSuccess) {
-                      if (state.getAllVehicleDataResponseModel.data!.isEmpty) {
+                      if (state.getAllVehicleDataResponseModel!.data!.isEmpty) {
                         return const Text("data is empty");
                       }
                       return Column(
@@ -112,7 +112,7 @@ class _StatsPageState extends State<StatsPage> {
                         children: [
                           DropdownButtonFormField<DatumVehicle>(
                             focusNode: dropDownFocusNode,
-                            items: state.getAllVehicleDataResponseModel.data?.map((DatumVehicle e) {
+                            items: state.getAllVehicleDataResponseModel!.data?.map((DatumVehicle e) {
                               return DropdownMenuItem<DatumVehicle>(
                                 value: e,
                                 child: Text(
@@ -131,7 +131,7 @@ class _StatsPageState extends State<StatsPage> {
                               dropDownFocusNode.unfocus();
                             },
                             // value: dropDownValue,
-                            value: state.getAllVehicleDataResponseModel.data!.first,
+                            value: state.getAllVehicleDataResponseModel!.data!.first,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -151,13 +151,13 @@ class _StatsPageState extends State<StatsPage> {
                             //     .listControl!
                             //     .length,
                             itemCount: state
-                                .getAllVehicleDataResponseModel
-                                .data![(state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
+                                .getAllVehicleDataResponseModel!
+                                .data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((element) {
                                           return element == dropDownValue;
                                         }) <
                                         0)
                                     ? 0
-                                    : state.getAllVehicleDataResponseModel.data!.indexWhere((element) {
+                                    : state.getAllVehicleDataResponseModel!.data!.indexWhere((element) {
                                         return element == dropDownValue;
                                       })]
                                 .categorizedData!
@@ -176,12 +176,12 @@ class _StatsPageState extends State<StatsPage> {
                                   Get.to(
                                     () => DetailMeasurementPage(
                                       // data: state.getAllVehicleDataResponseModel.data![index],
-                                      data: state.getAllVehicleDataResponseModel.data![(state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                      data: state.getAllVehicleDataResponseModel!.data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
                                                 return element == dropDownValue;
                                               }) <
                                               0)
                                           ? 0
-                                          : state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                          : state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
                                               return element == dropDownValue;
                                             })],
                                       index: index,
@@ -208,13 +208,13 @@ class _StatsPageState extends State<StatsPage> {
                                           // })]
                                           //     .listControl![index],
                                           state
-                                              .getAllVehicleDataResponseModel
-                                              .data![(state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                              .getAllVehicleDataResponseModel!
+                                              .data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
                                                         return element == dropDownValue;
                                                       }) <
                                                       0)
                                                   ? 0
-                                                  : state.getAllVehicleDataResponseModel.data!.indexWhere((DatumVehicle element) {
+                                                  : state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
                                                       return element == dropDownValue;
                                                     })]
                                               .categorizedData![index]

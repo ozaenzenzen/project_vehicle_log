@@ -14,7 +14,6 @@ import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/pro
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_container_box_widget.dart';
-import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:intl/intl.dart';
@@ -151,7 +150,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: state.getAllVehicleDataResponseModel.data!.length,
+              itemCount: state.getAllVehicleDataResponseModel!.data!.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -171,7 +170,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      state.getAllVehicleDataResponseModel.data![index].vehicleName!,
+                      state.getAllVehicleDataResponseModel!.data![index].vehicleName!,
                       style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                         color: index == indexClicked ? AppColor.white : Colors.black38,
                         fontWeight: FontWeight.w500,
@@ -201,7 +200,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       builder: (context, state) {
         if (state is GetAllVehicleSuccess) {
           return ListMeasurementWidget(
-            data: state.getAllVehicleDataResponseModel.data![indexClicked],
+            data: state.getAllVehicleDataResponseModel!.data![indexClicked],
             index: indexClicked,
           );
         } else if (state is GetAllVehicleLoading) {
