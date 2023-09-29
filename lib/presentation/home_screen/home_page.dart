@@ -9,7 +9,6 @@ import 'package:project_vehicle_log/data/local_repository/vehicle_local_reposito
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
-import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
@@ -72,7 +71,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         if (state is GetProfileDataVehicleSuccess) {
           accountDataUserModelHomePage = state.accountDataUserModel;
           context.read<GetAllVehicleBloc>().add(
-                GetAllVehicleDataFromLocalAction(
+                GetAllVehicleDataLocalAction(
                   vehicleLocalRepository: VehicleLocalRepository(),
                 ),
               );
@@ -87,7 +86,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             )
             ..read<GetAllVehicleBloc>().add(
-              GetAllVehicleDataAction(
+              GetAllVehicleDataRemoteAction(
                 id: accountDataUserModelHomePage!.userId.toString(),
                 vehicleLocalRepository: VehicleLocalRepository(),
               ),

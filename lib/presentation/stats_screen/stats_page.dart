@@ -31,7 +31,7 @@ class _StatsPageState extends State<StatsPage> {
     return BlocProvider<GetAllVehicleBloc>(
       create: (context) => GetAllVehicleBloc(AppVehicleReposistory())
         ..add(
-          GetAllVehicleDataFromLocalAction(
+          GetAllVehicleDataLocalAction(
             vehicleLocalRepository: VehicleLocalRepository(),
           ),
         ),

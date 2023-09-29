@@ -42,7 +42,7 @@ class _VehiclePageState extends State<VehiclePage> {
                   // GetAllVehicleDataAction(
                   //   id: state.accountDataUserModel.userId.toString(),
                   // ),
-                  GetAllVehicleDataFromLocalAction(
+                  GetAllVehicleDataLocalAction(
                     vehicleLocalRepository: VehicleLocalRepository(),
                   ),
                 );

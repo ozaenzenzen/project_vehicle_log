@@ -48,7 +48,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
     super.initState();
     getAllVehicleBloc = BlocProvider.of(context)
       ..add(
-        GetAllVehicleDataFromLocalAction(
+        GetAllVehicleDataLocalAction(
           vehicleLocalRepository: VehicleLocalRepository(),
         ),
       );
@@ -63,7 +63,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
   void didChangeDependencies() {
     getAllVehicleBloc = BlocProvider.of(context)
       ..add(
-        GetAllVehicleDataFromLocalAction(
+        GetAllVehicleDataLocalAction(
           vehicleLocalRepository: VehicleLocalRepository(),
         ),
       );

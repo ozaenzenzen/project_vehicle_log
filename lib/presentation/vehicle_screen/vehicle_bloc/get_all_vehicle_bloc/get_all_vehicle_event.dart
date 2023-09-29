@@ -3,20 +3,20 @@ part of 'get_all_vehicle_bloc.dart';
 @immutable
 abstract class GetAllVehicleEvent {}
 
-class GetAllVehicleDataAction extends GetAllVehicleEvent {
+class GetAllVehicleDataRemoteAction extends GetAllVehicleEvent {
   final String id;
   final VehicleLocalRepository vehicleLocalRepository;
 
-  GetAllVehicleDataAction({
+  GetAllVehicleDataRemoteAction({
     required this.id,
     required this.vehicleLocalRepository,
   });
 }
 
-class GetAllVehicleDataFromLocalAction extends GetAllVehicleEvent {
+class GetAllVehicleDataLocalAction extends GetAllVehicleEvent {
   final VehicleLocalRepository vehicleLocalRepository;
 
-  GetAllVehicleDataFromLocalAction({
+  GetAllVehicleDataLocalAction({
     required this.vehicleLocalRepository,
   });
 }

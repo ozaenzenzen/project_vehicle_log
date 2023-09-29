@@ -15,9 +15,9 @@ part 'get_all_vehicle_state.dart';
 class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {
     on<GetAllVehicleEvent>((event, emit) {
-      if (event is GetAllVehicleDataAction) {
+      if (event is GetAllVehicleDataRemoteAction) {
         _getAllVehicleAction(appVehicleReposistory, event);
-      } else if (event is GetAllVehicleDataFromLocalAction) {
+      } else if (event is GetAllVehicleDataLocalAction) {
         _getAllVehicleFromLocalAction(event.vehicleLocalRepository);
       } else if (event is GetProfileDataVehicleAction) {
         _getProfileDataAction(event.localRepository);
@@ -111,7 +111,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
 
   Future<void> _getAllVehicleAction(
     AppVehicleReposistory appVehicleReposistory,
-    GetAllVehicleDataAction event,
+    GetAllVehicleDataRemoteAction event,
   ) async {
     emit(GetAllVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 500));
