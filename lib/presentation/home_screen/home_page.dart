@@ -31,6 +31,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int indexClicked = 0;
   Color vehicleListColor = Colors.black38;
+  AccountDataUserModel? accountDataUserModelHomePage;
 
   DateFormat formattedDate = DateFormat("dd MMM yyyy");
 
@@ -43,6 +44,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    context
+      ..read<ProfileBloc>().add(
+        GetProfileRemoteAction(
+          accountRepository: AppAccountReposistory(),
+        ),
+      )
+      ..read<GetAllVehicleBloc>().add(
+        GetProfileDataVehicleAction(
+          localRepository: AccountLocalRepository(),
+        ),
+      );
     data = [
       _ChartData('David', 25),
       _ChartData('Steve', 38),
@@ -53,89 +65,66 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
   }
 
-  AccountDataUserModel? accountDataUserModelHomePage;
-
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ProfileBloc(
-            AccountLocalRepository(),
-          )..add(
+    return BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
+      listener: (context, state) {
+        if (state is GetProfileDataVehicleSuccess) {
+          accountDataUserModelHomePage = state.accountDataUserModel;
+          context.read<GetAllVehicleBloc>().add(
+                GetAllVehicleDataFromLocalAction(
+                  vehicleLocalRepository: VehicleLocalRepository(),
+                ),
+              );
+        }
+      },
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context
+            ..read<ProfileBloc>().add(
               GetProfileRemoteAction(
                 accountRepository: AppAccountReposistory(),
               ),
-            ),
-        ),
-        BlocProvider(
-          create: (context) => GetAllVehicleBloc(
-            AppVehicleReposistory(),
-          )..add(
-              GetProfileDataVehicleAction(
-                localRepository: AccountLocalRepository(),
+            )
+            ..read<GetAllVehicleBloc>().add(
+              GetAllVehicleDataAction(
+                id: accountDataUserModelHomePage!.userId.toString(),
+                vehicleLocalRepository: VehicleLocalRepository(),
               ),
-            ),
-        ),
-      ],
-      child: BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
-        listener: (context, state) {
-          if (state is GetProfileDataVehicleSuccess) {
-            accountDataUserModelHomePage = state.accountDataUserModel;
-            context.read<GetAllVehicleBloc>().add(
-                  GetAllVehicleDataFromLocalAction(
-                    vehicleLocalRepository: VehicleLocalRepository(),
-                  ),
-                );
-          }
+            );
         },
-        child: RefreshIndicator(
-          onRefresh: () async {
-            context.read<ProfileBloc>().add(
-                  GetProfileRemoteAction(
-                    accountRepository: AppAccountReposistory(),
-                  ),
-                );
-            context.read<GetAllVehicleBloc>().add(
-                  GetAllVehicleDataAction(
-                    id: accountDataUserModelHomePage!.userId.toString(),
-                    vehicleLocalRepository: VehicleLocalRepository(),
-                  ),
-                );
-          },
-          child: SingleChildScrollView(
-            physics: const ScrollPhysics(),
-            child: Container(
-              color: AppColor.shape,
-              padding: EdgeInsets.all(16.h),
-              alignment: Alignment.center,
-              child: Stack(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      SizedBox(height: 40.h),
-                      headHomeSection(),
-                      SizedBox(height: 20.h),
-                      Column(
-                        children: [
-                          homeVehicleSummarySection(),
-                          SizedBox(height: 20.h),
-                          homeListVehicleSection(),
-                          SizedBox(height: 20.h),
-                          homeListMeasurementSection(),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        child: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Container(
+            color: AppColor.shape,
+            padding: EdgeInsets.all(16.h),
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(height: 40.h),
+                    headHomeSection(),
+                    SizedBox(height: 20.h),
+                    Column(
+                      children: [
+                        homeVehicleSummarySection(),
+                        SizedBox(height: 20.h),
+                        homeListVehicleSection(),
+                        SizedBox(height: 20.h),
+                        homeListMeasurementSection(),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -143,87 +132,107 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget homeListVehicleSection() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
-      builder: (context, state) {
-        if (state is GetAllVehicleSuccess) {
-          return SizedBox(
-            height: 40.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: state.getAllVehicleDataResponseModel!.data!.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      debugPrint("test hit $index");
-                      indexClicked = index;
-                      vehicleListColor = AppColor.white;
-                    });
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 15.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: index == indexClicked ? AppColor.primary : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      state.getAllVehicleDataResponseModel!.data![index].vehicleName!,
-                      style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                        color: index == indexClicked ? AppColor.white : Colors.black38,
+  Widget headHomeSection() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileLoading) {
+                    return SizedBox(
+                      height: 40.h,
+                      width: 150.w,
+                      child: const SkeletonLine(),
+                    );
+                  } else if (state is ProfileFailed) {
+                    return Text(state.errorMessage);
+                  } else if (state is ProfileSuccess) {
+                    return Expanded(
+                      child: Text(
+                        "Hi, ${state.userDataModel.name}",
+                        style: AppTheme.theme.textTheme.displayLarge?.copyWith(
+                          color: Colors.black38,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      "Hi, User",
+                      style: AppTheme.theme.textTheme.displayLarge?.copyWith(
+                        color: Colors.black38,
                         fontWeight: FontWeight.w500,
                       ),
-                    ),
-                  ),
-                );
-              },
+                    );
+                  }
+                },
+              ),
+              InkWell(
+                onTap: () {
+                  Get.to(() => const ProfilePage());
+                },
+                child: BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    if (state is ProfileLoading) {
+                      return ClipOval(
+                        child: SkeletonAvatar(
+                          style: SkeletonAvatarStyle(
+                            height: 80.h,
+                            width: 80.h,
+                          ),
+                        ),
+                      );
+                    } else if (state is ProfileSuccess) {
+                      if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
+                        return ClipOval(
+                          child: Image.memory(
+                            base64Decode(state.userDataModel.profilePicture!),
+                            height: 80.h,
+                            width: 80.h,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      } else {
+                        return CircleAvatar(
+                          radius: 36.h,
+                          backgroundColor: AppColor.primary,
+                        );
+                      }
+                    } else {
+                      return CircleAvatar(
+                        radius: 36.h,
+                        backgroundColor: AppColor.primary,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            "Manage your vehicle mileage",
+            style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+              // color: AppColor.text_4,
+              color: Colors.black38,
+              fontWeight: FontWeight.w500,
             ),
-          );
-        } else if (state is GetAllVehicleLoading) {
-          return SkeletonLine(
-            style: SkeletonLineStyle(
-              width: MediaQuery.of(context).size.width,
-              height: 20.h,
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            "Current Date: ${formattedDate.format(DateTime.now())}",
+            style: AppTheme.theme.textTheme.titleLarge?.copyWith(
+              color: Colors.black38,
+              fontWeight: FontWeight.w500,
             ),
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
-  }
-
-  Widget homeListMeasurementSection() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
-      builder: (context, state) {
-        if (state is GetAllVehicleSuccess) {
-          return ListMeasurementWidget(
-            data: state.getAllVehicleDataResponseModel!.data![indexClicked],
-            index: indexClicked,
-          );
-        } else if (state is GetAllVehicleLoading) {
-          return GridView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 20.h,
-              mainAxisSpacing: 20.h,
-              crossAxisCount: 2,
-            ),
-            itemCount: 6,
-            itemBuilder: (context, index) {
-              return const SkeletonAvatar();
-            },
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
+          ),
+        ],
+      ),
     );
   }
 
@@ -420,107 +429,87 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget headHomeSection() {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              BlocBuilder<ProfileBloc, ProfileState>(
-                builder: (context, state) {
-                  if (state is ProfileLoading) {
-                    return SizedBox(
-                      height: 40.h,
-                      width: 150.w,
-                      child: const SkeletonLine(),
-                    );
-                  } else if (state is ProfileFailed) {
-                    return Text(state.errorMessage);
-                  } else if (state is ProfileSuccess) {
-                    return Expanded(
-                      child: Text(
-                        "Hi, ${state.userDataModel.name}",
-                        style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Text(
-                      "Hi, User",
-                      style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                        color: Colors.black38,
+  Widget homeListVehicleSection() {
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      builder: (context, state) {
+        if (state is GetAllVehicleSuccess) {
+          return SizedBox(
+            height: 40.h,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: state.getAllVehicleDataResponseModel!.data!.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      debugPrint("test hit $index");
+                      indexClicked = index;
+                      vehicleListColor = AppColor.white;
+                    });
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: index == indexClicked ? AppColor.primary : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      state.getAllVehicleDataResponseModel!.data![index].vehicleName!,
+                      style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                        color: index == indexClicked ? AppColor.white : Colors.black38,
                         fontWeight: FontWeight.w500,
                       ),
-                    );
-                  }
-                },
-              ),
-              InkWell(
-                onTap: () {
-                  Get.to(() => const ProfilePage());
-                },
-                child: BlocBuilder<ProfileBloc, ProfileState>(
-                  builder: (context, state) {
-                    if (state is ProfileLoading) {
-                      return ClipOval(
-                        child: SkeletonAvatar(
-                          style: SkeletonAvatarStyle(
-                            height: 80.h,
-                            width: 80.h,
-                          ),
-                        ),
-                      );
-                    } else if (state is ProfileSuccess) {
-                      if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
-                        return ClipOval(
-                          child: Image.memory(
-                            base64Decode(state.userDataModel.profilePicture!),
-                            height: 80.h,
-                            width: 80.h,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      } else {
-                        return CircleAvatar(
-                          radius: 36.h,
-                          backgroundColor: AppColor.primary,
-                        );
-                      }
-                    } else {
-                      return CircleAvatar(
-                        radius: 36.h,
-                        backgroundColor: AppColor.primary,
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            "Manage your vehicle mileage",
-            style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-              // color: AppColor.text_4,
-              color: Colors.black38,
-              fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
+              },
             ),
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            "Current Date: ${formattedDate.format(DateTime.now())}",
-            style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-              color: Colors.black38,
-              fontWeight: FontWeight.w500,
+          );
+        } else if (state is GetAllVehicleLoading) {
+          return SkeletonLine(
+            style: SkeletonLineStyle(
+              width: MediaQuery.of(context).size.width,
+              height: 20.h,
             ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+
+  Widget homeListMeasurementSection() {
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      builder: (context, state) {
+        if (state is GetAllVehicleSuccess) {
+          return ListMeasurementWidget(
+            data: state.getAllVehicleDataResponseModel!.data![indexClicked],
+            index: indexClicked,
+          );
+        } else if (state is GetAllVehicleLoading) {
+          return GridView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisSpacing: 20.h,
+              mainAxisSpacing: 20.h,
+              crossAxisCount: 2,
+            ),
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return const SkeletonAvatar();
+            },
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 }
