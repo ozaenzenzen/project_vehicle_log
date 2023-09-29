@@ -11,7 +11,7 @@ class AppInitConfig {
     AppInfo.appInfoInit();
     AppConnectivityService.init();
     AppLocalStorage.init();
-    EnvironmentConfig.customBaseUrl = "https://8aed-140-213-9-185.ngrok.io"; // for ngrok
+    EnvironmentConfig.customBaseUrl = "https://6d7b-45-251-5-82.ngrok.io"; // for ngrok
     // EnvironmentConfig.customBaseUrl = "http://10.0.2.2:8080"; // for emulator android
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS
   }
