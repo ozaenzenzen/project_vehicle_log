@@ -16,9 +16,9 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {
     on<GetAllVehicleEvent>((event, emit) {
       if (event is GetAllVehicleDataRemoteAction) {
-        _getAllVehicleAction(appVehicleReposistory, event);
+        _getAllVehicleRemoteAction(appVehicleReposistory, event);
       } else if (event is GetAllVehicleDataLocalAction) {
-        _getAllVehicleFromLocalAction(event.vehicleLocalRepository);
+        _getAllVehicleLocalAction(event.vehicleLocalRepository);
       } else if (event is GetProfileDataVehicleAction) {
         _getProfileDataAction(event.localRepository);
       }
@@ -109,7 +109,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     return categorizedDataLocalAsList;
   }
 
-  Future<void> _getAllVehicleAction(
+  Future<void> _getAllVehicleRemoteAction(
     AppVehicleReposistory appVehicleReposistory,
     GetAllVehicleDataRemoteAction event,
   ) async {
@@ -233,7 +233,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     }
   }
 
-  Future<void> _getAllVehicleFromLocalAction(
+  Future<void> _getAllVehicleLocalAction(
     VehicleLocalRepository vehicleLocalRepository,
   ) async {
     emit(GetAllVehicleLoading());
