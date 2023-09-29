@@ -347,7 +347,7 @@ class AppDialogAction {
     required BuildContext context,
     required String title,
     required String description,
-    String? buttonTitle,
+    required String buttonTitle,
     Function()? mainButtonAction,
     double radius = 10,
     double? buttonHeight,
@@ -386,7 +386,7 @@ class AppDialogAction {
           ),
         ],
       ),
-      buttonTitle: buttonTitle ?? "",
+      buttonTitle: buttonTitle,
       mainButtonAction: mainButtonAction ??
           () {
             Get.back();

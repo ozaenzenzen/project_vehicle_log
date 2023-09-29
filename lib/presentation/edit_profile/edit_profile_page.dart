@@ -149,6 +149,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 context: context,
                 title: 'Terjadi kesalahan',
                 description: 'Mohon tunggu sebentar, masih mengambil data',
+                buttonTitle: 'Kembali',
               );
             } else {
               context.read<EditProfileBloc>().add(
