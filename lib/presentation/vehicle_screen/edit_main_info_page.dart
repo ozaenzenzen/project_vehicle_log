@@ -50,6 +50,8 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
   @override
   void initState() {
     super.initState();
+    editVehicleBloc = EditVehicleBloc();
+
     vehicleId = widget.data.id!;
     imagePickedInBase64 = widget.data.vehicleImage!;
     vehicleNameController.text = widget.data.vehicleName!;
@@ -62,20 +64,9 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    editVehicleBloc = EditVehicleBloc();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<EditVehicleBloc>(
-          create: (context) => EditVehicleBloc(),
-        ),
-      ],
+    return BlocProvider(
+      create: (_) => editVehicleBloc,
       child: BlocListener<EditVehicleBloc, EditVehicleState>(
         listener: (context, state) {
           if (state is EditVehicleSuccess) {
@@ -315,27 +306,31 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
               controller: chassisNumberController,
             ),
             SizedBox(height: 20.h),
-            AppMainButtonWidget(
-              onPressed: () {
-                // Get.off(() => const MainPage());
-                context.read<EditVehicleBloc>().add(
-                      EditVehicleAction(
-                        appVehicleReposistory: AppVehicleReposistory(),
-                        editVehicleRequestModel: EditVehicleRequestModel(
-                          vehicleId: vehicleId!,
-                          vehicleName: vehicleNameController.text,
-                          vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
-                          year: yearController.text,
-                          engineCapacity: engineCapacityController.text,
-                          tankCapacity: tankCapacityController.text,
-                          color: colorController.text,
-                          machineNumber: machineNumberController.text,
-                          chassisNumber: chassisNumberController.text,
-                        ),
-                      ),
-                    );
+            BlocBuilder<EditVehicleBloc, EditVehicleState>(
+              builder: (context, state) {
+                return AppMainButtonWidget(
+                  onPressed: () {
+                    // Get.off(() => const MainPage());
+                    context.read<EditVehicleBloc>().add(
+                          EditVehicleAction(
+                            appVehicleReposistory: AppVehicleReposistory(),
+                            editVehicleRequestModel: EditVehicleRequestModel(
+                              vehicleId: vehicleId!,
+                              vehicleName: vehicleNameController.text,
+                              vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
+                              year: yearController.text,
+                              engineCapacity: engineCapacityController.text,
+                              tankCapacity: tankCapacityController.text,
+                              color: colorController.text,
+                              machineNumber: machineNumberController.text,
+                              chassisNumber: chassisNumberController.text,
+                            ),
+                          ),
+                        );
+                  },
+                  text: "Edit Vehicle",
+                );
               },
-              text: "Edit Vehicle",
             ),
           ],
         ),
