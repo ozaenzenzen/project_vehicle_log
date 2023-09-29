@@ -218,15 +218,17 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
                               width: MediaQuery.of(context).size.width,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.h),
-                                // borderRadius: BorderRadius.only(
-                                //   topLeft: Radius.circular(8.h),
-                                //   topRight: Radius.circular(8.h),
-                                // ),
-                                child: Image.memory(
-                                  base64Decode(base64.normalize(imagePickedInBase64)),
-                                  height: 190.h,
-                                  fit: BoxFit.cover,
-                                ),
+                                child: imagePickedInBase64.length > 30
+                                    ? Image.memory(
+                                        base64Decode(base64.normalize(imagePickedInBase64)),
+                                        height: 190.h,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.network(
+                                        "https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw",
+                                        height: 190.h,
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
                             ),
                             Positioned(
