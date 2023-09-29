@@ -51,36 +51,66 @@ class AppVehicleReposistory {
     return GetLogVehicleDataResponseModel.fromJson(response.data);
   }
 
-  Future<CreateVehicleResponseModel> createVehicleData(CreateVehicleRequestModel createVehicleRequestModel) async {
-    final response = await AppApiService(
-      EnvironmentConfig.baseUrl(),
-    ).call(
-      AppApiPath.createVehicle,
-      method: MethodRequest.post,
-      request: createVehicleRequestModel.toJson(),
-    );
-    return CreateVehicleResponseModel.fromJson(response.data);
+  Future<CreateVehicleResponseModel?> createVehicleData({
+    required CreateVehicleRequestModel createVehicleRequestModel,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.createVehicle,
+        method: MethodRequest.post,
+        request: createVehicleRequestModel.toJson(),
+        header: {
+          "token": token,
+        },
+      );
+      return CreateVehicleResponseModel.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<EditVehicleResponseModel> editVehicleData(EditVehicleRequestModel editVehicleRequestModel) async {
-    final response = await AppApiService(
-      EnvironmentConfig.baseUrl(),
-    ).call(
-      AppApiPath.editVehicle,
-      method: MethodRequest.post,
-      request: editVehicleRequestModel.toJson(),
-    );
-    return EditVehicleResponseModel.fromJson(response.data);
+  Future<EditVehicleResponseModel?> editVehicleData({
+    required EditVehicleRequestModel editVehicleRequestModel,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.editVehicle,
+        method: MethodRequest.post,
+        request: editVehicleRequestModel.toJson(),
+        header: {
+          "token": token,
+        },
+      );
+      return EditVehicleResponseModel.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<CreateLogVehicleResponseModel> createLogVehicleData(CreateLogVehicleRequestModel createLogVehicleRequestModel) async {
-    final response = await AppApiService(
-      EnvironmentConfig.baseUrl(),
-    ).call(
-      AppApiPath.createLogVehicle,
-      method: MethodRequest.post,
-      request: createLogVehicleRequestModel.toJson(),
-    );
-    return CreateLogVehicleResponseModel.fromJson(response.data);
+  Future<CreateLogVehicleResponseModel?> createLogVehicleData({
+    required CreateLogVehicleRequestModel createLogVehicleRequestModel,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.createLogVehicle,
+        method: MethodRequest.post,
+        request: createLogVehicleRequestModel.toJson(),
+        header: {
+          "token": token,
+        },
+      );
+      return CreateLogVehicleResponseModel.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
   }
 }

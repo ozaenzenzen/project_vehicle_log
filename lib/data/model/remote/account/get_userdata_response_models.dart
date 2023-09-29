@@ -28,18 +28,21 @@ class UserdataGet {
     this.name,
     this.email,
     this.phone,
+    this.profilePicture,
   });
 
   int? id;
   String? name;
   String? email;
   String? phone;
+  String? profilePicture;
 
   factory UserdataGet.fromJson(Map<String, dynamic> json) => UserdataGet(
         id: json["id"],
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
+        profilePicture: json["profile_picture"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +50,6 @@ class UserdataGet {
         "name": name,
         "email": email,
         "phone": phone,
+        "profile_picture": profilePicture,
       };
 }

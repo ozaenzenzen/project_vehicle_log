@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class AppWebViewScreen extends StatelessWidget {
@@ -48,7 +47,7 @@ class AppWebViewScreen extends StatelessWidget {
                 Text(
                   title,
                   textScaleFactor: 1,
-                  style: AppTheme.theme.textTheme.headline3?.copyWith(
+                  style: AppTheme.theme.textTheme.displaySmall?.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
