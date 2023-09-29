@@ -39,7 +39,8 @@ class _AppMainButtonWidgetState extends State<AppMainButtonWidget> {
       child: ElevatedButton(
         onPressed: widget.onPressed,
         style: ElevatedButton.styleFrom(
-          primary: widget.color ?? const Color.fromARGB(255, 17, 124, 163),
+          // primary: widget.color ?? const Color.fromARGB(255, 17, 124, 163),
+          backgroundColor: widget.color ?? const Color.fromARGB(255, 17, 124, 163),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.radius),
           ),

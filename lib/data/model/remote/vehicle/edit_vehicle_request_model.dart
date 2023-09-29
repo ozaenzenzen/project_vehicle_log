@@ -1,6 +1,7 @@
 class EditVehicleRequestModel {
+  int vehicleId;
   String vehicleName;
-  String vehicleImage;
+  String? vehicleImage;
   String year;
   String engineCapacity;
   String tankCapacity;
@@ -9,8 +10,9 @@ class EditVehicleRequestModel {
   String chassisNumber;
 
   EditVehicleRequestModel({
+    required this.vehicleId,
     required this.vehicleName,
-    required this.vehicleImage,
+    this.vehicleImage,
     required this.year,
     required this.engineCapacity,
     required this.tankCapacity,
@@ -20,6 +22,7 @@ class EditVehicleRequestModel {
   });
 
   factory EditVehicleRequestModel.fromJson(Map<String, dynamic> json) => EditVehicleRequestModel(
+        vehicleId: json["vehicle_id"],
         vehicleName: json["vehicle_name"],
         vehicleImage: json["vehicle_image"],
         year: json["year"],
@@ -31,6 +34,7 @@ class EditVehicleRequestModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "vehicle_id": vehicleId,
         "vehicle_name": vehicleName,
         "vehicle_image": vehicleImage,
         "year": year,

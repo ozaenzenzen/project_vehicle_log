@@ -1,5 +1,5 @@
 class CreateVehicleResponseModel {
-  int status;
+  dynamic status;
   String message;
 
   CreateVehicleResponseModel({

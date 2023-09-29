@@ -32,12 +32,7 @@ class AccountLocalRepository {
     try {
       String dataFromLocal = LocalService.instance.box.read("userData");
       AccountDataUserModel? userData = AccountDataUserModel.fromJson(jsonDecode(dataFromLocal));
-      if (userData == null || userData == [] || userData == "") {
-        return AccountDataUserModel();
-        // throw Exception("User data is empty");
-      } else {
-        return userData;
-      }
+      return userData;
     } catch (errorMessage) {
       return null;
     }

@@ -52,6 +52,7 @@ class AppCustomAppBar extends StatefulWidget {
 class AppCustomAppBarState extends State<AppCustomAppBar> {
   int _selectedIndex = 0;
 
+  // ignore: unused_element
   _updateIndex(int index) {
     // widget.onTabSelected!(index);
     widget.onTabSelected!(index);

@@ -55,7 +55,8 @@ class _AppSecondaryButtonWidgetState extends State<AppSecondaryButtonWidget> {
       child: ElevatedButton(
         onPressed: widget.onPressed,
         style: ElevatedButton.styleFrom(
-          primary: widget.color ?? Colors.white,
+          // primary: widget.color ?? Colors.white,
+          backgroundColor: widget.color ?? Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             side: BorderSide(
