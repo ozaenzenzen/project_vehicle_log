@@ -114,7 +114,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     GetAllVehicleDataRemoteAction event,
   ) async {
     emit(GetAllVehicleLoading());
-    await Future.delayed(const Duration(milliseconds: 500));
+    // await Future.delayed(const Duration(milliseconds: 500));
     try {
       AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
@@ -237,7 +237,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     VehicleLocalRepository vehicleLocalRepository,
   ) async {
     emit(GetAllVehicleLoading());
-    await Future.delayed(const Duration(milliseconds: 500));
+    // await Future.delayed(const Duration(milliseconds: 500));
     try {
       VehicleLocalDataModel? vehicleLocalDataModel = await vehicleLocalRepository.getLocalVehicleData();
       if (vehicleLocalDataModel != null) {
