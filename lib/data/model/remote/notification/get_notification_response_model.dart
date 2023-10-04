@@ -1,3 +1,5 @@
+import 'package:project_vehicle_log/support/app_date_time_helper.dart';
+
 class GetNotificationResponseModel {
   dynamic status;
   String? message;
@@ -43,16 +45,18 @@ class Notification {
     this.updatedAt,
   });
 
-  factory Notification.fromJson(Map<String, dynamic> json) => Notification(
-        notificationId: json["notification_id"],
-        userId: json["user_id"],
-        notificationTitle: json["notification_title"],
-        notificationDescription: json["notification_description"],
-        notificationStatus: json["notification_status"],
-        notificationType: json["notification_type"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-      );
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    return Notification(
+      notificationId: json["notification_id"],
+      userId: json["user_id"],
+      notificationTitle: json["notification_title"],
+      notificationDescription: json["notification_description"],
+      notificationStatus: json["notification_status"],
+      notificationType: json["notification_type"],
+      createdAt: json["created_at"] == null ? null : DateTime.parse(AppDateTimeHelper.processDateTime(json["created_at"])),
+      updatedAt: json["updated_at"] == null ? null : DateTime.parse(AppDateTimeHelper.processDateTime(json["updated_at"])),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "notification_id": notificationId,

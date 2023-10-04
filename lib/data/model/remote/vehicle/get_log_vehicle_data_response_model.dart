@@ -1,3 +1,5 @@
+import 'package:project_vehicle_log/support/app_date_time_helper.dart';
+
 class GetLogVehicleDataResponseModel {
   int status;
   String message;
@@ -59,8 +61,8 @@ class Datum {
         amountExpenses: json["amount_expenses"],
         checkpointDate: json["checkpoint_date"],
         notes: json["notes"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: DateTime.parse(AppDateTimeHelper.processDateTime(json["created_at"])),
+        updatedAt: DateTime.parse(AppDateTimeHelper.processDateTime(json["updated_at"])),
       );
 
   Map<String, dynamic> toJson() => {
