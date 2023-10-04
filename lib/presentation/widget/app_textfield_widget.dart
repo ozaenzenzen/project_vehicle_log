@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_vehicle_log/support/app_color.dart';
 
 class AppTextFieldWidget extends StatefulWidget {
   final String textFieldTitle;
@@ -15,6 +16,10 @@ class AppTextFieldWidget extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool obscureText;
+  final bool? filled;
+  final Color? fillColor;
+  final InputBorder? border;
+  final double? radius;
 
   const AppTextFieldWidget({
     Key? key,
@@ -30,6 +35,10 @@ class AppTextFieldWidget extends StatefulWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.obscureText = false,
+    this.filled = true,
+    this.fillColor = AppColor.shape_3,
+    this.border,
+    this.radius,
   }) : super(key: key);
 
   @override
@@ -60,7 +69,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
           widget.textFieldTitle,
           style: GoogleFonts.inter(
             color: const Color(0xff331814),
-            fontSize: 14.sp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -83,6 +92,8 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
+                      filled: widget.filled,
+                      fillColor: widget.fillColor,
                       suffixIcon: widget.suffixIcon,
                       prefixIcon: widget.prefixIcon,
                       contentPadding: EdgeInsets.all(10.h),
@@ -92,11 +103,14 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xff7F848F),
-                        ),
-                      ),
+                      border: widget.border ??
+                          OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 0,
+                              style: BorderStyle.none,
+                            ),
+                            borderRadius: widget.radius != null ? BorderRadius.circular(widget.radius!) : BorderRadius.circular(10),
+                          ),
                     ),
                     onChanged: widget.onChanged,
                     readOnly: widget.readOnly,
@@ -116,6 +130,8 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
+                    filled: widget.filled,
+                    fillColor: widget.fillColor,
                     suffixIcon: widget.suffixIcon,
                     prefixIcon: widget.prefixIcon,
                     contentPadding: EdgeInsets.all(10.h),
@@ -125,11 +141,14 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xff7F848F),
-                      ),
-                    ),
+                    border: widget.border ??
+                        OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
+                          borderRadius: widget.radius != null ? BorderRadius.circular(widget.radius!) : BorderRadius.circular(10),
+                        ),
                   ),
                   onChanged: widget.onChanged,
                   readOnly: widget.readOnly,

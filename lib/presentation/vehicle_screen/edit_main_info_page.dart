@@ -121,7 +121,7 @@ class _EditMainInfoPageState extends State<EditMainInfoPage> {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        color: AppColor.shape,
+        color: AppColor.white,
         padding: EdgeInsets.all(16.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
