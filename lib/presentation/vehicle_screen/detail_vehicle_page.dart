@@ -10,6 +10,7 @@ import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_da
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
+import 'package:project_vehicle_log/support/app_assets.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -226,32 +227,31 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      // Icon(
-                      //   Icons.edit_square,
-                      //   size: 25.h,
-                      //   color: AppColor.primary,
-                      // ),
                     ],
                   ),
                   SizedBox(height: 10.h),
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    // itemCount: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels.length,
-                    itemCount: sortedListLogs.length,
-                    itemBuilder: (context, index) {
-                      return ItemListWidget.logs(
-                        // title: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].measurementTitle,
-                        title: sortedListLogs[index].measurementTitle,
-                        statusLogs: StatusLogs.add,
-                        // vehicleMeasurementLogModels: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index],
-                        vehicleMeasurementLogModels: sortedListLogs[index],
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 10.h);
-                    },
-                  ),
+                  sortedListLogs.isEmpty
+                      ? newEmptyState(
+                        title: "Anda belum melakukan perubahan",
+                      )
+                      : ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          // itemCount: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels.length,
+                          itemCount: sortedListLogs.length,
+                          itemBuilder: (context, index) {
+                            return ItemListWidget.logs(
+                              // title: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].measurementTitle,
+                              title: sortedListLogs[index].measurementTitle,
+                              statusLogs: StatusLogs.add,
+                              // vehicleMeasurementLogModels: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index],
+                              vehicleMeasurementLogModels: sortedListLogs[index],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 10.h);
+                          },
+                        ),
                   // SizedBox(height: 5.h),
                   // Center(
                   //   child: Text(
@@ -298,30 +298,27 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      // Icon(
-                      //   Icons.edit_square,
-                      //   size: 25.h,
-                      //   color: AppColor.primary,
-                      // ),
                     ],
                   ),
                   SizedBox(height: 10.h),
-                  emptyState(),
-                  SizedBox(height: 10.h),
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData!.length,
-                    itemBuilder: (context, index) {
-                      return DVPStatsItemWidget(
-                        title: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData![index].measurementTitle,
-                        data: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData![index],
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 10.h);
-                    },
-                  ),
+                  state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData!.isEmpty
+                      ? newEmptyState(
+                          title: "Anda belum menambahkan pengukuran",
+                        )
+                      : ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData!.length,
+                          itemBuilder: (context, index) {
+                            return DVPStatsItemWidget(
+                              title: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData![index].measurementTitle,
+                              data: state.getAllVehicleDataResponseModel!.data![widget.index].categorizedData![index],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 10.h);
+                          },
+                        ),
                   // const DVPStatsItemWidget(
                   //   title: "Oil",
                   // ),
@@ -373,10 +370,50 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
     );
   }
 
+  Widget newEmptyState({
+    required String title,
+  }) {
+    return Column(
+      children: [
+        SizedBox(height: 100.h),
+        Image.asset(
+          AppAssets.imgEmptyStateBlue,
+          height: 200.h,
+        ),
+        SizedBox(height: 12.h),
+        Text(
+          title,
+          style: GoogleFonts.inter(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 18.sp,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.shape,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(
+            () => AddMeasurementPage(
+              vehicleId: widget.datumVehicle.id!,
+            ),
+          );
+        },
+        label: Text(
+          "Add Measurement",
+          style: GoogleFonts.inter(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 14.sp,
+          ),
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: AppColor.primary,
         elevation: 10,

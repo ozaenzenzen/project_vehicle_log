@@ -43,9 +43,38 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            headView(),
             statsView(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget headView() {
+    return Padding(
+      padding: EdgeInsets.all(16.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // SizedBox(height: 10.h),
+          Text(
+            "Stats of ${widget.data.categorizedData![widget.index].measurementTitle}",
+            style: AppTheme.theme.textTheme.displayLarge?.copyWith(
+              color: Colors.black38,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            "Show stats from your vehicle: ${widget.data.vehicleName}",
+            style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+              color: Colors.black38,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          // SizedBox(height: 20.h),
+        ],
       ),
     );
   }
