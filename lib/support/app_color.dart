@@ -14,6 +14,7 @@ class AppColor {
   static const disabled = Color(0xffb5b5b5);
   static const error = Color(0xffe83f3f);
   static const shape_2 = Color(0xffe5e5e5);
+  static const shape_3 = Color.fromARGB(255, 243, 243, 243);
   static const green = Color(0xff53b665);
   static const blue = Color(0xff3283bf);
   static const orange = Color(0xfff48e2d);

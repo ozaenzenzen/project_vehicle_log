@@ -71,7 +71,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           child: Scaffold(
-            backgroundColor: AppColor.shape,
+            backgroundColor: AppColor.white,
             appBar: AppBarWidget(
               title: 'Edit Profile',
               onBack: () {
@@ -172,9 +172,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        color: AppColor.shape,
+        color: AppColor.white,
         padding: EdgeInsets.all(16.h),
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             SizedBox(height: 25.h),
             InkWell(
