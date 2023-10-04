@@ -343,7 +343,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                     textFieldHintText: "Chassis Number",
                     controller: chassisNumberController,
                   ),
-                  SizedBox(height: kToolbarHeight + 20.h),
+                  SizedBox(height: kToolbarHeight + 30.h),
                 ],
               ),
             ),
