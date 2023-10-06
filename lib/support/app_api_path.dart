@@ -10,6 +10,8 @@ class AppApiPath {
   static const String createVehicle = "/vehicle/createvehicle";
   static const String editVehicle = "/vehicle/editvehicle";
   static const String createLogVehicle = "/vehicle/createlogvehicle";
+  static const String editMeasurementLogLogVehicle = "/vehicle/editmeasurementlogvehicle";
+  static const String deleteMeasurementLogVehicle = "/vehicle/deletemeasurmentlogvehicle";
 
   static const String getNotification = "/notifications/";
 }

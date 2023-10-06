@@ -111,7 +111,7 @@ class AppDialogAction {
             Text(
               contentTitle,
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -120,7 +120,7 @@ class AppDialogAction {
             Text(
               contentBody,
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -140,7 +140,7 @@ class AppDialogAction {
 
   static Future<void> showMainPopup({
     required BuildContext context,
-    required Function() mainButtonAction,
+    Function()? mainButtonAction,
     double radius = 0,
     String title = "",
     String buttonTitle = "",
@@ -189,13 +189,20 @@ class AppDialogAction {
           ),
           SizedBox(height: 24.h),
           content ?? const SizedBox(),
-          SizedBox(height: 24.h),
-          AppMainButtonWidget(
-            onPressed: mainButtonAction,
-            text: buttonTitle,
-            fontSize: buttonTextSize ?? 18.sp,
-            height: buttonHeight ?? 48.h,
-          ),
+          mainButtonAction == null
+              ? const SizedBox()
+              : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 24.h),
+                  AppMainButtonWidget(
+                      onPressed: mainButtonAction,
+                      text: buttonTitle,
+                      fontSize: buttonTextSize ?? 18.sp,
+                      height: buttonHeight ?? 48.h,
+                    ),
+                ],
+              ),
         ],
       ),
       barrierDismissible: barrierDismissible,

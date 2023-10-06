@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/edit_measurement_page.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -29,6 +32,8 @@ class DVPStatsItemWidget extends StatefulWidget {
 
 class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
   TooltipBehavior? _tooltipBehavior;
+  final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +65,41 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => const EditMeasurementPage());
+                  AppDialogAction.showMainPopup(
+                    context: context,
+                    title: 'Choose your log',
+                    content: Column(
+                      children: [
+                        ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: widget.data!.vehicleMeasurementLogModels!.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Get.to(() => EditMeasurementPage(
+                                      data: widget.data!.vehicleMeasurementLogModels![index],
+                                    ));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.h),
+                                child: Text(
+                                  '${(index + 1)}. ${widget.data!.vehicleMeasurementLogModels![index].measurementTitle}: ${formatter.format(widget.data!.vehicleMeasurementLogModels![index].updatedAt!)}',
+                                  style: GoogleFonts.inter(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.sp,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 8.h);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(

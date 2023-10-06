@@ -68,7 +68,7 @@ class _AppSecondaryButtonWidgetState extends State<AppSecondaryButtonWidget> {
         ),
         child: Text(
           widget.text,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: widget.textColor ?? const Color.fromARGB(255, 17, 124, 163),
             fontSize: widget.fontSize,
             fontWeight: FontWeight.w600,

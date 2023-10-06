@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_secondarybutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
@@ -10,14 +11,38 @@ import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class EditMeasurementPage extends StatefulWidget {
-  const EditMeasurementPage({Key? key}) : super(key: key);
+  final VehicleMeasurementLogModel data;
+
+  const EditMeasurementPage({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   State<EditMeasurementPage> createState() => _EditMeasurementPageState();
 }
 
 class _EditMeasurementPageState extends State<EditMeasurementPage> {
+  DateFormat formattedDate = DateFormat('yyyy-MM-dd');
+
   TextEditingController checkpointDateController = TextEditingController();
+
+  TextEditingController measurementTitleController = TextEditingController();
+  TextEditingController currentOdoController = TextEditingController();
+  TextEditingController estimateOdoChangingController = TextEditingController();
+  TextEditingController amountExpensesController = TextEditingController();
+  TextEditingController notesController = TextEditingController();
+
+  @override
+  void initState() {
+    measurementTitleController.text = widget.data.measurementTitle ?? "";
+    currentOdoController.text = widget.data.currentOdo ?? "";
+    estimateOdoChangingController.text = widget.data.estimateOdoChanging ?? "";
+    amountExpensesController.text = widget.data.amountExpenses ?? "";
+    checkpointDateController.text = formattedDate.parse(widget.data.checkpointDate ?? DateTime.now().toString()).toString();
+    notesController.text = widget.data.notes ?? "";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,24 +78,28 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
                   ],
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Measurement Title",
                   textFieldHintText: "ex: Oil",
+                  controller: measurementTitleController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Current Odo (km)",
                   textFieldHintText: "ex: 12000",
+                  controller: currentOdoController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Estimate Odo Changing (km)",
                   textFieldHintText: "ex: 14000",
+                  controller: estimateOdoChangingController,
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Amount Expenses (Rp)",
                   textFieldHintText: "ex: 40000",
+                  controller: amountExpensesController,
                 ),
                 SizedBox(height: 15.h),
                 AppTextFieldWidget(
@@ -101,9 +130,10 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
                   },
                 ),
                 SizedBox(height: 15.h),
-                const AppTextFieldWidget(
+                AppTextFieldWidget(
                   textFieldTitle: "Notes",
                   textFieldHintText: "notes",
+                  controller: notesController,
                 ),
                 SizedBox(height: 25.h),
                 AppMainButtonWidget(

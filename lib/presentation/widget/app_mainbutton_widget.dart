@@ -49,10 +49,10 @@ class _AppMainButtonWidgetState extends State<AppMainButtonWidget> {
         ),
         child: Text(
           widget.text,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.white,
             fontSize: widget.fontSize ?? 16.sp,
-            fontWeight: widget.fontWeight ?? FontWeight.w500,
+            fontWeight: widget.fontWeight ?? FontWeight.w600,
           ),
         ),
       ),

@@ -3,6 +3,8 @@ import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_response_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/edit_measurement_log_request_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/edit_measurement_log_response_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
@@ -103,6 +105,48 @@ class AppVehicleReposistory {
       ).call(
         AppApiPath.createLogVehicle,
         method: MethodRequest.post,
+        request: createLogVehicleRequestModel.toJson(),
+        header: {
+          "token": token,
+        },
+      );
+      return CreateLogVehicleResponseModel.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<EditMeasurementLogResponseModel?> editMeasurementLogVehicleData({
+    required EditMeasurementLogRequestModel editMeasurementLogRequestModel,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.editMeasurementLogLogVehicle,
+        method: MethodRequest.put,
+        request: editMeasurementLogRequestModel.toJson(),
+        header: {
+          "token": token,
+        },
+      );
+      return EditMeasurementLogResponseModel.fromJson(response.data);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<CreateLogVehicleResponseModel?> deleteMeasurementLogVehicleData({
+    required CreateLogVehicleRequestModel createLogVehicleRequestModel,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.deleteMeasurementLogVehicle,
+        method: MethodRequest.delete,
         request: createLogVehicleRequestModel.toJson(),
         header: {
           "token": token,
