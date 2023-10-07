@@ -168,8 +168,8 @@ class LocalVehicleMeasurementLogModel {
         amountExpenses: json["amount_expenses"],
         checkpointDate: json["checkpoint_date"],
         notes: json["notes"],
-        createdAt: DateTime.parse(AppDateTimeHelper.processDateTime(json["created_at"])),
-        updatedAt: DateTime.parse(AppDateTimeHelper.processDateTime(json["updated_at"])),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
