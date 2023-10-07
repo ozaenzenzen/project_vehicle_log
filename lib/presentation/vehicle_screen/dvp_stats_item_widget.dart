@@ -76,6 +76,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
+                                Get.back();
                                 Get.to(() => EditMeasurementPage(
                                       data: widget.data!.vehicleMeasurementLogModels![index],
                                     ));
