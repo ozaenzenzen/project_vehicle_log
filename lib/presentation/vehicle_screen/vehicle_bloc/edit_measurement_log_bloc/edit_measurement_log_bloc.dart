@@ -34,7 +34,7 @@ class EditMeasurementLogBloc extends Bloc<EditMeasurementLogEvent, EditMeasureme
           token: dataLocal.token!,
         );
         if (editMeasurementLogResponseModel != null) {
-          if (editMeasurementLogResponseModel.status == 201) {
+          if (editMeasurementLogResponseModel.status == 202) {
             emit(
               EditMeasurementLogSuccess(
                 editMeasurementLogResponseModel: editMeasurementLogResponseModel,

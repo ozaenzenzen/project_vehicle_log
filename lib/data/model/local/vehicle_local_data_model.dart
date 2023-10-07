@@ -1,5 +1,3 @@
-import 'package:project_vehicle_log/support/app_date_time_helper.dart';
-
 class VehicleLocalDataModel {
   List<VehicleDatam>? listVehicleData;
 
