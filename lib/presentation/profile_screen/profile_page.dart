@@ -348,7 +348,7 @@ class _ProfilePageState extends State<ProfilePage> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  //
+                  ProfileDummyDataAccount.dummyDataProfileAccount[index].menuFunction?.call();
                 },
                 child: Container(
                   padding: EdgeInsets.all(16.h),
@@ -421,7 +421,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                     //
                   } else {
-                    //
+                    ProfileDummyDataAbout.dummyDataProfileAbout[index].menuFunction?.call();
                   }
                 },
                 child: Container(
