@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+import 'package:project_vehicle_log/presentation/qna_screen/qna_page.dart';
+
 class DummyDataProfileModel {
   String? menuTitle;
   String? menuDescription;
@@ -39,7 +42,11 @@ class ProfileDummyDataAbout {
     ),
     DummyDataProfileModel(
       menuTitle: "Questions and Answers",
-      menuFunction: () {},
+      menuFunction: () {
+        Get.to(
+          () => const QNAPage(),
+        );
+      },
     ),
     DummyDataProfileModel(
       menuTitle: "Terms & Conditions",
