@@ -57,6 +57,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
         onPressed: () {
           Get.to(() => const AddVehiclePage());
         },
@@ -78,7 +79,7 @@ class _MainPageState extends State<MainPage> {
         },
         backgroundColor: AppColor.primary,
         iconSize: 25.h,
-        fontSize: 14.sp,
+        fontSize: 10.sp,
         height: 80.h,
         currentIndex: indexClicked,
         items: [

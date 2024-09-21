@@ -109,6 +109,7 @@ class AppCustomAppBarState extends State<AppCustomAppBar> {
                 fontSize: widget.fontSize,
                 fontWeight: FontWeight.w500,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

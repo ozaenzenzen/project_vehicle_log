@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -486,10 +487,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
         if (state is GetAllVehicleSuccess) {
-          return ListMeasurementWidget(
-            data: state.getAllVehicleDataResponseModel!.data![indexClicked],
-            index: indexClicked,
-          );
+          if (state.getAllVehicleDataResponseModel!.data!.isEmpty) {
+            return const SizedBox();
+          } else {
+            return ListMeasurementWidget(
+              data: state.getAllVehicleDataResponseModel!.data![indexClicked],
+              index: indexClicked,
+            );
+          }
         } else if (state is GetAllVehicleLoading) {
           return GridView.builder(
             padding: EdgeInsets.zero,
