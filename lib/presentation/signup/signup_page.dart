@@ -28,6 +28,9 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController confirmPasswordTextFieldController = TextEditingController(text: "");
   TextEditingController phoneTextFieldController = TextEditingController(text: "");
 
+  bool isHidePassword = true;
+  bool isHideConfirmPassword = true;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -97,14 +100,34 @@ class _SignUpPageState extends State<SignUpPage> {
                     textFieldTitle: "Password",
                     textFieldHintText: "*****",
                     controller: passwordTextFieldController,
-                    obscureText: true,
+                    obscureText: isHidePassword,
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isHidePassword = !isHidePassword;
+                        });
+                      },
+                      child: Icon(
+                        isHidePassword ? Icons.visibility_off : Icons.visibility,
+                      )
+                    ),
                   ),
                   SizedBox(height: 10.h),
                   AppTextFieldWidget(
                     textFieldTitle: "Confirm Password",
                     textFieldHintText: "*****",
                     controller: confirmPasswordTextFieldController,
-                    obscureText: true,
+                    obscureText: isHideConfirmPassword,
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isHideConfirmPassword = !isHideConfirmPassword;
+                        });
+                      },
+                      child: Icon(
+                        isHideConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                      )
+                    ),
                   ),
                   SizedBox(height: 20.h),
                   BlocConsumer<SignupBloc, SignupState>(

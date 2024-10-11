@@ -101,114 +101,118 @@ class _StatsPageState extends State<StatsPage> {
   }
 
   Widget successView(GetAllVehicleSuccess state) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DropdownButtonFormField<DatumVehicle>(
-          focusNode: dropDownFocusNode,
-          items: state.getAllVehicleDataResponseModel!.data?.map((DatumVehicle e) {
-            return DropdownMenuItem<DatumVehicle>(
-              value: e,
-              child: Text(
-                e.vehicleName ?? "",
-                style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w500,
+    if (state.getAllVehicleDataResponseModel!.data!.isEmpty) {
+      return const SizedBox();
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DropdownButtonFormField<DatumVehicle>(
+            focusNode: dropDownFocusNode,
+            items: state.getAllVehicleDataResponseModel!.data?.map((DatumVehicle e) {
+              return DropdownMenuItem<DatumVehicle>(
+                value: e,
+                child: Text(
+                  e.vehicleName ?? "",
+                  style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
+              );
+            }).toList(),
+            onChanged: (value) {
+              debugPrint("on changed $value");
+              setState(() {
+                dropDownValue = value;
+              });
+              dropDownFocusNode.unfocus();
+            },
+            value: state.getAllVehicleDataResponseModel!.data!.first,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            debugPrint("on changed $value");
-            setState(() {
-              dropDownValue = value;
-            });
-            dropDownFocusNode.unfocus();
-          },
-          value: state.getAllVehicleDataResponseModel!.data!.first,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
             ),
           ),
-        ),
-        ListView.separated(
-          padding: EdgeInsets.symmetric(
-            vertical: 20.h,
-          ),
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.getAllVehicleDataResponseModel == null
-              ? 0
-              : state
-                  .getAllVehicleDataResponseModel!
-                  .data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((element) {
-                            return element == dropDownValue;
-                          }) <
-                          0)
-                      ? 0
-                      : state.getAllVehicleDataResponseModel!.data!.indexWhere((element) {
-                          return element == dropDownValue;
-                        })]
-                  .categorizedData!
-                  .length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Get.to(
-                  () => DetailMeasurementPage(
-                    data: state.getAllVehicleDataResponseModel!.data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
+          ListView.separated(
+            padding: EdgeInsets.symmetric(
+              vertical: 20.h,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: state.getAllVehicleDataResponseModel == null
+                ? 0
+                : state
+                    .getAllVehicleDataResponseModel!
+                    .data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((element) {
                               return element == dropDownValue;
                             }) <
                             0)
                         ? 0
-                        : state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
+                        : state.getAllVehicleDataResponseModel!.data!.indexWhere((element) {
                             return element == dropDownValue;
-                          })],
-                    index: index,
-                  ),
-                );
-              },
-              child: AppContainerBoxWidget(
-                height: 200.h,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.water_drop,
-                        size: 90.h,
-                        color: AppColor.primary,
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        state
-                            .getAllVehicleDataResponseModel!
-                            .data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
-                                      return element == dropDownValue;
-                                    }) <
-                                    0)
-                                ? 0
-                                : state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
-                                    return element == dropDownValue;
-                                  })]
-                            .categorizedData![index]
-                            .measurementTitle!,
-                        style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
+                          })]
+                    .categorizedData!
+                    .length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  Get.to(
+                    () => DetailMeasurementPage(
+                      data: state.getAllVehicleDataResponseModel!.data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
+                                return element == dropDownValue;
+                              }) <
+                              0)
+                          ? 0
+                          : state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
+                              return element == dropDownValue;
+                            })],
+                      index: index,
+                    ),
+                  );
+                },
+                child: AppContainerBoxWidget(
+                  height: 200.h,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.water_drop,
+                          size: 90.h,
+                          color: AppColor.primary,
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 10.h),
+                        Text(
+                          state
+                              .getAllVehicleDataResponseModel!
+                              .data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
+                                        return element == dropDownValue;
+                                      }) <
+                                      0)
+                                  ? 0
+                                  : state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
+                                      return element == dropDownValue;
+                                    })]
+                              .categorizedData![index]
+                              .measurementTitle!,
+                          style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-          separatorBuilder: (context, index) {
-            return SizedBox(height: 20.h);
-          },
-        ),
-      ],
-    );
+              );
+            },
+            separatorBuilder: (context, index) {
+              return SizedBox(height: 20.h);
+            },
+          ),
+        ],
+      );
+    }
   }
 
   Widget loadingView() {
