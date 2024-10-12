@@ -67,18 +67,18 @@ class _SignInPageState extends State<SignInPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Spacer(),
-                  // SizedBox(height: 100.h),
-                  // Align(
-                  //   alignment: Alignment.center,
-                  //   child: Text(
-                  //     "Masuk",
-                  //     style: AppTheme.theme.textTheme.displayMedium?.copyWith(
-                  //       fontWeight: FontWeight.w600,
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(height: 100.h),
+                  // const Spacer(),
+                  SizedBox(height: 100.h),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Vehicle Log Apps",
+                      style: AppTheme.theme.textTheme.displayMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 100.h),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
