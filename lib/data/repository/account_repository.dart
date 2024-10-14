@@ -19,7 +19,11 @@ class AppAccountReposistory {
         AppApiPath.signInAccount,
         request: data.toJson(),
       );
-      return SignInResponseModel.fromJson(response.data);
+      if (response.data != null) {
+        return SignInResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
     } catch (errorMessage) {
       debugPrint("[AppAccountReposistory][signin] errorMessage $errorMessage");
       return null;
@@ -34,7 +38,11 @@ class AppAccountReposistory {
         AppApiPath.signUpAccount,
         request: data.toJson(),
       );
-      return SignUpResponseModel.fromJson(response.data);
+      if (response.data != null) {
+        return SignUpResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
     } catch (errorMessage) {
       debugPrint("[AppAccountReposistory][signup] errorMessage $errorMessage");
       return null;
@@ -52,7 +60,11 @@ class AppAccountReposistory {
           'token': token,
         },
       );
-      return GetUserDataResponseModel.fromJson(response.data);
+      if (response.data != null) {
+        return GetUserDataResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
     } catch (errorMessage) {
       debugPrint("[AppAccountReposistory][getUserdata] errorMessage $errorMessage");
       return null;
