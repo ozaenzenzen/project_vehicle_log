@@ -26,7 +26,7 @@ class CreateVehicleBloc extends Bloc<CreateVehicleEvent, CreateVehicleState> {
   ) async {
     emit(CreateVehicleLoading());
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
         CreateVehicleResponseModel? createVehicleResponseModel = await appVehicleReposistory.createVehicleData(
           createVehicleRequestModel: event.createVehicleRequestModel,

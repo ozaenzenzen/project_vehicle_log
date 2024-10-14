@@ -40,8 +40,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           //   // link: signUpResponseModel.accountData?.link,
           //   // typeuser: signUpResponseModel.accountData?.typeuser,
           // );
-          await AccountLocalRepository.saveLocalAccountDataV2(data: data!);
-          await AccountLocalRepository.signInSaved();
+          await AccountLocalRepository().setLocalAccountData(data: data!);
+          await AccountLocalRepository().setIsSignIn();
           emit(
             SignupSuccess(
               signUpResponseModel: signUpResponseModel,

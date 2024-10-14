@@ -76,10 +76,10 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       if (signInResponseModel != null) {
         if (signInResponseModel.status == 200) {
           UserDataEntity? entity = signInResponseModel.toUserDataEntity();
-          await AccountLocalRepository.saveLocalAccountDataV2(
+          await AccountLocalRepository().setLocalAccountData(
             data: entity!,
           );
-          await AccountLocalRepository.signInSaved();
+          await AccountLocalRepository().setIsSignIn();
           emit(
             SigninSuccess(
               userdata: entity,

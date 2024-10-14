@@ -116,7 +116,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     emit(GetAllVehicleLoading());
     // await Future.delayed(const Duration(milliseconds: 500));
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
         GetAllVehicleDataResponseModel? getAllVehicleDataResponseModel = await appVehicleReposistory.getAllVehicleData(
           dataLocal.token.toString(),
@@ -315,7 +315,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     emit(GetAllVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      UserDataEntity? userDataEntity = await localRepository.getLocalAccountDataV2();
+      UserDataEntity? userDataEntity = await localRepository.getLocalAccountData();
       if (userDataEntity != null) {
         emit(GetProfileDataVehicleSuccess(
           accountDataUserModel: userDataEntity,

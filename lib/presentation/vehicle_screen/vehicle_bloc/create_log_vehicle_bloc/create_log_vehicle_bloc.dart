@@ -27,7 +27,7 @@ class CreateLogVehicleBloc extends Bloc<CreateLogVehicleEvent, CreateLogVehicleS
     emit(CreateLogVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
         CreateLogVehicleResponseModel? createLogVehicleResponseModel = await appVehicleReposistory.createLogVehicleData(
           createLogVehicleRequestModel: event.createLogVehicleRequestModel,

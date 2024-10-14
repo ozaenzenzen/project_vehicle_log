@@ -27,7 +27,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(EditProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      UserDataEntity? data = await AccountLocalRepository().getLocalAccountDataV2();
+      UserDataEntity? data = await AccountLocalRepository().getLocalAccountData();
       EditProfileResponseModel? editProfileResponseModel = await accountReposistory.editProfile(
         token: data!.token!,
         data: editProfileAction.editProfileRequestModel,

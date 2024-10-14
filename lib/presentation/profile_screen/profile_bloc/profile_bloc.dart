@@ -27,7 +27,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(ProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
         GetUserDataResponseModel? getUserDataResponseModel = await accountRepository.getUserdata(
           token: dataLocal.token!,
@@ -35,7 +35,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         if (getUserDataResponseModel != null) {
           if (getUserDataResponseModel.status == 200) {
             UserDataEntity? data = getUserDataResponseModel.toUserDataEntity();
-            await AccountLocalRepository.saveLocalAccountDataV2(data: data!);
+            await AccountLocalRepository().setLocalAccountData(data: data!);
             emit(
               ProfileSuccess(
                 userDataModel: data,
@@ -71,7 +71,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(ProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      UserDataEntity? dataEntity = await localRepository.getLocalAccountDataV2();
+      UserDataEntity? dataEntity = await localRepository.getLocalAccountData();
       if (dataEntity != null) {
         emit(ProfileSuccess(
           userDataModel: dataEntity,

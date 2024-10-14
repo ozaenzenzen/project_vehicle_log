@@ -24,7 +24,7 @@ class EditVehicleBloc extends Bloc<EditVehicleEvent, EditVehicleState> {
   ) async {
     emit(EditVehicleLoading());
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
         EditVehicleResponseModel? editVehicleResponseModel = await event.appVehicleReposistory.editVehicleData(
           editVehicleRequestModel: event.editVehicleRequestModel,

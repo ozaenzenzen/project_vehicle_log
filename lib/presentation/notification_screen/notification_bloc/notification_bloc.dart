@@ -24,7 +24,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   ) async {
     emit(NotificationLoading());
     await Future.delayed(const Duration(milliseconds: 500));
-    UserDataEntity? data = await AccountLocalRepository().getLocalAccountDataV2();
+    UserDataEntity? data = await AccountLocalRepository().getLocalAccountData();
     try {
       GetNotificationResponseModel? getNotificationResponseModel = await notificationRepository.getNotification(
         userId: data!.id!.toString(),

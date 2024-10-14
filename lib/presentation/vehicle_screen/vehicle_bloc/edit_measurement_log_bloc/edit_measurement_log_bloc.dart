@@ -27,7 +27,7 @@ class EditMeasurementLogBloc extends Bloc<EditMeasurementLogEvent, EditMeasureme
   ) async {
     emit(EditMeasurementLogLoading());
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
       if (dataLocal != null) {
         EditMeasurementLogResponseModel? editMeasurementLogResponseModel = await AppVehicleReposistory().editMeasurementLogVehicleData(
           editMeasurementLogRequestModel: event.editMeasurementLogRequestModel,
