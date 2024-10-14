@@ -1,49 +1,63 @@
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
+
 class SignUpResponseModel {
+  int? status;
+  String? message;
+  SignUpData? data;
+
   SignUpResponseModel({
     this.status,
     this.message,
-    this.accountData,
+    this.data,
   });
 
-  dynamic status;
-  String? message;
-  AccountData? accountData;
+  UserDataEntity? toUserDataEntity() {
+    if (data != null) {
+      return UserDataEntity.fromJson(data!.toJson());
+    } else {
+      return null;
+    }
+  }
 
   factory SignUpResponseModel.fromJson(Map<String, dynamic> json) => SignUpResponseModel(
         status: json["status"],
         message: json["message"],
-        accountData: json["account_data"] != null ? AccountData.fromJson(json["account_data"]) : null,
+        data: json["Data"] == null ? null : SignUpData.fromJson(json["Data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "account_data": accountData?.toJson(),
+        "Data": data?.toJson(),
       };
 }
 
-class AccountData {
-  AccountData({
-    required this.userId,
+class SignUpData {
+  int? userId;
+  String? userStamp;
+  String? name;
+  String? email;
+  String? phone;
+
+  SignUpData({
+    this.userId,
+    this.userStamp,
     this.name,
     this.email,
     this.phone,
   });
 
-  int? userId;
-  String? name;
-  String? email;
-  String? phone;
-
-  factory AccountData.fromJson(Map<String, dynamic> json) => AccountData(
-        userId: json["user_id"] ?? 0,
-        name: json["name"] ?? "",
-        email: json["email"] ?? "",
-        phone: json["phone"] ?? "",
+  factory SignUpData.fromJson(Map<String, dynamic> json) => SignUpData(
+        userId: json["id"],
+        userStamp: json["user_stamp"],
+        name: json["name"],
+        email: json["email"],
+        phone: json["phone"],
       );
 
   Map<String, dynamic> toJson() => {
-        "user_id": userId,
+        "id": userId,
+        "user_stamp": userStamp,
         "name": name,
         "email": email,
         "phone": phone,

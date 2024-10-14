@@ -14,7 +14,7 @@ class GetAllVehicleSuccess extends GetAllVehicleState {
 }
 
 class GetProfileDataVehicleSuccess extends GetAllVehicleState {
-  final AccountDataUserModel accountDataUserModel;
+  final UserDataEntity accountDataUserModel;
 
   GetProfileDataVehicleSuccess({
     required this.accountDataUserModel,

@@ -3,10 +3,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'create_log_vehicle_event.dart';
 part 'create_log_vehicle_state.dart';
@@ -27,7 +27,7 @@ class CreateLogVehicleBloc extends Bloc<CreateLogVehicleEvent, CreateLogVehicleS
     emit(CreateLogVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
       if (dataLocal != null) {
         CreateLogVehicleResponseModel? createLogVehicleResponseModel = await appVehicleReposistory.createLogVehicleData(
           createLogVehicleRequestModel: event.createLogVehicleRequestModel,

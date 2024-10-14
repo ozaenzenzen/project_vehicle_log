@@ -2,10 +2,10 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_measurement_log_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_measurement_log_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'edit_measurement_log_event.dart';
 part 'edit_measurement_log_state.dart';
@@ -27,7 +27,7 @@ class EditMeasurementLogBloc extends Bloc<EditMeasurementLogEvent, EditMeasureme
   ) async {
     emit(EditMeasurementLogLoading());
     try {
-      AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
       if (dataLocal != null) {
         EditMeasurementLogResponseModel? editMeasurementLogResponseModel = await AppVehicleReposistory().editMeasurementLogVehicleData(
           editMeasurementLogRequestModel: event.editMeasurementLogRequestModel,

@@ -7,7 +7,7 @@ class ProfileInitial extends ProfileState {}
 
 class ProfileSuccess extends ProfileState {
   // final AccountDataUserModel accountDataUserModel;
-  final UserDataModel userDataModel;
+  final UserDataEntity userDataModel;
 
   ProfileSuccess({
     // required this.accountDataUserModel,

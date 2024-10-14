@@ -4,10 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/local/vehicle_local_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'get_all_vehicle_event.dart';
 part 'get_all_vehicle_state.dart';
@@ -116,7 +116,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     emit(GetAllVehicleLoading());
     // await Future.delayed(const Duration(milliseconds: 500));
     try {
-      AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
       if (dataLocal != null) {
         GetAllVehicleDataResponseModel? getAllVehicleDataResponseModel = await appVehicleReposistory.getAllVehicleData(
           dataLocal.token.toString(),
@@ -315,10 +315,10 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
     emit(GetAllVehicleLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      AccountDataUserModel? accountDataUserModel = await localRepository.getLocalAccountData();
-      if (accountDataUserModel != null) {
+      UserDataEntity? userDataEntity = await localRepository.getLocalAccountDataV2();
+      if (userDataEntity != null) {
         emit(GetProfileDataVehicleSuccess(
-          accountDataUserModel: accountDataUserModel,
+          accountDataUserModel: userDataEntity,
         ));
       } else {
         emit(

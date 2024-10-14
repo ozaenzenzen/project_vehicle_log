@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 import 'package:project_vehicle_log/support/local_service.dart';
 
 class AccountLocalRepository {
@@ -21,18 +21,39 @@ class AccountLocalRepository {
     }
   }
 
-  static Future<void> saveLocalAccountData({
-    required AccountDataUserModel data,
+  // static Future<void> saveLocalAccountData({
+  //   required AccountDataUserModel data,
+  // }) async {
+  //   await LocalService.instance.box.write("userData", jsonEncode(data.toJson()));
+  //   debugPrint("[saveLocalAccountData] userData saved");
+  // }
+
+  // Future<AccountDataUserModel?> getLocalAccountData() async {
+  //   try {
+  //     String dataFromLocal = LocalService.instance.box.read("userData");
+  //     AccountDataUserModel? userData = AccountDataUserModel.fromJson(jsonDecode(dataFromLocal));
+  //     return userData;
+  //   } catch (errorMessage) {
+  //     return null;
+  //   }
+  // }
+
+  static Future<void> saveLocalAccountDataV2({
+    required UserDataEntity data,
   }) async {
-    await LocalService.instance.box.write("userData", jsonEncode(data.toJson()));
-    debugPrint("[saveLocalAccountData] userData saved");
+    await LocalService.instance.box.write("userDataV2", jsonEncode(data.toJson()));
+    debugPrint("[saveLocalAccountDataV2] userData saved");
   }
 
-   Future<AccountDataUserModel?> getLocalAccountData() async {
+  Future<UserDataEntity?> getLocalAccountDataV2() async {
     try {
-      String dataFromLocal = LocalService.instance.box.read("userData");
-      AccountDataUserModel? userData = AccountDataUserModel.fromJson(jsonDecode(dataFromLocal));
-      return userData;
+      String? dataFromLocal = LocalService.instance.box.read("userDataV2");
+      if (dataFromLocal != null) {
+        UserDataEntity? userData = UserDataEntity.fromJson(jsonDecode(dataFromLocal));
+        return userData;
+      } else {
+        return null;
+      }
     } catch (errorMessage) {
       return null;
     }

@@ -3,10 +3,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/edit_profile/response/edit_profile_response_model.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
@@ -27,7 +27,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(EditProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      AccountDataUserModel? data = await AccountLocalRepository().getLocalAccountData();
+      UserDataEntity? data = await AccountLocalRepository().getLocalAccountDataV2();
       EditProfileResponseModel? editProfileResponseModel = await accountReposistory.editProfile(
         token: data!.token!,
         data: editProfileAction.editProfileRequestModel,

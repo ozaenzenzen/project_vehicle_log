@@ -2,10 +2,10 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'edit_vehicle_event.dart';
 part 'edit_vehicle_state.dart';
@@ -24,7 +24,7 @@ class EditVehicleBloc extends Bloc<EditVehicleEvent, EditVehicleState> {
   ) async {
     emit(EditVehicleLoading());
     try {
-      AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
       if (dataLocal != null) {
         EditVehicleResponseModel? editVehicleResponseModel = await event.appVehicleReposistory.editVehicleData(
           editVehicleRequestModel: event.editVehicleRequestModel,

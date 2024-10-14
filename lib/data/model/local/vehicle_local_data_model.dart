@@ -63,7 +63,7 @@ class VehicleDatam {
         machineNumber: json["machine_number"],
         chassisNumber: json["chassis_number"],
         vehicleMeasurementLogModels: List<LocalVehicleMeasurementLogModel>.from(
-          json["vehicle_measurement_log_models"].map(
+          json["measurement_data"].map(
             (x) => LocalVehicleMeasurementLogModel.fromJson(x),
           ),
         ),
@@ -88,7 +88,7 @@ class VehicleDatam {
         "color": color,
         "machine_number": machineNumber,
         "chassis_number": chassisNumber,
-        "vehicle_measurement_log_models": List<dynamic>.from(
+        "measurement_data": List<dynamic>.from(
           vehicleMeasurementLogModels!.map(
             (x) => x.toJson(),
           ),
@@ -113,7 +113,7 @@ class LocalCategorizedVehicleLogData {
   factory LocalCategorizedVehicleLogData.fromJson(Map<String, dynamic> json) => LocalCategorizedVehicleLogData(
         measurementTitle: json['measurement_title'],
         vehicleMeasurementLogModels: List<LocalVehicleMeasurementLogModel>.from(
-          json["vehicle_measurement_log_models"].map(
+          json["measurement_data"].map(
             (x) => LocalVehicleMeasurementLogModel.fromJson(x),
           ),
         ),
@@ -121,7 +121,7 @@ class LocalCategorizedVehicleLogData {
 
   Map<String, dynamic> toJson() => {
         "measurement_title": measurementTitle,
-        "vehicle_measurement_log_models": List<dynamic>.from(
+        "measurement_data": List<dynamic>.from(
           vehicleMeasurementLogModels!.map(
             (x) => x.toJson(),
           ),

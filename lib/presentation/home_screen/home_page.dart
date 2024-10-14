@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
@@ -31,7 +30,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int indexClicked = 0;
   Color vehicleListColor = Colors.black38;
-  AccountDataUserModel? accountDataUserModelHomePage;
+  // AccountDataUserModel? accountDataUserModelHomePage;
+  UserDataEntity? accountDataUserModelHomePage;
 
   DateFormat formattedDate = DateFormat("dd MMM yyyy");
 
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             )
             ..read<GetAllVehicleBloc>().add(
               GetAllVehicleDataRemoteAction(
-                id: accountDataUserModelHomePage!.userId.toString(),
+                id: accountDataUserModelHomePage!.id.toString(),
                 vehicleLocalRepository: VehicleLocalRepository(),
               ),
             );

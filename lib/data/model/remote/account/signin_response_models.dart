@@ -1,59 +1,73 @@
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
+
 class SignInResponseModel {
+  int? status;
+  String? message;
+  SignInData? data;
+
   SignInResponseModel({
     this.status,
     this.message,
-    this.userdata,
+    this.data,
   });
 
-  dynamic status;
-  String? message;
-  Userdata? userdata;
+  UserDataEntity? toUserDataEntity() {
+    if (data != null) {
+      return UserDataEntity.fromJson(data!.toJson());
+    } else {
+      return null;
+    }
+  }
 
   factory SignInResponseModel.fromJson(Map<String, dynamic> json) => SignInResponseModel(
         status: json["status"],
         message: json["message"],
-        userdata: json["userdata"] == null ? null : Userdata.fromJson(json["userdata"]),
+        data: json["Data"] == null ? null : SignInData.fromJson(json["Data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "userdata": userdata?.toJson(),
+        "Data": data?.toJson(),
       };
 }
 
-class Userdata {
-  Userdata({
-    this.id,
-    this.name,
-    this.email,
-    this.phone,
-    this.link,
-    this.token,
-  });
-
+class SignInData {
   int? id;
+  String? userStamp;
   String? name;
   String? email;
   String? phone;
-  String? link;
   String? token;
+  String? refreshToken;
 
-  factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
+  SignInData({
+    this.id,
+    this.userStamp,
+    this.name,
+    this.email,
+    this.phone,
+    this.token,
+    this.refreshToken,
+  });
+
+  factory SignInData.fromJson(Map<String, dynamic> json) => SignInData(
         id: json["id"],
+        userStamp: json["user_stamp"],
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
-        link: json["link"],
         token: json["token"],
+        refreshToken: json["refresh_token"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "user_stamp": userStamp,
         "name": name,
         "email": email,
         "phone": phone,
-        "link": link,
         "token": token,
+        "refresh_token": refreshToken,
       };
 }

@@ -3,10 +3,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/account/get_userdata_response_models.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
-import 'package:project_vehicle_log/domain/entities/user_data_model.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -28,28 +27,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(ProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      AccountDataUserModel? dataLocal = await AccountLocalRepository().getLocalAccountData();
+      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountDataV2();
       if (dataLocal != null) {
         GetUserDataResponseModel? getUserDataResponseModel = await accountRepository.getUserdata(
           token: dataLocal.token!,
         );
         if (getUserDataResponseModel != null) {
           if (getUserDataResponseModel.status == 200) {
-            AccountDataUserModel data = AccountDataUserModel(
-              userId: getUserDataResponseModel.userdata?.id,
-              name: getUserDataResponseModel.userdata?.name,
-              email: getUserDataResponseModel.userdata?.email,
-              phone: getUserDataResponseModel.userdata?.phone,
-              token: dataLocal.token,
-              // link: signInResponseModel.userdata?.link,
-              // typeuser: signInResponseModel.userdata?.typeuser,
-            );
-            await AccountLocalRepository.saveLocalAccountData(data: data);
+            UserDataEntity? data = getUserDataResponseModel.toUserDataEntity();
+            await AccountLocalRepository.saveLocalAccountDataV2(data: data!);
             emit(
               ProfileSuccess(
-                userDataModel: UserDataModel.fromJson(
-                  getUserDataResponseModel.userdata!.toJson(),
-                ),
+                userDataModel: data,
               ),
             );
           } else {
@@ -82,12 +71,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(ProfileLoading());
     await Future.delayed(const Duration(milliseconds: 500));
     try {
-      AccountDataUserModel? accountDataUserModel = await localRepository.getLocalAccountData();
-      if (accountDataUserModel != null) {
+      UserDataEntity? dataEntity = await localRepository.getLocalAccountDataV2();
+      if (dataEntity != null) {
         emit(ProfileSuccess(
-          userDataModel: UserDataModel.fromJson(
-            accountDataUserModel.toJson(),
-          ),
+          userDataModel: dataEntity,
         ));
       } else {
         emit(

@@ -2,9 +2,9 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/notification/get_notification_response_model.dart';
 import 'package:project_vehicle_log/data/repository/notification_repository.dart';
+import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'notification_event.dart';
 part 'notification_state.dart';
@@ -24,10 +24,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   ) async {
     emit(NotificationLoading());
     await Future.delayed(const Duration(milliseconds: 500));
-    AccountDataUserModel? data = await AccountLocalRepository().getLocalAccountData();
+    UserDataEntity? data = await AccountLocalRepository().getLocalAccountDataV2();
     try {
       GetNotificationResponseModel? getNotificationResponseModel = await notificationRepository.getNotification(
-        userId: data!.userId!.toString(),
+        userId: data!.id!.toString(),
         token: data.token!,
       );
       if (getNotificationResponseModel != null) {
