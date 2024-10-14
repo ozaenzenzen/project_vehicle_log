@@ -19,6 +19,20 @@ class SignUpResponseModel {
     }
   }
 
+  UserDataEntity? toUserDataEntityWithoutToken() {
+    if (data != null) {
+      return UserDataEntity(
+        id: data?.id,
+        userStamp: data?.userStamp,
+        name: data?.name,
+        email: data?.email,
+        phone: data?.phone,
+      );
+    } else {
+      return null;
+    }
+  }
+
   factory SignUpResponseModel.fromJson(Map<String, dynamic> json) => SignUpResponseModel(
         status: json["status"],
         message: json["message"],
@@ -33,14 +47,14 @@ class SignUpResponseModel {
 }
 
 class SignUpData {
-  int? userId;
+  int? id;
   String? userStamp;
   String? name;
   String? email;
   String? phone;
 
   SignUpData({
-    this.userId,
+    this.id,
     this.userStamp,
     this.name,
     this.email,
@@ -48,7 +62,7 @@ class SignUpData {
   });
 
   factory SignUpData.fromJson(Map<String, dynamic> json) => SignUpData(
-        userId: json["id"],
+        id: json["id"],
         userStamp: json["user_stamp"],
         name: json["name"],
         email: json["email"],
@@ -56,7 +70,7 @@ class SignUpData {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": userId,
+        "id": id,
         "user_stamp": userStamp,
         "name": name,
         "email": email,

@@ -26,9 +26,17 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     await Future.delayed(const Duration(milliseconds: 500));
     UserDataEntity? data = await AccountLocalRepository().getLocalAccountData();
     try {
+      String? userToken = await AccountLocalRepository().getUserToken();
+      if (userToken == null) {
+        emit(
+          NotificationFailed(errorMessage: "Failed To Get Support Data"),
+        );
+        return;
+      }
+
       GetNotificationResponseModel? getNotificationResponseModel = await notificationRepository.getNotification(
         userId: data!.id!.toString(),
-        token: data.token!,
+        token: userToken,
       );
       if (getNotificationResponseModel != null) {
         if (getNotificationResponseModel.status == 200) {

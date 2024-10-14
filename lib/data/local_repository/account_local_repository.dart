@@ -9,6 +9,8 @@ class AccountLocalRepository {
   String userDataV2 = "userDataV2";
   String isSignIn = "isSignIn";
   String isOnboardingDone = "isOnboardingDone";
+  String userToken = "userToken";
+  String refreshToken = "refreshToken";
 
   Future<void> removeLocalAccountData() async {
     try {
@@ -23,6 +25,7 @@ class AccountLocalRepository {
     required UserDataEntity data,
   }) async {
     try {
+      AppLogger.debugLog("[setLocalAccountData] ${jsonEncode(data.toJson())}");
       await LocalService.instance.box.write(
         userDataV2,
         jsonEncode(data.toJson()),
@@ -38,6 +41,7 @@ class AccountLocalRepository {
     try {
       String? dataFromLocal = LocalService.instance.box.read(userDataV2);
       if (dataFromLocal != null) {
+        AppLogger.debugLog("[getLocalAccountData] ${jsonDecode(dataFromLocal)}");
         UserDataEntity? userData = UserDataEntity.fromJson(jsonDecode(dataFromLocal));
         return userData;
       } else {
@@ -45,6 +49,80 @@ class AccountLocalRepository {
       }
     } catch (errorMessage) {
       AppLogger.debugLog("[getLocalAccountData][error] $errorMessage");
+      return null;
+    }
+  }
+
+  Future<void> removeUserToken() async {
+    try {
+      await LocalService.instance.box.remove(userToken);
+    } catch (errorMessage) {
+      AppLogger.debugLog("[removeUserToken][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<void> setUserToken({
+    required String data,
+  }) async {
+    try {
+      await LocalService.instance.box.write(
+        userToken,
+        data,
+      );
+    } catch (errorMessage) {
+      AppLogger.debugLog("[setUserToken][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<String?> getUserToken() async {
+    try {
+      String? result = LocalService.instance.box.read(userToken);
+      if (result != null) {
+        return result;
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLogger.debugLog("[getUserToken][error] $errorMessage");
+      return null;
+    }
+  }
+
+  Future<void> removeRefreshToken() async {
+    try {
+      await LocalService.instance.box.remove(refreshToken);
+    } catch (errorMessage) {
+      AppLogger.debugLog("[removeRefreshToken][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<void> setRefreshToken({
+    required String data,
+  }) async {
+    try {
+      await LocalService.instance.box.write(
+        refreshToken,
+        data,
+      );
+    } catch (errorMessage) {
+      AppLogger.debugLog("[setRefreshToken][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<String?> getRefreshToken() async {
+    try {
+      String? result = LocalService.instance.box.read(refreshToken);
+      if (result != null) {
+        return result;
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLogger.debugLog("[getRefreshToken][error] $errorMessage");
       return null;
     }
   }

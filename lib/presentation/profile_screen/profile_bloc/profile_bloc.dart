@@ -25,35 +25,36 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     AppAccountReposistory accountRepository,
   ) async {
     emit(ProfileLoading());
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 100));
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
-      if (dataLocal != null) {
-        GetUserDataResponseModel? getUserDataResponseModel = await accountRepository.getUserdata(
-          token: dataLocal.token!,
+      String? userToken = await AccountLocalRepository().getUserToken();
+      if (userToken == null) {
+        emit(
+          ProfileFailed(errorMessage: "Failed To Get Support Data"),
         );
-        if (getUserDataResponseModel != null) {
-          if (getUserDataResponseModel.status == 200) {
-            UserDataEntity? data = getUserDataResponseModel.toUserDataEntity();
-            await AccountLocalRepository().setLocalAccountData(data: data!);
-            emit(
-              ProfileSuccess(
-                userDataModel: data,
-              ),
-            );
-          } else {
-            emit(
-              ProfileFailed(errorMessage: getUserDataResponseModel.message!),
-            );
-          }
+        return;
+      }
+
+      GetUserDataResponseModel? getUserDataResponseModel = await accountRepository.getUserdata(
+        token: userToken,
+      );
+      if (getUserDataResponseModel != null) {
+        if (getUserDataResponseModel.status == 200) {
+          UserDataEntity? data = getUserDataResponseModel.toUserDataEntityWithoutToken();
+          await AccountLocalRepository().setLocalAccountData(data: data!);
+          emit(
+            ProfileSuccess(
+              userDataModel: data,
+            ),
+          );
         } else {
           emit(
-            ProfileFailed(errorMessage: "Profile Data Empty"),
+            ProfileFailed(errorMessage: getUserDataResponseModel.message!),
           );
         }
       } else {
         emit(
-          ProfileFailed(errorMessage: "Failed To Get Profile Data"),
+          ProfileFailed(errorMessage: "Profile Data Empty"),
         );
       }
     } catch (errorMessage) {

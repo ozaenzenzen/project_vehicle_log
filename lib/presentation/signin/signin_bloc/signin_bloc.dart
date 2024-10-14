@@ -9,6 +9,7 @@ import 'package:project_vehicle_log/data/model/remote/account/signin_response_mo
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log/support/app_logger.dart';
 
 part 'signin_event.dart';
 part 'signin_state.dart';
@@ -76,9 +77,12 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       if (signInResponseModel != null) {
         if (signInResponseModel.status == 200) {
           UserDataEntity? entity = signInResponseModel.toUserDataEntity();
+          AppLogger.debugLog("entity ${entity?.toJson()}");
           await AccountLocalRepository().setLocalAccountData(
             data: entity!,
           );
+          await AccountLocalRepository().setUserToken(data: signInResponseModel.data!.token!);
+          await AccountLocalRepository().setRefreshToken(data: signInResponseModel.data!.refreshToken!);
           await AccountLocalRepository().setIsSignIn();
           emit(
             SigninSuccess(

@@ -5,7 +5,6 @@ import 'package:project_vehicle_log/data/local_repository/account_local_reposito
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_measurement_log_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_measurement_log_response_model.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
-import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'edit_measurement_log_event.dart';
 part 'edit_measurement_log_state.dart';
@@ -27,37 +26,36 @@ class EditMeasurementLogBloc extends Bloc<EditMeasurementLogEvent, EditMeasureme
   ) async {
     emit(EditMeasurementLogLoading());
     try {
-      UserDataEntity? dataLocal = await AccountLocalRepository().getLocalAccountData();
-      if (dataLocal != null) {
-        EditMeasurementLogResponseModel? editMeasurementLogResponseModel = await AppVehicleReposistory().editMeasurementLogVehicleData(
-          editMeasurementLogRequestModel: event.editMeasurementLogRequestModel,
-          token: dataLocal.token!,
+      String? userToken = await AccountLocalRepository().getUserToken();
+      if (userToken == null) {
+        emit(
+          EditMeasurementLogFailed(errorMessage: "Failed To Get Support Data"),
         );
-        if (editMeasurementLogResponseModel != null) {
-          if (editMeasurementLogResponseModel.status == 202) {
-            emit(
-              EditMeasurementLogSuccess(
-                editMeasurementLogResponseModel: editMeasurementLogResponseModel,
-              ),
-            );
-          } else {
-            emit(
-              EditMeasurementLogFailed(
-                errorMessage: editMeasurementLogResponseModel.message.toString(),
-              ),
-            );
-          }
+        return;
+      }
+
+      EditMeasurementLogResponseModel? editMeasurementLogResponseModel = await AppVehicleReposistory().editMeasurementLogVehicleData(
+        editMeasurementLogRequestModel: event.editMeasurementLogRequestModel,
+        token: userToken,
+      );
+      if (editMeasurementLogResponseModel != null) {
+        if (editMeasurementLogResponseModel.status == 202) {
+          emit(
+            EditMeasurementLogSuccess(
+              editMeasurementLogResponseModel: editMeasurementLogResponseModel,
+            ),
+          );
         } else {
           emit(
             EditMeasurementLogFailed(
-              errorMessage: 'Data Empty',
+              errorMessage: editMeasurementLogResponseModel.message.toString(),
             ),
           );
         }
       } else {
         emit(
           EditMeasurementLogFailed(
-            errorMessage: 'Terjadi kesalahan',
+            errorMessage: 'Data Empty',
           ),
         );
       }

@@ -31,7 +31,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       );
       if (signUpResponseModel != null) {
         if (signUpResponseModel.status == 201) {
-          UserDataEntity? data = signUpResponseModel.toUserDataEntity();
+          UserDataEntity? data = signUpResponseModel.toUserDataEntityWithoutToken();
           // AccountDataUserModel data = AccountDataUserModel(
           //   userId: signUpResponseModel.data?.userId,
           //   name: signUpResponseModel.data?.name,

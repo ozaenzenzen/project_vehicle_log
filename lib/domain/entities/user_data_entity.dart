@@ -5,8 +5,6 @@ class UserDataEntity {
   String? email;
   String? phone;
   String? profilePicture;
-  String? token;
-  String? refreshToken;
 
   UserDataEntity({
     this.id,
@@ -15,8 +13,6 @@ class UserDataEntity {
     this.email,
     this.phone,
     this.profilePicture,
-    this.token,
-    this.refreshToken,
   });
 
   factory UserDataEntity.fromJson(Map<String, dynamic> json) => UserDataEntity(
@@ -26,8 +22,6 @@ class UserDataEntity {
         email: json["email"],
         phone: json["phone"],
         profilePicture: json["profile_picture"],
-        token: json["token"],
-        refreshToken: json["refresh_token"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,7 +31,5 @@ class UserDataEntity {
         "email": email,
         "phone": phone,
         "profile_picture": profilePicture,
-        "token": token,
-        "refresh_token": refreshToken,
       };
 }

@@ -19,6 +19,21 @@ class GetUserDataResponseModel {
     }
   }
 
+  UserDataEntity? toUserDataEntityWithoutToken() {
+    if (data != null) {
+      return UserDataEntity(
+        id: data?.id,
+        userStamp: data?.userStamp,
+        name: data?.name,
+        email: data?.email,
+        phone: data?.phone,
+        profilePicture: data?.profilePicture,
+      );
+    } else {
+      return null;
+    }
+  }
+
   factory GetUserDataResponseModel.fromJson(Map<String, dynamic> json) => GetUserDataResponseModel(
         status: json["status"],
         message: json["message"],
