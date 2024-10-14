@@ -25,12 +25,10 @@ class AccountLocalRepository {
     required UserDataEntity data,
   }) async {
     try {
-      AppLogger.debugLog("[setLocalAccountData] ${jsonEncode(data.toJson())}");
       await LocalService.instance.box.write(
         userDataV2,
         jsonEncode(data.toJson()),
       );
-      debugPrint("[saveLocalAccountData] userData saved");
     } catch (errorMessage) {
       AppLogger.debugLog("[saveLocalAccountData][error] $errorMessage");
       rethrow;
@@ -41,7 +39,6 @@ class AccountLocalRepository {
     try {
       String? dataFromLocal = LocalService.instance.box.read(userDataV2);
       if (dataFromLocal != null) {
-        AppLogger.debugLog("[getLocalAccountData] ${jsonDecode(dataFromLocal)}");
         UserDataEntity? userData = UserDataEntity.fromJson(jsonDecode(dataFromLocal));
         return userData;
       } else {
