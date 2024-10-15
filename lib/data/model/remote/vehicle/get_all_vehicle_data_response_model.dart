@@ -64,10 +64,10 @@ class DatumVehicle {
         color: json["color"],
         machineNumber: json["machine_number"],
         chassisNumber: json["chassis_number"],
-        vehicleMeasurementLogModels: json["vehicle_measurement_log_models"] == null
+        vehicleMeasurementLogModels: json["measurement_data"] == null
             ? null
             : List<VehicleMeasurementLogModel>.from(
-                json["vehicle_measurement_log_models"].map(
+                json["measurement_data"].map(
                   (x) => VehicleMeasurementLogModel.fromJson(x),
                 ),
               ),
@@ -92,7 +92,7 @@ class DatumVehicle {
         "color": color,
         "machine_number": machineNumber,
         "chassis_number": chassisNumber,
-        "vehicle_measurement_log_models": List<dynamic>.from(vehicleMeasurementLogModels!.map((x) => x.toJson())),
+        "measurement_data": List<dynamic>.from(vehicleMeasurementLogModels!.map((x) => x.toJson())),
         "categorized_data": categorizedData,
       };
 }
@@ -165,7 +165,7 @@ class CategorizedVehicleLogData {
   factory CategorizedVehicleLogData.fromJson(Map<String, dynamic> json) => CategorizedVehicleLogData(
         measurementTitle: json['measurement_title'],
         vehicleMeasurementLogModels: List<VehicleMeasurementLogModel>.from(
-          json["vehicle_measurement_log_models"].map(
+          json["measurement_data"].map(
             (x) => VehicleMeasurementLogModel.fromJson(x),
           ),
         ),
@@ -173,7 +173,7 @@ class CategorizedVehicleLogData {
 
   Map<String, dynamic> toJson() => {
         "measurement_title": measurementTitle,
-        "vehicle_measurement_log_models": List<dynamic>.from(
+        "measurement_data": List<dynamic>.from(
           vehicleMeasurementLogModels!.map(
             (x) => x.toJson(),
           ),

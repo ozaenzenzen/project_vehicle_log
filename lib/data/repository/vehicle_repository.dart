@@ -9,11 +9,69 @@ import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_reque
 import 'package:project_vehicle_log/data/model/remote/vehicle/edit_vehicle_response_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_log_vehicle_data_response_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/response/get_log_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log/env.dart';
 import 'package:project_vehicle_log/support/app_api_path.dart';
 import 'package:project_vehicle_log/support/app_api_service.dart';
 
 class AppVehicleReposistory {
+  Future<GetAllVehicleResponseModelV2?> getAllVehicleDataV2(
+    String token,
+    GetAllVehicleRequestModelV2 reqData,
+  ) async {
+    try {
+      Map<String, dynamic> req = reqData.toJson();
+      if (reqData.sortOrder == null) {
+        req.remove("sort_order");
+      }
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.getAllVehicleV2,
+        method: MethodRequest.post,
+        request: req,
+        header: {"token": token},
+      );
+      if (response.data != null) {
+        return GetAllVehicleResponseModelV2.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      rethrow;
+    }
+  }
+
+  Future<GetLogVehicleResponseModelV2?> getLogVehicleDataV2(
+    String token,
+    GetLogVehicleRequestModelV2 reqData,
+  ) async {
+    try {
+      Map<String, dynamic> req = reqData.toJson();
+      if (reqData.sortOrder == null) {
+        req.remove("sort_order");
+      }
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.getLogVehicleV2,
+        method: MethodRequest.post,
+        request: req,
+        header: {"token": token},
+      );
+      if (response.data != null) {
+        return GetLogVehicleResponseModelV2.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      rethrow;
+    }
+  }
+
   Future<GetAllVehicleDataResponseModel?> getAllVehicleData(String token) async {
     try {
       final response = await AppApiService(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log/presentation/home_screen/home_page.dart';
+import 'package:project_vehicle_log/presentation/home_screen/home_page_version2.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/add_vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_page.dart';
@@ -115,7 +115,8 @@ class _MainPageState extends State<MainPage> {
           // });
         },
         children: const [
-          HomePage(),
+          // HomePage(),
+          HomePageVersion2(),
           VehiclePage(),
           StatsPage(),
         ],

@@ -1,0 +1,87 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
+
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
+import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log/domain/entities/vehicle/vehicle_data_entity.dart';
+
+part 'get_all_vehicle_v2_event.dart';
+part 'get_all_vehicle_v2_state.dart';
+
+class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2State> {
+  GetAllVehicleV2Bloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleV2Initial()) {
+    on<GetAllVehicleV2Event>((event, emit) {
+      if (event is GetAllVehicleV2Action) {
+        _getAllVehicleRemoteActionV2(appVehicleReposistory, event);
+      }
+    });
+  }
+
+  Future<void> _getAllVehicleRemoteActionV2(
+    AppVehicleReposistory appVehicleReposistory,
+    GetAllVehicleV2Action event,
+  ) async {
+    emit(GetAllVehicleV2Loading());
+    try {
+      String? userToken = await AccountLocalRepository().getUserToken();
+      if (userToken == null) {
+        emit(
+          GetAllVehicleV2Failed(errorMessage: "Failed To Get Support Data"),
+        );
+        return;
+      }
+
+      GetAllVehicleResponseModelV2? result = await appVehicleReposistory.getAllVehicleDataV2(
+        userToken,
+        event.reqData,
+      );
+      if (result != null) {
+        if (result.status == 200) {
+          emit(
+            GetAllVehicleV2Success(
+              result: result.toVehicleDataEntity(),
+            ),
+          );
+        } else {
+          emit(
+            GetAllVehicleV2Failed(
+              errorMessage: result.message.toString(),
+            ),
+          );
+        }
+      } else {
+        emit(
+          GetAllVehicleV2Failed(
+            errorMessage: "Terjadi kesalahan, data kosong",
+          ),
+        );
+      }
+    } catch (errorMessage) {
+      emit(
+        GetAllVehicleV2Failed(
+          errorMessage: errorMessage.toString(),
+        ),
+      );
+    }
+  }
+
+  Map<String, List<Map<String, dynamic>>> groupByField(
+    List<Map<String, dynamic>> items,
+    String field,
+  ) {
+    var grouped = <String, List<Map<String, dynamic>>>{};
+
+    for (var item in items) {
+      var key = item[field] as String;
+      if (!grouped.containsKey(key)) {
+        grouped[key] = [];
+      }
+      grouped[key]?.add(item);
+    }
+
+    return grouped;
+  }
+}
