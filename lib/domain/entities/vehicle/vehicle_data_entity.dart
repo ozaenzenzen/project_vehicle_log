@@ -42,6 +42,7 @@ class ListDatumVehicleDataEntity {
   String? color;
   String? machineNumber;
   String? chassisNumber;
+  List<String>? measurmentTitle;
 
   ListDatumVehicleDataEntity({
     this.id,
@@ -55,6 +56,7 @@ class ListDatumVehicleDataEntity {
     this.color,
     this.machineNumber,
     this.chassisNumber,
+    this.measurmentTitle,
   });
 
   factory ListDatumVehicleDataEntity.fromJson(Map<String, dynamic> json) => ListDatumVehicleDataEntity(
@@ -69,6 +71,7 @@ class ListDatumVehicleDataEntity {
         color: json["color"],
         machineNumber: json["machine_number"],
         chassisNumber: json["chassis_number"],
+        measurmentTitle: json["measurment_title"] == null ? [] : List<String>.from(json["measurment_title"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -83,5 +86,6 @@ class ListDatumVehicleDataEntity {
         "color": color,
         "machine_number": machineNumber,
         "chassis_number": chassisNumber,
+        "measurment_title": measurmentTitle == null ? [] : List<dynamic>.from(measurmentTitle!.map((x) => x)),
       };
 }

@@ -542,18 +542,18 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 
   Widget homeListMeasurementSection() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
       builder: (context, state) {
-        if (state is GetAllVehicleSuccess) {
-          if (state.getAllVehicleDataResponseModel!.data!.isEmpty) {
+        if (state is GetAllVehicleV2Success) {
+          if (state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
             return const SizedBox();
           } else {
-            return ListMeasurementWidget(
-              data: state.getAllVehicleDataResponseModel!.data![indexClicked],
+            return ListMeasurementWidgetV2(
+              data: state.result!.listData![indexClicked].measurmentTitle!,
               index: indexClicked,
             );
           }
-        } else if (state is GetAllVehicleLoading) {
+        } else if (state is GetAllVehicleV2Loading) {
           return GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
@@ -576,11 +576,11 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 }
 
-class ListMeasurementWidget extends StatelessWidget {
-  final DatumVehicle data;
+class ListMeasurementWidgetV2 extends StatelessWidget {
+  final List<String> data;
   final int index;
 
-  const ListMeasurementWidget({
+  const ListMeasurementWidgetV2({
     Key? key,
     required this.data,
     required this.index,
@@ -597,16 +597,16 @@ class ListMeasurementWidget extends StatelessWidget {
         mainAxisSpacing: 20.h,
         crossAxisCount: 2,
       ),
-      itemCount: data.categorizedData!.length,
+      itemCount: data.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            Get.to(
-              () => DetailMeasurementPage(
-                data: data,
-                index: index,
-              ),
-            );
+            // Get.to(
+            //   () => DetailMeasurementPage(
+            //     data: data,
+            //     index: index,
+            //   ),
+            // );
           },
           child: AppContainerBoxWidget(
             child: Column(
@@ -619,7 +619,7 @@ class ListMeasurementWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  data.categorizedData![index].measurementTitle!,
+                  data[index],
                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

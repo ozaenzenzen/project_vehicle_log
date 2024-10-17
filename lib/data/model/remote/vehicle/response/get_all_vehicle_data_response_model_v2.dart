@@ -76,6 +76,7 @@ class ListDatumGetAllVehicle {
   String? color;
   String? machineNumber;
   String? chassisNumber;
+  List<String>? measurmentTitle;
 
   ListDatumGetAllVehicle({
     this.id,
@@ -89,6 +90,7 @@ class ListDatumGetAllVehicle {
     this.color,
     this.machineNumber,
     this.chassisNumber,
+    this.measurmentTitle,
   });
 
   factory ListDatumGetAllVehicle.fromJson(Map<String, dynamic> json) => ListDatumGetAllVehicle(
@@ -103,6 +105,7 @@ class ListDatumGetAllVehicle {
         color: json["color"],
         machineNumber: json["machine_number"],
         chassisNumber: json["chassis_number"],
+        measurmentTitle: json["measurment_title"] == null ? [] : List<String>.from(json["measurment_title"]!.map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -117,5 +120,6 @@ class ListDatumGetAllVehicle {
         "color": color,
         "machine_number": machineNumber,
         "chassis_number": chassisNumber,
+        "measurment_title": measurmentTitle == null ? [] : List<dynamic>.from(measurmentTitle!.map((x) => x)),
       };
 }
