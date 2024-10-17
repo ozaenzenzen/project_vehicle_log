@@ -11,6 +11,7 @@ import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dar
 import 'package:project_vehicle_log/presentation/vehicle_screen/add_vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/stats_screen/stats_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_page_version2.dart';
 import 'package:project_vehicle_log/presentation/widget/app_custom_appbar.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 
@@ -67,7 +68,7 @@ class _MainPageState extends State<MainPage> {
         ),
       )
       ..read<GetAllVehicleV2Bloc>().add(
-        GetAllVehicleV2RemoteAction(
+        GetAllVehicleV2LocalAction(
           reqData: GetAllVehicleRequestModelV2(
             limit: 10,
             currentPage: 1,
@@ -141,7 +142,7 @@ class _MainPageState extends State<MainPage> {
         children: const [
           // HomePage(),
           HomePageVersion2(),
-          VehiclePage(),
+          VehiclePageVersion2(),
           StatsPage(),
         ],
       ),
