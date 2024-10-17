@@ -1,5 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
@@ -7,6 +9,7 @@ import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_log_ve
 import 'package:project_vehicle_log/data/model/remote/vehicle/response/get_log_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/domain/entities/vehicle/log_data_entity.dart';
+import 'package:project_vehicle_log/support/app_logger.dart';
 
 part 'hp2_get_list_log_event.dart';
 part 'hp2_get_list_log_state.dart';
@@ -57,6 +60,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
         return;
       }
       if (result.data != null) {
+        // AppLogger.debugLog("result.data: ${jsonEncode(result.toJson())}");
         emit(
           Hp2GetListLogSuccess(
             result: result.toLogDataEntity(),

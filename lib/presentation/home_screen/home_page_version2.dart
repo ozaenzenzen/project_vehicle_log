@@ -14,6 +14,7 @@ import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page_version2.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
@@ -602,7 +603,7 @@ class ListMeasurementWidgetV2 extends StatelessWidget {
         return InkWell(
           onTap: () {
             // Get.to(
-            //   () => DetailMeasurementPage(
+            //   () => DetailMeasurementPageVersion2(
             //     data: data,
             //     index: index,
             //   ),

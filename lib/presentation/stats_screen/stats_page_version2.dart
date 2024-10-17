@@ -5,10 +5,13 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
+import 'package:project_vehicle_log/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page_version2.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
@@ -174,19 +177,40 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  // Get.to(
-                  //   () => DetailMeasurementPage(
-                  //     data: state.getAllVehicleDataResponseModel!.data![(state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
-                  //               return element == dropDownValue;
-                  //             }) <
-                  //             0)
-                  //         ? 0
-                  //         : state.getAllVehicleDataResponseModel!.data!.indexWhere((DatumVehicle element) {
-                  //             return element == dropDownValue;
-                  //           })],
-                  //     index: index,
-                  //   ),
-                  // );
+                  context.read<Hp2GetListLogBloc>().add(
+                        Hp2GetListLogAction(
+                          reqData: GetLogVehicleRequestModelV2(
+                            limit: 10,
+                            currentPage: 1,
+                            sortOrder: "DESC",
+                            vehicleId: state
+                                .result!
+                                .listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                          return element == dropDownValue;
+                                        }) <
+                                        0)
+                                    ? 0
+                                    : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                        return element == dropDownValue;
+                                      })]
+                                .id
+                                .toString(),
+                          ),
+                        ),
+                      );
+                  Get.to(
+                    () => DetailMeasurementPageVersion2(
+                      data: state.result!.listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                return element == dropDownValue;
+                              }) <
+                              0)
+                          ? 0
+                          : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                              return element == dropDownValue;
+                            })],
+                      index: index,
+                    ),
+                  );
                 },
                 child: AppContainerBoxWidget(
                   height: 200.h,
