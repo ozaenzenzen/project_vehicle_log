@@ -6,12 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 
 class VehiclePageVersion2 extends StatefulWidget {
@@ -27,44 +29,68 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
     super.dispose();
   }
 
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        color: AppColor.shape,
-        padding: EdgeInsets.all(16.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 40.h),
-            Text(
-              "Your Vehicle",
-              style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                color: Colors.black38,
-                fontWeight: FontWeight.w500,
+    return SmartRefresher(
+      enablePullDown: true,
+      controller: refreshController,
+      onRefresh: () {
+        context.read<GetAllVehicleV2Bloc>().add(
+              GetAllVehicleV2RemoteAction(
+                reqData: GetAllVehicleRequestModelV2(
+                  limit: 10,
+                  currentPage: 1,
+                ),
               ),
-            ),
-            SizedBox(height: 10.h),
-            Text(
-              "Choose your vehicle",
-              style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                color: Colors.black38,
-                fontWeight: FontWeight.w500,
+            );
+      },
+      onLoading: () {
+        //
+      },
+      child: SingleChildScrollView(
+        child: Container(
+          color: AppColor.shape,
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 40.h),
+              Text(
+                "Your Vehicle",
+                style: AppTheme.theme.textTheme.displayLarge?.copyWith(
+                  color: Colors.black38,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            SizedBox(height: 20.h),
-            BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
-              builder: (context, state) {
-                if (state is GetAllVehicleV2Loading) {
-                  return loadingView();
-                } else if (state is GetAllVehicleV2Success) {
-                  return successView(state);
-                } else {
-                  return initialView();
-                }
-              },
-            ),
-          ],
+              SizedBox(height: 10.h),
+              Text(
+                "Choose your vehicle",
+                style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                  color: Colors.black38,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+                listener: (context, state) {
+                  if (state is GetAllVehicleV2Success) {
+                    refreshController.refreshCompleted();
+                  }
+                },
+                builder: (context, state) {
+                  if (state is GetAllVehicleV2Loading) {
+                    return loadingView();
+                  } else if (state is GetAllVehicleV2Success) {
+                    return successView(state);
+                  } else {
+                    return initialView();
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

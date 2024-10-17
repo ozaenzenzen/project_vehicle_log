@@ -8,6 +8,7 @@ import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicl
 import 'package:project_vehicle_log/presentation/home_screen/home_page_version2.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
+import 'package:project_vehicle_log/presentation/stats_screen/stats_page_version2.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/add_vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/stats_screen/stats_page.dart';
@@ -143,7 +144,7 @@ class _MainPageState extends State<MainPage> {
           // HomePage(),
           HomePageVersion2(),
           VehiclePageVersion2(),
-          StatsPage(),
+          StatsPageVersion2(),
         ],
       ),
     );
