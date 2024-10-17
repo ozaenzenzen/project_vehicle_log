@@ -7,8 +7,11 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
+import 'package:project_vehicle_log/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
@@ -110,12 +113,24 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            // Get.to(
-            //   () => DetailVehiclePage(
-            //     index: index,
-            //     datumVehicle: state.getAllVehicleDataResponseModel!.data![index],
-            //   ),
-            // );
+            context.read<Hp2GetListLogBloc>().add(
+                  Hp2GetListLogAction(
+                    reqData: GetLogVehicleRequestModelV2(
+                      limit: 10,
+                      currentPage: 1,
+                      sortOrder: "DESC",
+                      vehicleId: "${state.result!.listData![index].id}",
+                    ),
+                  ),
+                );
+            Get.to(
+              () => DetailVehiclePageVersion2(
+                // indexMeasurement: index,
+                datumVehicle: state.result!.listData![index],
+                idVehicle: state.result!.listData![index].id!,
+                listMeasurementTitleByGroup: state.result!.listData![index].measurmentTitle,
+              ),
+            );
           },
           child: Container(
             padding: EdgeInsets.all(16.h),

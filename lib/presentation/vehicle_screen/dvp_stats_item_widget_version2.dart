@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/edit_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/edit_measurement_page_version2.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
 import 'package:project_vehicle_log/support/app_dialog_action.dart';
 import 'package:project_vehicle_log/support/app_logger.dart';
@@ -85,10 +86,10 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                // Get.back();
-                                // Get.to(() => EditMeasurementPage(
-                                //       data: widget.data![index],
-                                //     ));
+                                Get.back();
+                                Get.to(() => EditMeasurementPageVersion2(
+                                      data: widget.data![index],
+                                    ));
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.h),

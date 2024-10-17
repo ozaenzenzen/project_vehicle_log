@@ -11,6 +11,7 @@ import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_ve
 import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
 import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
@@ -550,8 +551,8 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
             return const SizedBox();
           } else {
             return ListMeasurementWidgetV2(
-              data: state.result!.listData![indexClicked].measurmentTitle!,
-              index: indexClicked,
+              data: state.result!.listData!,
+              indexInput: indexClicked,
             );
           }
         } else if (state is GetAllVehicleV2Loading) {
@@ -578,13 +579,14 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
 }
 
 class ListMeasurementWidgetV2 extends StatelessWidget {
-  final List<String> data;
-  final int index;
+  // final List<String> data;
+  final List<ListDatumVehicleDataEntity>? data;
+  final int indexInput;
 
   const ListMeasurementWidgetV2({
     Key? key,
     required this.data,
-    required this.index,
+    required this.indexInput,
   }) : super(key: key);
 
   @override
@@ -598,16 +600,27 @@ class ListMeasurementWidgetV2 extends StatelessWidget {
         mainAxisSpacing: 20.h,
         crossAxisCount: 2,
       ),
-      itemCount: data.length,
+      itemCount: data?[indexInput].measurmentTitle?.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            // Get.to(
-            //   () => DetailMeasurementPageVersion2(
-            //     data: data,
-            //     index: index,
-            //   ),
-            // );
+            context.read<Hp2GetListLogBloc>().add(
+                  Hp2GetListLogAction(
+                    reqData: GetLogVehicleRequestModelV2(
+                      limit: 10,
+                      currentPage: 1,
+                      sortOrder: "DESC",
+                      vehicleId: data![indexInput].id.toString(),
+                    ),
+                  ),
+                );
+            Get.to(
+              () => DetailMeasurementPageVersion2(
+                data: data![indexInput],
+                indexMeasurement: index,
+                listMeasurementTitleByGroup: data![indexInput].measurmentTitle,
+              ),
+            );
           },
           child: AppContainerBoxWidget(
             child: Column(
@@ -620,7 +633,7 @@ class ListMeasurementWidgetV2 extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  data[index],
+                  data![indexInput].measurmentTitle![index],
                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

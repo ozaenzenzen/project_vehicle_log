@@ -208,7 +208,18 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
                           : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
                               return element == dropDownValue;
                             })],
-                      index: index,
+                      indexMeasurement: index,
+                      listMeasurementTitleByGroup: state
+                          .result!
+                          .listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                    return element == dropDownValue;
+                                  }) <
+                                  0)
+                              ? 0
+                              : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                  return element == dropDownValue;
+                                })]
+                          .measurmentTitle,
                     ),
                   );
                 },

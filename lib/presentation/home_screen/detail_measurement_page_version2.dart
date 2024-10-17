@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +9,7 @@ import 'package:project_vehicle_log/domain/entities/vehicle/vehicle_data_entity.
 import 'package:project_vehicle_log/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 // import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/dvp_stats_item_widget.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
 // import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
@@ -14,6 +17,7 @@ import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.da
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log/support/app_color.dart';
+import 'package:project_vehicle_log/support/app_logger.dart';
 import 'package:project_vehicle_log/support/app_theme.dart';
 
 class DetailMeasurementPageVersion2 extends StatefulWidget {
@@ -23,13 +27,15 @@ class DetailMeasurementPageVersion2 extends StatefulWidget {
   final ListDatumVehicleDataEntity data;
   // final dynamic data;
   // final CategorizedVehicleLogData data;
-  final int index;
+  final int indexMeasurement;
+  final List<String>? listMeasurementTitleByGroup;
 
   const DetailMeasurementPageVersion2({
     Key? key,
     // required this.title,
     required this.data,
-    required this.index,
+    required this.indexMeasurement,
+    required this.listMeasurementTitleByGroup,
   }) : super(key: key);
 
   @override
@@ -42,7 +48,7 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
     return Scaffold(
       backgroundColor: AppColor.shape,
       appBar: AppBarWidget(
-        title: "${widget.data.vehicleName}: ${widget.data.measurmentTitle![widget.index]}",
+        title: "${widget.data.vehicleName}: ${widget.data.measurmentTitle![widget.indexMeasurement]}",
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -64,7 +70,7 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
         children: [
           // SizedBox(height: 10.h),
           Text(
-            "Stats of ${widget.data.measurmentTitle![widget.index]}",
+            "Stats of ${widget.data.measurmentTitle![widget.indexMeasurement]}",
             style: AppTheme.theme.textTheme.displayLarge?.copyWith(
               color: Colors.black38,
               fontWeight: FontWeight.w500,
@@ -113,16 +119,19 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
                 SizedBox(height: 10.h),
                 AppMainButtonWidget(
                   onPressed: () {
-                    // Get.to(
-                    //   () => DetailVehiclePage(
-                    //     index: state.getAllVehicleDataResponseModel!.data!.indexWhere(
-                    //       (element) {
-                    //         return element.vehicleName == widget.data.vehicleName;
-                    //       },
-                    //     ),
-                    //     datumVehicle: widget.data,
-                    //   ),
-                    // );
+                    Get.to(
+                      () => DetailVehiclePageVersion2(
+                        // index: state.result!.listData!.indexWhere(
+                        //   (element) {
+                        //     return element.vehicleId == widget.data.id;
+                        //   },
+                        // ),
+                        // indexMeasurement: widget.indexMeasurement,
+                        idVehicle: widget.data.id!,
+                        datumVehicle: widget.data,
+                        listMeasurementTitleByGroup: widget.listMeasurementTitleByGroup,
+                      ),
+                    );
                   },
                   text: "See vehicle logs",
                 ),
@@ -147,7 +156,7 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
                       .result!
                       .listData![state.result!.listData!.indexWhere(
                     (element) {
-                      return element.measurementTitle == widget.data.measurmentTitle?[widget.index];
+                      return element.measurementTitle == widget.data.measurmentTitle?[widget.indexMeasurement];
                     },
                   )]
                       .measurementTitle,
