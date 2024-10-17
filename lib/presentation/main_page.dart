@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/repository/account_repository.dart';
+import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/home_page_version2.dart';
+import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/add_vehicle_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_page.dart';
@@ -50,6 +55,25 @@ class _MainPageState extends State<MainPage> {
     } else {
       Get.to(() => const ProfilePage());
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context
+      ..read<ProfileBloc>().add(
+        GetProfileRemoteAction(
+          accountRepository: AppAccountReposistory(),
+        ),
+      )
+      ..read<GetAllVehicleV2Bloc>().add(
+        GetAllVehicleV2RemoteAction(
+          reqData: GetAllVehicleRequestModelV2(
+            limit: 10,
+            currentPage: 1,
+          ),
+        ),
+      );
   }
 
   @override

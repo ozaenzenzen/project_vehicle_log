@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
@@ -14,15 +15,18 @@ part 'get_all_vehicle_v2_state.dart';
 class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2State> {
   GetAllVehicleV2Bloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleV2Initial()) {
     on<GetAllVehicleV2Event>((event, emit) {
-      if (event is GetAllVehicleV2Action) {
+      if (event is GetAllVehicleV2RemoteAction) {
         _getAllVehicleRemoteActionV2(appVehicleReposistory, event);
+      }
+      if (event is GetAllVehicleV2LocalAction) {
+        _getAllVehicleLocalActionV2(appVehicleReposistory, event);
       }
     });
   }
 
   Future<void> _getAllVehicleRemoteActionV2(
     AppVehicleReposistory appVehicleReposistory,
-    GetAllVehicleV2Action event,
+    GetAllVehicleV2RemoteAction event,
   ) async {
     emit(GetAllVehicleV2Loading());
     try {
@@ -40,6 +44,9 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       );
       if (result != null) {
         if (result.status == 200) {
+          await VehicleLocalRepository().setLocalVehicleDataV2(
+            data: result.toVehicleDataEntity()!,
+          );
           emit(
             GetAllVehicleV2Success(
               result: result.toVehicleDataEntity(),
@@ -52,6 +59,43 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
             ),
           );
         }
+      } else {
+        emit(
+          GetAllVehicleV2Failed(
+            errorMessage: "Terjadi kesalahan, data kosong",
+          ),
+        );
+      }
+    } catch (errorMessage) {
+      emit(
+        GetAllVehicleV2Failed(
+          errorMessage: errorMessage.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _getAllVehicleLocalActionV2(
+    AppVehicleReposistory appVehicleReposistory,
+    GetAllVehicleV2LocalAction event,
+  ) async {
+    emit(GetAllVehicleV2Loading());
+    try {
+      String? userToken = await AccountLocalRepository().getUserToken();
+      if (userToken == null) {
+        emit(
+          GetAllVehicleV2Failed(errorMessage: "Failed To Get Support Data"),
+        );
+        return;
+      }
+
+      VehicleDataEntity? result = await VehicleLocalRepository().getLocalVehicleDataV2();
+      if (result != null) {
+        emit(
+          GetAllVehicleV2Success(
+            result: result,
+          ),
+        );
       } else {
         emit(
           GetAllVehicleV2Failed(

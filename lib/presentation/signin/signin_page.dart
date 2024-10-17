@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/account/signin_request_models.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log/presentation/forgot_password_screen/forgot_password_screen.dart';
+import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/signin/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log/presentation/signup/signup_page.dart';
@@ -108,7 +110,7 @@ class _SignInPageState extends State<SignInPage> {
                       },
                       child: Icon(
                         isHidePassword ? Icons.visibility_off : Icons.visibility,
-                      )
+                      ),
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -173,6 +175,14 @@ class _SignInPageState extends State<SignInPage> {
                         );
                       } else if (state is SigninSuccess) {
                         FocusManager.instance.primaryFocus?.unfocus();
+                        context.read<GetAllVehicleV2Bloc>().add(
+                              GetAllVehicleV2RemoteAction(
+                                reqData: GetAllVehicleRequestModelV2(
+                                  limit: 10,
+                                  currentPage: 1,
+                                ),
+                              ),
+                            );
                         Get.offAll(
                           () => const MainPage(),
                         );

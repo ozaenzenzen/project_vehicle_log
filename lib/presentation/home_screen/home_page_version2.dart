@@ -48,33 +48,33 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
 
   @override
   void initState() {
-    context
-      ..read<ProfileBloc>().add(
-        GetProfileRemoteAction(
-          accountRepository: AppAccountReposistory(),
-        ),
-      )
-      ..read<GetAllVehicleV2Bloc>().add(
-        GetAllVehicleV2Action(
-          reqData: GetAllVehicleRequestModelV2(
-            limit: 10,
-            currentPage: 1,
-          ),
-        ),
-      );
-      // ..read<Hp2GetListLogBloc>().add(
-      //   Hp2GetListLogAction(
-      //     reqData: GetLogVehicleRequestModelV2(
-      //       limit: 10,
-      //       currentPage: 1,
-      //     ),
-      //   ),
-      // )
-      // ..read<GetAllVehicleBloc>().add(
-      //   GetProfileDataVehicleAction(
-      //     localRepository: AccountLocalRepository(),
-      //   ),
-      // );
+    // context
+    // ..read<ProfileBloc>().add(
+    //   GetProfileRemoteAction(
+    //     accountRepository: AppAccountReposistory(),
+    //   ),
+    // )
+    // ..read<GetAllVehicleV2Bloc>().add(
+    //   GetAllVehicleV2LocalAction(
+    //     reqData: GetAllVehicleRequestModelV2(
+    //       limit: 10,
+    //       currentPage: 1,
+    //     ),
+    //   ),
+    // );
+    // ..read<Hp2GetListLogBloc>().add(
+    //   Hp2GetListLogAction(
+    //     reqData: GetLogVehicleRequestModelV2(
+    //       limit: 10,
+    //       currentPage: 1,
+    //     ),
+    //   ),
+    // )
+    // ..read<GetAllVehicleBloc>().add(
+    //   GetProfileDataVehicleAction(
+    //     localRepository: AccountLocalRepository(),
+    //   ),
+    // );
     data = [
       _ChartData('David', 25),
       _ChartData('Steve', 38),
@@ -107,27 +107,27 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               ),
             )
             ..read<GetAllVehicleV2Bloc>().add(
-              GetAllVehicleV2Action(
+              GetAllVehicleV2RemoteAction(
                 reqData: GetAllVehicleRequestModelV2(
                   limit: 10,
                   currentPage: 1,
                 ),
               ),
             );
-            // ..read<Hp2GetListLogBloc>().add(
-            //   Hp2GetListLogAction(
-            //     reqData: GetLogVehicleRequestModelV2(
-            //       limit: 10,
-            //       currentPage: 1,
-            //     ),
-            //   ),
-            // )
-            // ..read<GetAllVehicleBloc>().add(
-            //   GetAllVehicleDataRemoteAction(
-            //     id: accountDataUserModelHomePage!.id.toString(),
-            //     vehicleLocalRepository: VehicleLocalRepository(),
-            //   ),
-            // );
+          // ..read<Hp2GetListLogBloc>().add(
+          //   Hp2GetListLogAction(
+          //     reqData: GetLogVehicleRequestModelV2(
+          //       limit: 10,
+          //       currentPage: 1,
+          //     ),
+          //   ),
+          // )
+          // ..read<GetAllVehicleBloc>().add(
+          //   GetAllVehicleDataRemoteAction(
+          //     id: accountDataUserModelHomePage!.id.toString(),
+          //     vehicleLocalRepository: VehicleLocalRepository(),
+          //   ),
+          // );
         },
         child: SingleChildScrollView(
           physics: const ScrollPhysics(),
@@ -471,14 +471,14 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
         if (state is GetAllVehicleV2Success) {
           if (state.result!.listData!.isNotEmpty) {
             context.read<Hp2GetListLogBloc>().add(
-                Hp2GetListLogAction(
-                  reqData: GetLogVehicleRequestModelV2(
-                    limit: 10,
-                    currentPage: 1,
-                    vehicleId: state.result!.listData!.first.id.toString(),
+                  Hp2GetListLogAction(
+                    reqData: GetLogVehicleRequestModelV2(
+                      limit: 10,
+                      currentPage: 1,
+                      vehicleId: state.result!.listData!.first.id.toString(),
+                    ),
                   ),
-                ),
-              );
+                );
           } else {
             // DO Nothing
           }
