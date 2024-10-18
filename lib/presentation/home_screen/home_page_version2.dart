@@ -7,9 +7,15 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/account_repository.dart';
 import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
+import 'package:project_vehicle_log/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page.dart';
+import 'package:project_vehicle_log/presentation/home_screen/detail_measurement_page_version2.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
@@ -20,14 +26,14 @@ import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePageVersion2 extends StatefulWidget {
+  const HomePageVersion2({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageVersion2> createState() => _HomePageVersion2State();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageVersion2State extends State<HomePageVersion2> with TickerProviderStateMixin {
   int indexClicked = 0;
   Color vehicleListColor = Colors.black38;
   // AccountDataUserModel? accountDataUserModelHomePage;
@@ -44,25 +50,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    context
-      ..read<ProfileBloc>().add(
-        GetProfileRemoteAction(
-          accountRepository: AppAccountReposistory(),
-        ),
-      )
-      // ..read<GetAllVehicleV2Bloc>().add(
-      //   GetAllVehicleV2Action(
-      //     reqData: GetAllVehicleRequestModelV2(
-      //       limit: 10,
-      //       currentPage: 1,
-      //     ),
-      //   ),
-      // )
-      ..read<GetAllVehicleBloc>().add(
-        GetProfileDataVehicleAction(
-          localRepository: AccountLocalRepository(),
-        ),
-      );
+    // context
+    // ..read<ProfileBloc>().add(
+    //   GetProfileRemoteAction(
+    //     accountRepository: AppAccountReposistory(),
+    //   ),
+    // )
+    // ..read<GetAllVehicleV2Bloc>().add(
+    //   GetAllVehicleV2LocalAction(
+    //     reqData: GetAllVehicleRequestModelV2(
+    //       limit: 10,
+    //       currentPage: 1,
+    //     ),
+    //   ),
+    // );
+    // ..read<Hp2GetListLogBloc>().add(
+    //   Hp2GetListLogAction(
+    //     reqData: GetLogVehicleRequestModelV2(
+    //       limit: 10,
+    //       currentPage: 1,
+    //     ),
+    //   ),
+    // )
+    // ..read<GetAllVehicleBloc>().add(
+    //   GetProfileDataVehicleAction(
+    //     localRepository: AccountLocalRepository(),
+    //   ),
+    // );
     data = [
       _ChartData('David', 25),
       _ChartData('Steve', 38),
@@ -94,20 +108,28 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 accountRepository: AppAccountReposistory(),
               ),
             )
-            // ..read<GetAllVehicleV2Bloc>().add(
-            //   GetAllVehicleV2Action(
-            //     reqData: GetAllVehicleRequestModelV2(
-            //       limit: 10,
-            //       currentPage: 1,
-            //     ),
-            //   ),
-            // )
-            ..read<GetAllVehicleBloc>().add(
-              GetAllVehicleDataRemoteAction(
-                id: accountDataUserModelHomePage!.id.toString(),
-                vehicleLocalRepository: VehicleLocalRepository(),
+            ..read<GetAllVehicleV2Bloc>().add(
+              GetAllVehicleV2RemoteAction(
+                reqData: GetAllVehicleRequestModelV2(
+                  limit: 10,
+                  currentPage: 1,
+                ),
               ),
             );
+          // ..read<Hp2GetListLogBloc>().add(
+          //   Hp2GetListLogAction(
+          //     reqData: GetLogVehicleRequestModelV2(
+          //       limit: 10,
+          //       currentPage: 1,
+          //     ),
+          //   ),
+          // )
+          // ..read<GetAllVehicleBloc>().add(
+          //   GetAllVehicleDataRemoteAction(
+          //     id: accountDataUserModelHomePage!.id.toString(),
+          //     vehicleLocalRepository: VehicleLocalRepository(),
+          //   ),
+          // );
         },
         child: SingleChildScrollView(
           physics: const ScrollPhysics(),
@@ -446,18 +468,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget homeListVehicleSection() {
-    // return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+    return BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+      listener: (context, state) {
+        if (state is GetAllVehicleV2Success) {
+          if (state.result!.listData!.isNotEmpty) {
+            context.read<Hp2GetListLogBloc>().add(
+                  Hp2GetListLogAction(
+                    reqData: GetLogVehicleRequestModelV2(
+                      limit: 10,
+                      currentPage: 1,
+                      vehicleId: state.result!.listData!.first.id.toString(),
+                    ),
+                  ),
+                );
+          } else {
+            // DO Nothing
+          }
+        }
+      },
+      // return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        // if (state is GetAllVehicleV2Success) {
-        if (state is GetAllVehicleSuccess) {
+        if (state is GetAllVehicleV2Success) {
+          // if (state is GetAllVehicleSuccess) {
           return SizedBox(
             height: 40.h,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              // itemCount: state.result?.listData?.length,
-              itemCount: state.getAllVehicleDataResponseModel!.data!.length,
+              itemCount: state.result?.listData?.length,
+              // itemCount: state.getAllVehicleDataResponseModel!.data!.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -477,8 +516,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      // state.result!.listData![index].vehicleName!,
-                      state.getAllVehicleDataResponseModel!.data![index].vehicleName!,
+                      state.result!.listData![index].vehicleName!,
+                      // state.getAllVehicleDataResponseModel!.data![index].vehicleName!,
                       style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                         color: index == indexClicked ? AppColor.white : Colors.black38,
                         fontWeight: FontWeight.w500,
@@ -489,8 +528,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               },
             ),
           );
-          // } else if (state is GetAllVehicleV2Loading) {
-        } else if (state is GetAllVehicleLoading) {
+        } else if (state is GetAllVehicleV2Loading) {
+          // } else if (state is GetAllVehicleLoading) {
           return SkeletonLine(
             style: SkeletonLineStyle(
               width: MediaQuery.of(context).size.width,
@@ -505,18 +544,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget homeListMeasurementSection() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
       builder: (context, state) {
-        if (state is GetAllVehicleSuccess) {
-          if (state.getAllVehicleDataResponseModel!.data!.isEmpty) {
+        if (state is GetAllVehicleV2Success) {
+          if (state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
             return const SizedBox();
           } else {
-            return ListMeasurementWidget(
-              data: state.getAllVehicleDataResponseModel!.data![indexClicked],
-              index: indexClicked,
+            return ListMeasurementWidgetV2(
+              data: state.result!.listData!,
+              indexInput: indexClicked,
             );
           }
-        } else if (state is GetAllVehicleLoading) {
+        } else if (state is GetAllVehicleV2Loading) {
           return GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
@@ -539,14 +578,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 }
 
-class ListMeasurementWidget extends StatelessWidget {
-  final DatumVehicle data;
-  final int index;
+class ListMeasurementWidgetV2 extends StatelessWidget {
+  // final List<String> data;
+  final List<ListDatumVehicleDataEntity>? data;
+  final int indexInput;
 
-  const ListMeasurementWidget({
+  const ListMeasurementWidgetV2({
     Key? key,
     required this.data,
-    required this.index,
+    required this.indexInput,
   }) : super(key: key);
 
   @override
@@ -560,14 +600,25 @@ class ListMeasurementWidget extends StatelessWidget {
         mainAxisSpacing: 20.h,
         crossAxisCount: 2,
       ),
-      itemCount: data.categorizedData!.length,
+      itemCount: data?[indexInput].measurmentTitle?.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
+            context.read<Hp2GetListLogBloc>().add(
+                  Hp2GetListLogAction(
+                    reqData: GetLogVehicleRequestModelV2(
+                      limit: 10,
+                      currentPage: 1,
+                      sortOrder: "DESC",
+                      vehicleId: data![indexInput].id.toString(),
+                    ),
+                  ),
+                );
             Get.to(
-              () => DetailMeasurementPage(
-                data: data,
-                index: index,
+              () => DetailMeasurementPageVersion2(
+                data: data![indexInput],
+                indexMeasurement: index,
+                listMeasurementTitleByGroup: data![indexInput].measurmentTitle,
               ),
             );
           },
@@ -582,7 +633,7 @@ class ListMeasurementWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  data.categorizedData![index].measurementTitle!,
+                  data![indexInput].measurmentTitle![index],
                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

@@ -2,9 +2,12 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log/data/model/remote/notification/get_notification_request_model.dart';
 import 'package:project_vehicle_log/data/model/remote/notification/get_notification_response_model.dart';
+import 'package:project_vehicle_log/data/model/remote/notification/get_notification_response_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/notification_repository.dart';
-import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log/domain/entities/notification/notification_data_entity.dart';
+import 'package:project_vehicle_log/presentation/notification_screen/notification_action_enum.dart';
 
 part 'notification_event.dart';
 part 'notification_state.dart';
@@ -13,18 +16,48 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc() : super(NotificationInitial()) {
     on<NotificationEvent>((event, emit) {
       if (event is GetNotificationAction) {
-        _getNotificationAction(event.appNotificationRepository, event);
+        if (event.type == NotificationActionEnum.refresh) {
+          currentPage = 1;
+          responseData.listData = [];
+          listResponseData = [];
+          _getNotificationAction(
+            event.appNotificationRepository,
+            event,
+          );
+        } else {
+          if (currentPage <= responseData.totalPages!) {
+            currentPage++;
+            _getNotificationAction(
+              event.appNotificationRepository,
+              event,
+            );
+          } else {
+            emit(
+              NotificationSuccess(
+                result: responseData,
+                type: NotificationActionEnum.loadMore,
+              ),
+            );
+          }
+        }
       }
     });
   }
 
+  GetNotificationPaginationEntity responseData = GetNotificationPaginationEntity();
+  List<GetNotificationEntity>? listResponseData = [];
+  int currentPage = 1;
+
   Future<void> _getNotificationAction(
     AppNotificationRepository notificationRepository,
-    GetNotificationAction editProfileAction,
+    GetNotificationAction event,
   ) async {
-    emit(NotificationLoading());
-    await Future.delayed(const Duration(milliseconds: 500));
-    UserDataEntity? data = await AccountLocalRepository().getLocalAccountData();
+    emit(
+      NotificationLoading(
+        type: event.type,
+      ),
+    );
+    // await Future.delayed(const Duration(milliseconds: 200));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
@@ -34,28 +67,40 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         return;
       }
 
-      GetNotificationResponseModel? getNotificationResponseModel = await notificationRepository.getNotification(
-        userId: data!.id!.toString(),
+      GetNotificationRequestModel dataReq = event.requestData;
+      dataReq.currentPage = currentPage;
+
+      GetNotificationResponseModelV2? output = await notificationRepository.getNotificationV2(
+        reqData: dataReq,
         token: userToken,
       );
-      if (getNotificationResponseModel != null) {
-        if (getNotificationResponseModel.status == 200) {
-          getNotificationResponseModel.notification!.sort((a, b) {
-            return b.updatedAt!.compareTo(a.updatedAt!);
-          });
-          emit(NotificationSuccess(
-            getNotificationResponseModel: getNotificationResponseModel,
-          ));
-        } else {
-          emit(
-            NotificationFailed(
-              errorMessage: getNotificationResponseModel.message!,
-            ),
-          );
-        }
-      } else {
+      if (output == null) {
         emit(
-          NotificationFailed(errorMessage: "Failed edit profile"),
+          NotificationFailed(
+            errorMessage: "Failed edit profile",
+          ),
+        );
+        return;
+      }
+
+      if (output.status != 200) {
+        emit(
+          NotificationFailed(
+            errorMessage: output.message!,
+          ),
+        );
+        return;
+      }
+
+      if (output.data != null) {
+        responseData = output.toGetNotificationEntity()!;
+        listResponseData?.addAll(output.toGetNotificationEntity()!.listData!);
+        responseData.listData = listResponseData;
+        emit(
+          NotificationSuccess(
+            result: responseData,
+            type: event.type,
+          ),
         );
       }
     } catch (errorMessage) {

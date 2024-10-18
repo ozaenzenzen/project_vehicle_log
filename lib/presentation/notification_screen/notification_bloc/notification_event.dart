@@ -4,5 +4,12 @@ abstract class NotificationEvent {}
 
 class GetNotificationAction extends NotificationEvent {
   final AppNotificationRepository appNotificationRepository;
-  GetNotificationAction({required this.appNotificationRepository});
+  final GetNotificationRequestModel requestData;
+  final NotificationActionEnum type;
+
+  GetNotificationAction({
+    required this.appNotificationRepository,
+    required this.requestData,
+    this.type = NotificationActionEnum.refresh,
+  });
 }

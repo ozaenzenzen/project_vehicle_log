@@ -65,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: EdgeInsets.all(16.w),
                 child: const Icon(
                   Icons.notifications_active,
+                  color: Colors.white,
                 ),
               ),
             ),
