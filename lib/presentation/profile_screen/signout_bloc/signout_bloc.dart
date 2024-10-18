@@ -27,6 +27,8 @@ class SignoutBloc extends Bloc<SignoutEvent, SignoutState> {
     await Future.delayed(const Duration(milliseconds: 1000));
     try {
       await accountLocalRepository.removeLocalAccountData();
+      await accountLocalRepository.removeRefreshToken();
+      await accountLocalRepository.removeUserToken();
       await accountLocalRepository.setIsSignOut();
       await vehicleLocalRepository.removeLocalVehicleData();
       emit(SignoutSuccess());
