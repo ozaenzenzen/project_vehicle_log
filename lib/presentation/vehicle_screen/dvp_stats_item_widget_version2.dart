@@ -38,7 +38,8 @@ class DVPStatsItemWidgetVersion2 extends StatefulWidget {
 
 class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2> {
   TooltipBehavior? _tooltipBehavior;
-  final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
+  final formatter = DateFormat('dd MMMM yyyy, HH:mm');
+  final formatter2 = DateFormat('dd/MM/yyyy, HH:mm');
   List<ListDatumLogEntity>? newData = <ListDatumLogEntity>[];
   @override
   void initState() {
@@ -149,7 +150,7 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
               LineSeries<ListDatumLogEntity, String>(
                 dataSource: newData!,
                 xValueMapper: (ListDatumLogEntity sales, _) {
-                  return formatter.format(sales.createdAt!);
+                  return formatter2.format(sales.createdAt!.toLocal());
                 },
                 yValueMapper: (ListDatumLogEntity sales, _) {
                   return int.parse((sales.amountExpenses == "") ? "0" : sales.amountExpenses!);
@@ -191,7 +192,7 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
               LineSeries<ListDatumLogEntity, String>(
                 dataSource: newData!,
                 xValueMapper: (ListDatumLogEntity sales, _) {
-                  return formatter.format(sales.createdAt!);
+                  return formatter2.format(sales.createdAt!.toLocal());
                 },
                 yValueMapper: (ListDatumLogEntity sales, _) => int.parse((sales.currentOdo == "") ? "0" : sales.currentOdo!),
                 // Enable data label
