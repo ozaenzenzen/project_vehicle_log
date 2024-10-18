@@ -1,46 +1,11 @@
-import 'package:project_vehicle_log/domain/entities/notification/notification_data_entity.dart';
-
-class GetNotificationResponseModelV2 {
-  int? status;
-  String? message;
-  GetNotificationPaginationData? data;
-
-  GetNotificationResponseModelV2({
-    this.status,
-    this.message,
-    this.data,
-  });
-
-  GetNotificationPaginationEntity? toGetNotificationEntity() {
-    if (data != null) {
-      GetNotificationPaginationEntity result = GetNotificationPaginationEntity.fromJson(data!.toJson());
-      return result;
-    } else {
-      return null;
-    }
-  }
-
-  factory GetNotificationResponseModelV2.fromJson(Map<String, dynamic> json) => GetNotificationResponseModelV2(
-        status: json["status"],
-        message: json["message"],
-        data: json["Data"] == null ? null : GetNotificationPaginationData.fromJson(json["Data"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "message": message,
-        "Data": data?.toJson(),
-      };
-}
-
-class GetNotificationPaginationData {
+class GetNotificationPaginationEntity {
   int? currentPage;
   int? nextPage;
   int? totalPages;
   int? totalItems;
-  List<GetNotificationListData>? listData;
+  List<GetNotificationEntity>? listData;
 
-  GetNotificationPaginationData({
+  GetNotificationPaginationEntity({
     this.currentPage,
     this.nextPage,
     this.totalPages,
@@ -48,12 +13,12 @@ class GetNotificationPaginationData {
     this.listData,
   });
 
-  factory GetNotificationPaginationData.fromJson(Map<String, dynamic> json) => GetNotificationPaginationData(
+  factory GetNotificationPaginationEntity.fromJson(Map<String, dynamic> json) => GetNotificationPaginationEntity(
         currentPage: json["current_page"],
         nextPage: json["next_page"],
         totalPages: json["total_pages"],
         totalItems: json["total_items"],
-        listData: json["list_data"] == null ? [] : List<GetNotificationListData>.from(json["list_data"]!.map((x) => GetNotificationListData.fromJson(x))),
+        listData: json["list_data"] == null ? [] : List<GetNotificationEntity>.from(json["list_data"]!.map((x) => GetNotificationEntity.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,7 +30,7 @@ class GetNotificationPaginationData {
       };
 }
 
-class GetNotificationListData {
+class GetNotificationEntity {
   int? notificationId;
   int? userId;
   String? userStamp;
@@ -77,7 +42,7 @@ class GetNotificationListData {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  GetNotificationListData({
+  GetNotificationEntity({
     this.notificationId,
     this.userId,
     this.userStamp,
@@ -90,7 +55,7 @@ class GetNotificationListData {
     this.updatedAt,
   });
 
-  factory GetNotificationListData.fromJson(Map<String, dynamic> json) => GetNotificationListData(
+  factory GetNotificationEntity.fromJson(Map<String, dynamic> json) => GetNotificationEntity(
         notificationId: json["notification_id"],
         userId: json["user_id"],
         userStamp: json["user_stamp"]!,
