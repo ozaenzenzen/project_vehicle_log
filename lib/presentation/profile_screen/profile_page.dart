@@ -30,84 +30,86 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late ProfileBloc profileBloc;
+  // late ProfileBloc profileBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(
+          GetProfileRemoteAction(
+            accountRepository: AppAccountReposistory(),
+          ),
+        );
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    profileBloc = ProfileBloc(AccountLocalRepository());
+    // profileBloc = ProfileBloc(AccountLocalRepository());
   }
 
   String profilePicture = "";
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => profileBloc
-        ..add(
-          GetProfileRemoteAction(
-            accountRepository: AppAccountReposistory(),
-          ),
-        ),
-      child: Scaffold(
-        backgroundColor: AppColor.shape,
-        appBar: AppBarWidget(
-          title: 'My Profile',
-          onBack: () {
-            Get.back();
-          },
-          actions: [
-            InkWell(
-              onTap: () {
-                Get.to(() => const NotificationPage());
-              },
-              child: Padding(
-                padding: EdgeInsets.all(16.w),
-                child: const Icon(
-                  Icons.notifications_active,
-                  color: Colors.white,
-                ),
+    return Scaffold(
+      backgroundColor: AppColor.shape,
+      appBar: AppBarWidget(
+        title: 'My Profile',
+        onBack: () {
+          Get.back();
+        },
+        actions: [
+          InkWell(
+            onTap: () {
+              Get.to(() => const NotificationPage());
+            },
+            child: Padding(
+              padding: EdgeInsets.all(16.w),
+              child: const Icon(
+                Icons.notifications_active,
+                color: Colors.white,
               ),
             ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.h,
-              vertical: 16.h,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    profilePictureSection(),
-                    SizedBox(width: 20.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          profileNameSection(),
-                          SizedBox(height: 5.h),
-                          editProfileSection(),
-                        ],
-                      ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.h,
+            vertical: 16.h,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  profilePictureSection(),
+                  SizedBox(width: 20.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        profileNameSection(),
+                        SizedBox(height: 5.h),
+                        editProfileSection(),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(height: 35.h),
-                emailSection(),
-                SizedBox(height: 20.h),
-                phoneSection(),
-                SizedBox(height: 35.h),
-                menuSection(),
-                SizedBox(height: 35.h),
-                signOutSection(),
-                SizedBox(height: 35.h),
-                appVersionSection(),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 35.h),
+              emailSection(),
+              SizedBox(height: 20.h),
+              phoneSection(),
+              SizedBox(height: 35.h),
+              menuSection(),
+              SizedBox(height: 35.h),
+              signOutSection(),
+              SizedBox(height: 35.h),
+              appVersionSection(),
+            ],
           ),
         ),
       ),
