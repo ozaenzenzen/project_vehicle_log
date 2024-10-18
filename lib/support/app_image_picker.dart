@@ -15,7 +15,7 @@ class AppImagePickerService {
     try {
       final XFile? image = await _picker.pickImage(
         source: ImageSource.gallery,
-        imageQuality: 5,
+        imageQuality: 10,
       );
       File fileFormat = File(image!.path);
       String base64Image = base64Encode(fileFormat.readAsBytesSync());
