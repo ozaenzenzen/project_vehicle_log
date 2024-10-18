@@ -148,7 +148,7 @@ class _ItemListWidgetVersion2State extends State<ItemListWidgetVersion2> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatter.format(widget.vehicleMeasurementLogModels!.createdAt!),
+                      formatter.format(widget.vehicleMeasurementLogModels!.createdAt!.toLocal()),
                       style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -158,7 +158,7 @@ class _ItemListWidgetVersion2State extends State<ItemListWidgetVersion2> {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      convertToAgo(widget.vehicleMeasurementLogModels!.createdAt!),
+                      convertToAgo(widget.vehicleMeasurementLogModels!.createdAt!.toLocal()),
                       style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                         // color: AppColor.text_4,
                         fontSize: 12,
