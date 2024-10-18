@@ -16,4 +16,5 @@ class AppApiPath {
   static const String deleteMeasurementLogVehicle = "/vehicle/deletemeasurmentlogvehicle";
 
   static const String getNotification = "/notifications/";
+  static const String getNotificationV2 = "/notifications/getnotification";
 }

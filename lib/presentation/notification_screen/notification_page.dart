@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:project_vehicle_log/data/model/remote/notification/get_notification_request_model.dart';
 import 'package:project_vehicle_log/data/repository/notification_repository.dart';
 import 'package:project_vehicle_log/presentation/notification_screen/notification_bloc/notification_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/appbar_widget.dart';
@@ -16,17 +17,18 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  late NotificationBloc notificationBloc;
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // notificationBloc = BlocProvider.of(context)
-    //   ..add(
-    //     GetNotificationAction(
-    //       appNotificationRepository: AppNotificationRepository(),
-    //     ),
-    //   );
-    notificationBloc = NotificationBloc();
+  void initState() {
+    super.initState();
+    context.read<NotificationBloc>().add(
+          GetNotificationAction(
+            appNotificationRepository: AppNotificationRepository(),
+            requestData: GetNotificationRequestModel(
+              limit: 10,
+              currentPage: 1,
+            ),
+          ),
+        );
   }
 
   final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
@@ -38,12 +40,6 @@ class _NotificationPageState extends State<NotificationPage> {
         title: "Notification",
       ),
       body: BlocBuilder<NotificationBloc, NotificationState>(
-        bloc: notificationBloc
-          ..add(
-            GetNotificationAction(
-              appNotificationRepository: AppNotificationRepository(),
-            ),
-          ),
         builder: (context, state) {
           if (state is NotificationLoading) {
             return Center(
@@ -55,7 +51,9 @@ class _NotificationPageState extends State<NotificationPage> {
             );
           }
           if (state is NotificationFailed) {
-            return Center(child: Text('terjadi kesalahan ${state.errorMessage}'));
+            return Center(
+              child: Text('terjadi kesalahan ${state.errorMessage}'),
+            );
           }
           if (state is NotificationSuccess) {
             return SingleChildScrollView(
@@ -64,7 +62,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Notification: ${state.getNotificationResponseModel.notification!.length}",
+                    "Notification: ${state.result.data?.listData?.length}",
                     style: GoogleFonts.inter(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -75,7 +73,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.getNotificationResponseModel.notification!.length,
+                    itemCount: state.result.data != null ? state.result.data!.listData!.length : 0,
                     itemBuilder: (context, index) {
                       return Container(
                         padding: EdgeInsets.all(16.w),
@@ -97,27 +95,29 @@ class _NotificationPageState extends State<NotificationPage> {
                                   Icons.notifications,
                                 ),
                                 SizedBox(width: 12.w),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.getNotificationResponseModel.notification![index].notificationTitle!,
-                                      style: GoogleFonts.inter(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18.sp,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        state.result.data!.listData![index].notificationTitle!,
+                                        style: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14.sp,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 8.h),
-                                    Text(
-                                      state.getNotificationResponseModel.notification![index].notificationDescription!,
-                                      style: GoogleFonts.inter(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14.sp,
+                                      SizedBox(height: 8.h),
+                                      Text(
+                                        state.result.data!.listData![index].notificationDescription!,
+                                        style: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12.sp,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -125,11 +125,11 @@ class _NotificationPageState extends State<NotificationPage> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                formatter.format(state.getNotificationResponseModel.notification![index].updatedAt!),
+                                formatter.format(state.result.data!.listData![index].updatedAt!),
                                 style: GoogleFonts.inter(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 12.sp,
+                                  fontSize: 10.sp,
                                 ),
                               ),
                             ),

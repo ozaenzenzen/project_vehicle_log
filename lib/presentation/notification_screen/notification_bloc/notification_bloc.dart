@@ -2,9 +2,9 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:project_vehicle_log/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log/data/model/remote/notification/get_notification_response_model.dart';
+import 'package:project_vehicle_log/data/model/remote/notification/get_notification_request_model.dart';
+import 'package:project_vehicle_log/data/model/remote/notification/get_notification_response_model_v2.dart';
 import 'package:project_vehicle_log/data/repository/notification_repository.dart';
-import 'package:project_vehicle_log/domain/entities/user_data_entity.dart';
 
 part 'notification_event.dart';
 part 'notification_state.dart';
@@ -20,11 +20,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   Future<void> _getNotificationAction(
     AppNotificationRepository notificationRepository,
-    GetNotificationAction editProfileAction,
+    GetNotificationAction event,
   ) async {
     emit(NotificationLoading());
-    await Future.delayed(const Duration(milliseconds: 500));
-    UserDataEntity? data = await AccountLocalRepository().getLocalAccountData();
+    await Future.delayed(const Duration(milliseconds: 200));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
@@ -34,28 +33,33 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         return;
       }
 
-      GetNotificationResponseModel? getNotificationResponseModel = await notificationRepository.getNotification(
-        userId: data!.id!.toString(),
+      GetNotificationResponseModelV2? responseData = await notificationRepository.getNotificationV2(
+        reqData: event.requestData,
         token: userToken,
       );
-      if (getNotificationResponseModel != null) {
-        if (getNotificationResponseModel.status == 200) {
-          getNotificationResponseModel.notification!.sort((a, b) {
-            return b.updatedAt!.compareTo(a.updatedAt!);
-          });
-          emit(NotificationSuccess(
-            getNotificationResponseModel: getNotificationResponseModel,
-          ));
-        } else {
-          emit(
-            NotificationFailed(
-              errorMessage: getNotificationResponseModel.message!,
-            ),
-          );
-        }
-      } else {
+      if (responseData == null) {
         emit(
-          NotificationFailed(errorMessage: "Failed edit profile"),
+          NotificationFailed(
+            errorMessage: "Failed edit profile",
+          ),
+        );
+        return;
+      }
+
+      if (responseData.status != 200) {
+        emit(
+          NotificationFailed(
+            errorMessage: responseData.message!,
+          ),
+        );
+        return;
+      }
+
+      if (responseData.data != null) {
+        emit(
+          NotificationSuccess(
+            result: responseData,
+          ),
         );
       }
     } catch (errorMessage) {

@@ -7,8 +7,10 @@ class NotificationInitial extends NotificationState {}
 class NotificationLoading extends NotificationState {}
 
 class NotificationSuccess extends NotificationState {
-  final GetNotificationResponseModel getNotificationResponseModel;
-  NotificationSuccess({required this.getNotificationResponseModel});
+  final GetNotificationResponseModelV2 result;
+  NotificationSuccess({
+    required this.result,
+  });
 }
 
 class NotificationFailed extends NotificationState {

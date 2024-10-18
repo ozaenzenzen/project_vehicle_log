@@ -8,6 +8,7 @@ import 'package:project_vehicle_log/presentation/edit_profile/edit_profile_bloc/
 import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
+import 'package:project_vehicle_log/presentation/notification_screen/notification_bloc/notification_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/signout_bloc/signout_bloc.dart';
 import 'package:project_vehicle_log/presentation/signin/signin_bloc/signin_bloc.dart';
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory())),
         
+        BlocProvider(create: (context) => NotificationBloc()),
         BlocProvider(create: (context) => GetAllVehicleV2Bloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => Hp2GetListLogBloc(AppVehicleReposistory())),
       ],
