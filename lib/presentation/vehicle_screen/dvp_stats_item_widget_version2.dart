@@ -50,7 +50,7 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
     newData!.sort((a, b) {
       return a.createdAt!.compareTo(b.createdAt!);
     });
-    AppLogger.debugLog("Output: ${newData?.map((e) => AppLogger.debugLog("e: ${jsonEncode(e.toJson())}")).toList()}");
+    // AppLogger.debugLog("Output: ${newData?.map((e) => AppLogger.debugLog("e: ${jsonEncode(e.toJson())}")).toList()}");
   }
 
   @override
