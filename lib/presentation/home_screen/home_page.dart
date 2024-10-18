@@ -166,7 +166,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       child: const SkeletonLine(),
                     );
                   } else if (state is ProfileFailed) {
-                    return Text(state.errorMessage);
+                    return Expanded(
+                      child: Text(state.errorMessage),
+                    );
                   } else if (state is ProfileSuccess) {
                     return Expanded(
                       child: Text(
