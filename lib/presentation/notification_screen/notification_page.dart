@@ -35,7 +35,7 @@ class _NotificationPageState extends State<NotificationPage> {
         );
   }
 
-  final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
+  final formatter = DateFormat('dd MMMM yyyy, HH:mm');
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
 
@@ -169,7 +169,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                formatter.format(listData[index].updatedAt!),
+                                formatter.format(listData[index].updatedAt!.toLocal()),
                                 style: GoogleFonts.inter(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w400,
