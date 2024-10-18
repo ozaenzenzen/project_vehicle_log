@@ -207,9 +207,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             SizedBox(height: 20.h),
                             AppMainButtonWidget(
                               onPressed: () {
-                                Get.to(
-                                  () => const MainPage(),
-                                );
+                                Get.back();
+                                // Get.to(
+                                //   () => const MainPage(),
+                                // );
                               },
                               text: "Masuk",
                             ),

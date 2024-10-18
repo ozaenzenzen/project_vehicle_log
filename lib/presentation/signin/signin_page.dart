@@ -12,6 +12,7 @@ import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicl
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/signin/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log/presentation/signup/signup_page.dart';
+import 'package:project_vehicle_log/presentation/signup/signup_page_version2.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log/presentation/widget/app_textfield_widget.dart';
@@ -41,32 +42,32 @@ class _SignInPageState extends State<SignInPage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        body: Container(
-          padding: EdgeInsets.all(16.h),
-          child: Stack(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FutureBuilder(
-                      future: AppInfo.showAppVersion(),
-                      builder: (context, snapshot) {
-                        return Text(
-                          // "Vehicle Log Apps Version 1.0.0+1",
-                          // "Vehicle Log Apps Version ${AppInfo.appVersion}",
-                          "Vehicle Log Apps Version ${snapshot.data}",
-                          style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                            fontSize: 10.sp,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        );
-                      }),
-                ),
+        body: Stack(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FutureBuilder(
+                    future: AppInfo.showAppVersion(),
+                    builder: (context, snapshot) {
+                      return Text(
+                        // "Vehicle Log Apps Version 1.0.0+1",
+                        // "Vehicle Log Apps Version ${AppInfo.appVersion}",
+                        "Vehicle Log Apps Version ${snapshot.data}",
+                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                          fontSize: 10.sp,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      );
+                    }),
               ),
-              Column(
+            ),
+            SingleChildScrollView(
+              padding: EdgeInsets.all(16.h),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // const Spacer(),
@@ -225,6 +226,7 @@ class _SignInPageState extends State<SignInPage> {
                             AppMainButtonWidget(
                               onPressed: () {
                                 Get.to(
+                                  // () => const SignUpPageVersion2(),
                                   () => const SignUpPage(),
                                 );
                               },
@@ -236,11 +238,11 @@ class _SignInPageState extends State<SignInPage> {
                       }
                     },
                   ),
-                  const Spacer(),
+                  // const Spacer(),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
