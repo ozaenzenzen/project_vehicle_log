@@ -1,5 +1,5 @@
 class CreateLogVehicleRequestModel {
-  int userId;
+  // int userId;
   int vehicleId;
   String measurementTitle;
   String currentOdo;
@@ -9,7 +9,7 @@ class CreateLogVehicleRequestModel {
   String notes;
 
   CreateLogVehicleRequestModel({
-    required this.userId,
+    // required this.userId,
     required this.vehicleId,
     required this.measurementTitle,
     required this.currentOdo,
@@ -20,7 +20,7 @@ class CreateLogVehicleRequestModel {
   });
 
   factory CreateLogVehicleRequestModel.fromJson(Map<String, dynamic> json) => CreateLogVehicleRequestModel(
-        userId: json["user_id"],
+        // userId: json["user_id"],
         vehicleId: json["vehicle_id"],
         measurementTitle: json["measurement_title"],
         currentOdo: json["current_odo"],
@@ -31,7 +31,7 @@ class CreateLogVehicleRequestModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "user_id": userId,
+        // "user_id": userId,
         "vehicle_id": vehicleId,
         "measurement_title": measurementTitle,
         "current_odo": currentOdo,

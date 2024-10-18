@@ -87,18 +87,29 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
   TabBar get _tabBar => TabBar(
         // unselectedLabelColor: AppColor.disabled,
         controller: tabController,
+        labelColor: AppColor.white,
+        unselectedLabelColor: AppColor.white,
         tabs: const [
           Tab(
             text: "Info",
-            icon: Icon(Icons.info),
+            icon: Icon(
+              Icons.info,
+              color: Colors.white,
+            ),
           ),
           Tab(
             text: "Logs",
-            icon: Icon(Icons.list_rounded),
+            icon: Icon(
+              Icons.list_rounded,
+              color: Colors.white,
+            ),
           ),
           Tab(
             text: "Stats",
-            icon: Icon(Icons.legend_toggle_sharp),
+            icon: Icon(
+              Icons.legend_toggle_sharp,
+              color: Colors.white,
+            ),
           ),
         ],
       );

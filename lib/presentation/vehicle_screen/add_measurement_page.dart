@@ -7,6 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:project_vehicle_log/data/dummy_data_service.dart';
 import 'package:project_vehicle_log/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
+import 'package:project_vehicle_log/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log/data/repository/account_repository.dart';
+import 'package:project_vehicle_log/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
@@ -52,6 +55,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
     super.didChangeDependencies();
   }
+
+  final formatter = DateFormat('dd MMMM yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +232,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                           SizedBox(height: 15.h),
                           AppTextFieldWidget(
                             textFieldTitle: "Checkpoint Date",
-                            textFieldHintText: DateTime.now().toString(),
+                            textFieldHintText: formatter.format(DateTime.now()),
                             controller: checkpointDateController,
                             readOnly: true,
                             suffixIcon: const Icon(Icons.date_range_sharp),
@@ -279,6 +284,20 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                                   description: state.createLogVehicleResponseModel.message!,
                                   buttonTitle: "Kembali",
                                   mainButtonAction: () {
+                                    context
+                                      ..read<ProfileBloc>().add(
+                                        GetProfileRemoteAction(
+                                          accountRepository: AppAccountReposistory(),
+                                        ),
+                                      )
+                                      ..read<GetAllVehicleV2Bloc>().add(
+                                        GetAllVehicleV2LocalAction(
+                                          reqData: GetAllVehicleRequestModelV2(
+                                            limit: 10,
+                                            currentPage: 1,
+                                          ),
+                                        ),
+                                      );
                                     Get.offAll(() => const MainPage());
                                   },
                                 );
@@ -287,8 +306,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                             builder: (context, state) {
                               return AppMainButtonWidget(
                                 onPressed: () {
-                                  if (accountDataUserModel!.userId == null ||
-                                      measurementTitleController.text.isEmpty ||
+                                  if (measurementTitleController.text.isEmpty ||
                                       currentOdoController.text.isEmpty ||
                                       estimateOdoController.text.isEmpty ||
                                       amountExpensesController.text.isEmpty ||
@@ -304,7 +322,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                                     context.read<CreateLogVehicleBloc>().add(
                                           CreateLogVehicleAction(
                                             createLogVehicleRequestModel: CreateLogVehicleRequestModel(
-                                              userId: accountDataUserModel!.userId!,
+                                              // userId: accountDataUserModel!.userId!,
                                               vehicleId: widget.vehicleId,
                                               measurementTitle: measurementTitleController.text,
                                               currentOdo: currentOdoController.text,
