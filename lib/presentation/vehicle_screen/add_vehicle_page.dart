@@ -38,7 +38,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   AccountDataUserModel? accountDataUserModel;
 
-  late ProfileBloc profileBloc;
+  // late ProfileBloc profileBloc;
 
   // @override
   // void initState() {
@@ -48,7 +48,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   @override
   void didChangeDependencies() {
-    profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
+    // profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
     super.didChangeDependencies();
   }
 
@@ -72,6 +72,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
           }
         },
         child: Scaffold(
+          // extendBody: true,
+          // resizeToAvoidBottomInset: true,
           appBar: const AppBarWidget(
             title: "Add Vehicle",
           ),
@@ -157,10 +159,17 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
           ),
           body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(
+              top: 16.h,
+              left: 16.h,
+              right: 16.h,
+              bottom: 16.h,
+              // bottom: MediaQuery.of(context).viewInsets.bottom + 100,
+            ),
             child: Container(
               width: MediaQuery.of(context).size.width,
               color: AppColor.white,
-              padding: EdgeInsets.all(16.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
