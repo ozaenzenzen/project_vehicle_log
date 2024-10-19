@@ -9,6 +9,7 @@ import 'package:project_vehicle_log/data/model/local/account_user_data_model.dar
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_request_model.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/other_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
@@ -38,7 +39,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   AccountDataUserModel? accountDataUserModel;
 
-  late ProfileBloc profileBloc;
+  // late ProfileBloc profileBloc;
 
   // @override
   // void initState() {
@@ -48,7 +49,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   @override
   void didChangeDependencies() {
-    profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
+    // profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
     super.didChangeDependencies();
   }
 
@@ -72,8 +73,20 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
           }
         },
         child: Scaffold(
-          appBar: const AppBarWidget(
+          // extendBody: true,
+          // resizeToAvoidBottomInset: true,
+          appBar: AppBarWidget(
             title: "Add Vehicle",
+            actions: [
+              InkWell(
+                onTap: () {
+                  Get.to(() => OtherPage());
+                },
+                child: Icon(
+                  Icons.no_backpack,
+                ),
+              )
+            ],
           ),
           bottomSheet: Container(
             decoration: const BoxDecoration(
@@ -157,10 +170,17 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
           ),
           body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(
+              top: 16.h,
+              left: 16.h,
+              right: 16.h,
+              bottom: 16.h,
+              // bottom: MediaQuery.of(context).viewInsets.bottom + 100,
+            ),
             child: Container(
               width: MediaQuery.of(context).size.width,
               color: AppColor.white,
-              padding: EdgeInsets.all(16.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
