@@ -9,6 +9,7 @@ import 'package:project_vehicle_log/data/model/local/account_user_data_model.dar
 import 'package:project_vehicle_log/data/model/remote/vehicle/create_vehicle_request_model.dart';
 import 'package:project_vehicle_log/presentation/main_page.dart';
 import 'package:project_vehicle_log/presentation/profile_screen/profile_bloc/profile_bloc.dart';
+import 'package:project_vehicle_log/presentation/vehicle_screen/other_page.dart';
 import 'package:project_vehicle_log/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log/presentation/widget/app_mainbutton_widget.dart';
@@ -74,8 +75,18 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
         child: Scaffold(
           // extendBody: true,
           // resizeToAvoidBottomInset: true,
-          appBar: const AppBarWidget(
+          appBar: AppBarWidget(
             title: "Add Vehicle",
+            actions: [
+              InkWell(
+                onTap: () {
+                  Get.to(() => OtherPage());
+                },
+                child: Icon(
+                  Icons.no_backpack,
+                ),
+              )
+            ],
           ),
           bottomSheet: Container(
             decoration: const BoxDecoration(
