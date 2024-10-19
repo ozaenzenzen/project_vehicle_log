@@ -32,6 +32,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
     GetAllVehicleV2RemoteAction event,
   ) async {
     emit(GetAllVehicleV2Loading());
+    await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {

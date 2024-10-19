@@ -28,6 +28,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
     Hp2GetListLogAction event,
   ) async {
     emit(Hp2GetListLogLoading());
+    await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
